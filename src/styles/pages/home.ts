@@ -59,3 +59,17 @@ export const Input = styled("input", {
   '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
 })
+
+export const ImageContainer = styled("div", {
+  position: 'relative'
+})
+
+export const TextContainer = styled('p', {
+  width: "70px",
+  position: 'absolute',
+  fontSize: "10px",
+  top: '25px',
+  right: '45px',
+  color: '$green400',
+  fontWeight: 700,
+})

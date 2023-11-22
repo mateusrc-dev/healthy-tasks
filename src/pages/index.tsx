@@ -2,12 +2,15 @@ import {
   Body,
   Button,
   Header,
+  ImageContainer,
   Input,
   LoginContainer,
+  TextContainer,
 } from "../styles/pages/home";
 import { FaHeartPulse } from "react-icons/fa6";
 import selectGif from "../assets/select_gif.gif";
 import userNull from "../assets/user_null.gif";
+import professional from "../assets/professional.gif";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -18,10 +21,10 @@ export default function Home() {
     if (user === stateUser) {
       setStateUser(null);
     } else if (user !== stateUser) {
-      if (user === "profissional") {
-        setStateUser("profissional");
+      if (user === "professional") {
+        setStateUser("professional");
       } else {
-        setStateUser("paciente");
+        setStateUser("patient");
       }
     }
   }
@@ -36,7 +39,7 @@ export default function Home() {
         <LoginContainer>
           <div style={{ display: "flex", gap: "10px" }}>
             <div style={{ position: "relative" }}>
-              {stateUser === "profissional" && (
+              {stateUser === "professional" && (
                 <Image
                   style={{ position: "absolute", right: "-7px", top: "-7px" }}
                   src={selectGif}
@@ -45,12 +48,12 @@ export default function Home() {
                   height={20}
                 />
               )}
-              <Button onClick={() => handleStateUser("profissional")}>
+              <Button onClick={() => handleStateUser("professional")}>
                 Profissional
               </Button>
             </div>
             <div style={{ position: "relative" }}>
-              {stateUser === "paciente" && (
+              {stateUser === "patient" && (
                 <Image
                   style={{ position: "absolute", right: "-7px", top: "-7px" }}
                   src={selectGif}
@@ -59,25 +62,58 @@ export default function Home() {
                   height={20}
                 />
               )}
-              <Button onClick={() => handleStateUser("paciente")}>
+              <Button onClick={() => handleStateUser("patient")}>
                 Paciente
               </Button>
             </div>
           </div>
 
-          <Input placeholder="E-mail" type="email" />
+          <Input
+            placeholder="E-mail"
+            type="email"
+            disabled={stateUser === null}
+            style={{ cursor: stateUser === null ? "not-allowed" : "auto" }}
+          />
 
-          <Input placeholder="Senha" type="password" />
+          <Input
+            placeholder="Senha"
+            type="password"
+            disabled={stateUser === null}
+            style={{ cursor: stateUser === null ? "not-allowed" : "auto" }}
+          />
 
           <p></p>
           <p></p>
         </LoginContainer>
-        <Image
-          src={userNull}
-          alt="isso é um gif bem doido"
-          width={320}
-          height={280}
-        />
+        <ImageContainer>
+          {stateUser === null && (
+            <Image
+              priority={true}
+              loading="eager"
+              src={userNull}
+              alt="isso é um gif bem doido"
+              width={360}
+              height={280}
+            />
+          )}
+          {stateUser === "professional" && (
+            <Image
+              priority={true}
+              loading="eager"
+              src={professional}
+              alt="isso é um gif bem doido"
+              width={360}
+              height={280}
+            />
+          )}
+          {stateUser === null ? (
+            <TextContainer>
+              Escolha se você é paciente ou profissional!
+            </TextContainer>
+          ) : (
+            <TextContainer>Agora preencha seus dados!</TextContainer>
+          )}
+        </ImageContainer>
       </Body>
     </>
   );
