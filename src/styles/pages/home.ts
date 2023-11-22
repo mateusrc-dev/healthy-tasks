@@ -6,9 +6,8 @@ export const Header = styled("header", {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '26% 24% 49% 51% / 0% 0% 100% 100%',
- '-webkit-box-shadow': '5px 5px 15px 5px #FF8080, -9px 5px 15px 5px #FFE488, -7px -5px 15px 5px #8CFF85, 12px -5px 15px 5px #80C7FF, 12px 10px 15px 7px #E488FF, -10px 10px 15px 7px #FF616B, -10px -7px 27px 1px #8E5CFF, 5px 5px 15px 5px rgba(0,0,0,0)', 
-  boxShadow: '5px 5px 15px 5px #FF8080, -9px 5px 15px 5px #FFE488, -7px -5px 15px 5px #8CFF85, 12px -5px 15px 5px #80C7FF, 12px 10px 15px 7px #E488FF, -10px 10px 15px 7px #FF616B, -10px -7px 27px 1px #8E5CFF, 5px 5px 15px 5px rgba(0,0,0,0)',
+ '-webkit-box-shadow': '5px 5px 15px 5px #f3ffd2, -9px 5px 15px 5px #bff1ce, -7px -5px 15px 5px #82bda7, 12px -5px 15px 5px #6e837c, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #6e837c, 5px 5px 15px 5px rgba(0,0,0,0)', 
+  boxShadow: '5px 5px 15px 5px #82bda7, -9px 5px 15px 5px #6e837c, -7px -5px 15px 5px #bff1ce, 12px -5px 15px 5px #f3ffd2, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #6e837c, -10px -7px 27px 1px #82bda7, 5px 5px 15px 5px rgba(0,0,0,0)',
 
   h1: {
     fontWeight: 700,
@@ -16,3 +15,47 @@ export const Header = styled("header", {
     color: "$gray200"
   },
 });
+
+export const Body = styled("div", {
+  width: "100%",
+  marginTop: "40px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
+})
+
+export const LoginContainer = styled("div", {
+  background: "transparent",
+  '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  gap: "20px",
+  padding: '20px',
+})
+
+export const Button = styled("button", {
+  background: "$green300",
+  padding: "20px",
+  borderWidth: "5px",
+  borderColor: "$green200",
+  borderStyle: 'outset',
+  borderRadius: "10px",
+  color: "$gray200",
+
+  '&:hover': {
+    background: "$green400",
+    borderStyle: 'inset',
+  }
+})
+
+export const Input = styled("input", {
+  background: "$gray200",
+  padding: '10px',
+  border: 'none',
+  borderRadius: '10px',
+  '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+})
