@@ -29,7 +29,7 @@ export const LoginContainer = styled("div", {
   '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
   alignItems: "flex-start",
   justifyContent: "center",
   gap: "20px",
