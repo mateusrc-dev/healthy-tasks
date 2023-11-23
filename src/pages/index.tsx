@@ -4,7 +4,9 @@ import {
   Header,
   ImageContainer,
   Input,
+  LinkContainer,
   LoginContainer,
+  MessageContainer,
   TextContainer,
 } from "../styles/pages/home";
 import { FaHeartPulse } from "react-icons/fa6";
@@ -15,6 +17,9 @@ import patient from "../assets/patient.gif";
 import arrow from "../assets/arrow.gif";
 import Image from "next/image";
 import { useState } from "react";
+import { Button as ButtonComponent } from "../components/button";
+import light from "../assets/light.gif";
+import { FaDoorOpen } from "react-icons/fa";
 
 export default function Home() {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -28,6 +33,8 @@ export default function Home() {
       setStateUser(null);
       setStateEmail(false);
       setStatePassword(false);
+      setPasswordChange("");
+      setEmailChange("");
     } else if (user !== stateUser) {
       if (user === "professional") {
         setStateUser("professional");
@@ -55,139 +62,187 @@ export default function Home() {
       </Header>
       <Body>
         <LoginContainer>
-          <ImageContainer>
-            {stateUser === null && (
-              <Image
-                priority={true}
-                loading="eager"
-                src={userNull}
-                alt="isso é um gif bem doido"
-                width={360}
-                height={280}
-              />
-            )}
-            {stateUser === "professional" && (
-              <Image
-                priority={true}
-                loading="eager"
-                src={professional}
-                alt="isso é um gif bem doido"
-                width={360}
-                height={280}
-              />
-            )}
-            {stateUser === "patient" && (
-              <Image
-                priority={true}
-                loading="eager"
-                src={patient}
-                alt="isso é um gif bem doido"
-                width={360}
-                height={280}
-              />
-            )}
-            {stateUser === null && (
-              <TextContainer>
-                Escolha se você é paciente ou profissional!
-              </TextContainer>
-            )}
-            {stateUser !== null && !stateEmail && !statePassword ? (
-              <TextContainer>Agora preencha seus dados!</TextContainer>
-            ) : null}
-            {stateEmail &&
-            (passwordChange.length < 6 || emailChange.length === 0) ? (
-              <TextContainer>Agora insira seu email!</TextContainer>
-            ) : null}
-            {statePassword &&
-            (passwordChange.length < 6 || emailChange.length === 0) ? (
-              <TextContainer>
-                Agora insira sua senha, no mínimo 6 caracteres! ;)
-              </TextContainer>
-            ) : null}
-            {passwordChange.length >= 6 && emailChange.length !== 0 ? (
-              <TextContainer>
-                Agora você está pronto para começar! :)
-              </TextContainer>
-            ) : null}
-          </ImageContainer>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-          >
-            <div style={{ display: "flex", gap: "10px" }}>
-              <div style={{ position: "relative" }}>
-                {stateUser === "professional" && (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <ImageContainer>
+              {stateUser === null && (
+                <Image
+                  priority={true}
+                  loading="eager"
+                  src={userNull}
+                  alt="isso é um gif bem doido"
+                  width={360}
+                  height={280}
+                />
+              )}
+              {stateUser === "professional" && (
+                <Image
+                  priority={true}
+                  loading="eager"
+                  src={professional}
+                  alt="isso é um gif bem doido"
+                  width={360}
+                  height={280}
+                />
+              )}
+              {stateUser === "patient" && (
+                <Image
+                  priority={true}
+                  loading="eager"
+                  src={patient}
+                  alt="isso é um gif bem doido"
+                  width={360}
+                  height={280}
+                />
+              )}
+              {passwordChange.length >= 6 && emailChange.length !== 0 ? (
+                <Image
+                  priority={true}
+                  style={{ position: "absolute", left: 0, top: "-55px" }}
+                  loading="eager"
+                  src={light}
+                  alt="isso é um gif bem doido"
+                  width={360}
+                  height={360}
+                />
+              ) : null}
+              {stateUser === null && (
+                <TextContainer>
+                  Escolha se você é paciente ou profissional!
+                </TextContainer>
+              )}
+              {stateUser !== null && !stateEmail && !statePassword ? (
+                <TextContainer>Agora preencha seus dados!</TextContainer>
+              ) : null}
+              {stateEmail &&
+              (passwordChange.length < 6 || emailChange.length === 0) ? (
+                <TextContainer>Insira seu email!</TextContainer>
+              ) : null}
+              {statePassword &&
+              (passwordChange.length < 6 || emailChange.length === 0) ? (
+                <TextContainer>
+                  Insira sua senha, no mínimo 6 caracteres! ;)
+                </TextContainer>
+              ) : null}
+              {passwordChange.length >= 6 && emailChange.length !== 0 ? (
+                <TextContainer>
+                  Agora você está pronto para começar! :)
+                </TextContainer>
+              ) : null}
+            </ImageContainer>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "40px" }}
+            >
+              <div style={{ display: "flex", gap: "10px" }}>
+                <div style={{ position: "relative" }}>
+                  {stateUser === "professional" && (
+                    <Image
+                      style={{
+                        position: "absolute",
+                        right: "-7px",
+                        top: "-7px",
+                      }}
+                      src={selectGif}
+                      alt="isso é um gif bem doido"
+                      width={35}
+                      height={30}
+                    />
+                  )}
+                  <Button onClick={() => handleStateUser("professional")}>
+                    Profissional
+                  </Button>
+                </div>
+                <div style={{ position: "relative" }}>
+                  {stateUser === "patient" && (
+                    <Image
+                      style={{
+                        position: "absolute",
+                        right: "-7px",
+                        top: "-7px",
+                      }}
+                      src={selectGif}
+                      alt="isso é um gif bem doido"
+                      width={35}
+                      height={30}
+                    />
+                  )}
+                  <Button onClick={() => handleStateUser("patient")}>
+                    Paciente
+                  </Button>
+                </div>
+              </div>
+              <div style={{ display: "flex", position: "relative" }}>
+                {stateEmail && (
                   <Image
-                    style={{ position: "absolute", right: "-7px", top: "-7px" }}
-                    src={selectGif}
+                    style={{ position: "absolute", left: "-30px", top: "7px" }}
+                    src={arrow}
                     alt="isso é um gif bem doido"
                     width={25}
                     height={20}
                   />
                 )}
-                <Button onClick={() => handleStateUser("professional")}>
-                  Profissional
-                </Button>
+                <Input
+                  onFocus={handleFocusEmail}
+                  onChange={(e) => setEmailChange(e.target.value)}
+                  placeholder="E-mail"
+                  type="email"
+                  value={emailChange}
+                  disabled={stateUser === null}
+                  style={{
+                    cursor: stateUser === null ? "not-allowed" : "auto",
+                    width: "100%",
+                  }}
+                />
               </div>
-              <div style={{ position: "relative" }}>
-                {stateUser === "patient" && (
+              <div style={{ display: "flex", position: "relative" }}>
+                {statePassword && (
                   <Image
-                    style={{ position: "absolute", right: "-7px", top: "-7px" }}
-                    src={selectGif}
+                    style={{ position: "absolute", left: "-30px", top: "7px" }}
+                    src={arrow}
                     alt="isso é um gif bem doido"
                     width={25}
                     height={20}
                   />
                 )}
-                <Button onClick={() => handleStateUser("patient")}>
-                  Paciente
-                </Button>
+                <Input
+                  onFocus={handleFocusPassword}
+                  onChange={(e) => setPasswordChange(e.target.value)}
+                  placeholder="Senha"
+                  value={passwordChange}
+                  type="password"
+                  disabled={stateUser === null}
+                  style={{
+                    cursor: stateUser === null ? "not-allowed" : "auto",
+                    width: "100%",
+                  }}
+                />
               </div>
-            </div>
-            <div style={{ display: "flex", position: "relative" }}>
-              {stateEmail && (
-                <Image
-                  style={{ position: "absolute", left: "-30px", top: "7px" }}
-                  src={arrow}
-                  alt="isso é um gif bem doido"
-                  width={25}
-                  height={20}
-                />
+              {passwordChange.length >= 6 && emailChange.length !== 0 ? (
+                <ButtonComponent>
+                  Entrar <FaDoorOpen size="25px" />
+                </ButtonComponent>
+              ) : null}
+              {stateUser === null && (
+                <LinkContainer>Ainda não tenho conta.</LinkContainer>
               )}
-              <Input
-                onFocus={handleFocusEmail}
-                onChange={(e) => setEmailChange(e.target.value)}
-                placeholder="E-mail"
-                type="email"
-                disabled={stateUser === null}
-                style={{
-                  cursor: stateUser === null ? "not-allowed" : "auto",
-                  width: "100%",
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", position: "relative" }}>
-              {statePassword && (
-                <Image
-                  style={{ position: "absolute", left: "-30px", top: "7px" }}
-                  src={arrow}
-                  alt="isso é um gif bem doido"
-                  width={25}
-                  height={20}
-                />
-              )}
-              <Input
-                onFocus={handleFocusPassword}
-                onChange={(e) => setPasswordChange(e.target.value)}
-                placeholder="Senha"
-                type="password"
-                disabled={stateUser === null}
-                style={{
-                  cursor: stateUser === null ? "not-allowed" : "auto",
-                  width: "100%",
-                }}
-              />
             </div>
           </div>
+          {stateUser === "professional" && (
+            <MessageContainer>
+              Como profissional você pode criar atividade para seus pacientes,
+              acompanhar como está o desempenho deles, receber feedbacks das
+              atividades do seu paciente ou de outros usuários caso o paciente
+              permitir que a atividade seja pública.
+            </MessageContainer>
+          )}
+          {stateUser === "patient" && (
+            <MessageContainer>
+              Como paciente você pode visualizar as suas atividades de saúde
+              recomendadas por seus profissionais da saúde. Você pode deixar
+              suas atividades públicas para outras pessoas visualizarem e lhe
+              motivarem. Pode também visualizar as atividades de outros
+              usuários.
+            </MessageContainer>
+          )}
         </LoginContainer>
       </Body>
     </>

@@ -18,7 +18,7 @@ export const Header = styled("header", {
 
 export const Body = styled("div", {
   width: "100%",
-  marginTop: "40px",
+  marginTop: "80px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center"
@@ -29,7 +29,7 @@ export const LoginContainer = styled("div", {
   '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   display: "flex",
-  flexDirection: "row",
+  flexDirection: "column",
   alignItems: "flex-start",
   justifyContent: "center",
   gap: "20px",
@@ -72,4 +72,27 @@ export const TextContainer = styled('p', {
   right: '45px',
   color: '$green400',
   fontWeight: 700,
+})
+
+export const MessageContainer = styled('p', {
+  borderRadius: '10px',
+  marginTop: '20px',
+  '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  padding: "20px",
+  width: "600px",
+  color: "$red100",
+  fontWeight: 700,
+  fontStyle: "italic",
+})
+
+export const LinkContainer = styled('a', {
+  color: "$blue100",
+  fontWeight: 700,
+  fontStyle: "italic",
+  cursor: "pointer",
+
+  '&:hover': {
+    textDecorationLine: "underline"
+  }
 })

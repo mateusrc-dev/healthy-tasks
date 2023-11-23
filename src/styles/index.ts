@@ -19,6 +19,10 @@ export const {
 
             gray100: "#2e0527",
             gray200:"#ffff",
+
+            red100: "#ff194b",
+
+            blue100: "#3a89c9",
         }
     }
 })
