@@ -1,4 +1,9 @@
+import { keyframes } from "@stitches/react";
 import { styled } from "..";
+
+export const Container = styled("main", {
+  width: "100%",
+})
 
 export const Header = styled("header", {
   background: "radial-gradient(circle, rgba(130,189,167,1) 0%, rgba(243,255,210,1) 100%)",
@@ -17,11 +22,11 @@ export const Header = styled("header", {
 });
 
 export const Body = styled("div", {
-  width: "100%",
-  marginTop: "80px",
+  padding: "0 20px",
+  marginTop: "0px",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "space-evenly",
 })
 
 export const LoginContainer = styled("div", {
@@ -80,7 +85,7 @@ export const MessageContainer = styled('p', {
   '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   padding: "20px",
-  width: "600px",
+  width: "500px",
   color: "$red100",
   fontWeight: 700,
   fontStyle: "italic",
@@ -95,4 +100,20 @@ export const LinkContainer = styled('a', {
   '&:hover': {
     textDecorationLine: "underline"
   }
+})
+
+
+const scaleUp = keyframes({
+  '0%': { transform: 'translateY(0px)', clip: 'rect(0, 500px, 500px, 0)' },
+  '50%': { transform: 'translateY(-105px)', clip: 'rect(125px, 500px, 500px, 0)' },
+  '100%': { transform: 'translateY(0px)', clip: 'rect(0, 500px, 500px, 0)' },
+  
+});
+
+export const TaskAnimate = styled('div', {
+  position: "absolute",
+  zIndex: 0,
+  top: "65px",
+  left: "220px",
+  animation: `${scaleUp} 10s infinite`
 })

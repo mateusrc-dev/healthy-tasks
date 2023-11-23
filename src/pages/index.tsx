@@ -1,12 +1,14 @@
 import {
   Body,
   Button,
+  Container,
   Header,
   ImageContainer,
   Input,
   LinkContainer,
   LoginContainer,
   MessageContainer,
+  TaskAnimate,
   TextContainer,
 } from "../styles/pages/home";
 import { FaHeartPulse } from "react-icons/fa6";
@@ -15,11 +17,13 @@ import userNull from "../assets/user_null.gif";
 import professional from "../assets/professional.gif";
 import patient from "../assets/patient.gif";
 import arrow from "../assets/arrow.gif";
+import notebook from "../assets/notebook.gif";
 import Image from "next/image";
 import { useState } from "react";
 import { Button as ButtonComponent } from "../components/button";
 import light from "../assets/light.gif";
 import { FaDoorOpen } from "react-icons/fa";
+import { TaskForSignIn } from "../components/taskForSignIn";
 
 export default function Home() {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -55,7 +59,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <Container>
       <Header>
         <h1>healthy tasks</h1>
         <FaHeartPulse color="#fff" size={"30px"} />
@@ -244,7 +248,26 @@ export default function Home() {
             </MessageContainer>
           )}
         </LoginContainer>
+        <div style={{ position: "relative", width: "800px", height: "700px" }}>
+          <Image
+            src={notebook}
+            style={{ position: "absolute", zIndex: 1, top: "-30px" }}
+            alt="isso é um gif bem doido"
+            width={830}
+            height={630}
+          />
+          <TaskAnimate>
+            <div style={{ transform: "perspective(350px) rotateX(15deg)" }}>
+              <TaskForSignIn
+                descriptionOfTask="Faça meditação durante 10 minutos. Observe a respiração e as sesações do corpo."
+                professionalName="Mateus Carvalho"
+                professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
+                titleOfTask="Meditação"
+              />
+            </div>
+          </TaskAnimate>
+        </div>
       </Body>
-    </>
+    </Container>
   );
 }
