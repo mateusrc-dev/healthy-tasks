@@ -19,8 +19,8 @@ export const CommentContainer = styled("div", {
 
 export const CommentText = styled("p", {
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  alignItems: "flex-start",
+  justifyContent: "flex-start",
 
   borderRadius: "20px",
   color: "$gray200",
@@ -49,3 +49,20 @@ export const Photo = styled(Image, {
 export const Name = styled("h2", {
   color: "$gray200"
 })
+
+export const Tag = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "10px",
+  background: "$green300",
+  borderRadius: "30px",
+  padding: "5px",
+  borderWidth: "2px",
+  borderColor: "$green100",
+  borderStyle: "outset",
+  color: "$gray200",
+  fontSize: "10px"
+})
+
+export const LikeIcon = styled("button", {})

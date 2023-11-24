@@ -23,6 +23,7 @@ export const {
             red100: "#ff194b",
 
             blue100: "#3a89c9",
+            blue200: "#138fe8",
         }
     }
 })

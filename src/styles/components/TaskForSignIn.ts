@@ -52,8 +52,36 @@ export const Name = styled("h2", {
     color: "$blue100"
 })
 
-export const Tag = styled("div", {})
+export const Tag = styled("div", {
+    width: "100px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    background: "$green300",
+    borderRadius: "30px",
+    padding: "5px",
+    borderWidth: "2px",
+    borderColor: "$green100",
+    borderStyle: "outset",
+    color: "$gray200",
+    fontSize: "10px"
+})
 
-export const ButtonOfMotivation = styled("button", {})
+export const ButtonOfMotivation = styled("button", {
+    width: "100px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    background: "$blue200",
+    borderRadius: "30px",
+    padding: "5px",
+    borderWidth: "2px",
+    borderColor: "$blue100",
+    borderStyle: "outset",
+    color: "$gray200",
+    fontSize: "10px"
+})
 
 export const LikeIcon = styled("button", {})
