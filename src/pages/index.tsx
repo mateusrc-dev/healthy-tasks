@@ -2,6 +2,7 @@ import {
   Body,
   Button,
   Container,
+  Footer,
   Header,
   ImageContainer,
   Input,
@@ -261,7 +262,7 @@ export default function Home() {
             height={630}
           />
           <TaskAnimate>
-            <div style={{ transform: "perspective(350px) rotateX(15deg)" }}>
+            <div style={{ transform: "perspective(450px) rotateX(15deg)" }}>
               <TaskForSignIn
                 descriptionOfTask="Faça meditação durante 10 minutos. Observe a respiração e as sesações do corpo."
                 professionalName="Mateus Carvalho"
@@ -309,6 +310,9 @@ export default function Home() {
           </Swiper>
         </div>
       </Body>
+      <Footer>
+        <p>© Todos os direitos reservados</p>
+      </Footer>
     </Container>
   );
 }

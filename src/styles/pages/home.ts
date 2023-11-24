@@ -3,6 +3,9 @@ import { styled } from "..";
 
 export const Container = styled("main", {
   width: "100%",
+  height: "100vh",
+  position: "relative",
+  overflow: "hidden",
 })
 
 export const Header = styled("header", {
@@ -13,12 +16,30 @@ export const Header = styled("header", {
   justifyContent: 'center',
  '-webkit-box-shadow': '5px 5px 15px 5px #f3ffd2, -9px 5px 15px 5px #bff1ce, -7px -5px 15px 5px #82bda7, 12px -5px 15px 5px #6e837c, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #6e837c, 5px 5px 15px 5px rgba(0,0,0,0)', 
   boxShadow: '5px 5px 15px 5px #82bda7, -9px 5px 15px 5px #6e837c, -7px -5px 15px 5px #bff1ce, 12px -5px 15px 5px #f3ffd2, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #6e837c, -10px -7px 27px 1px #82bda7, 5px 5px 15px 5px rgba(0,0,0,0)',
-
+  
   h1: {
     fontWeight: 700,
     padding: "20px",
     color: "$gray200"
   },
+});
+
+export const Footer = styled("footer", {
+  background: "radial-gradient(circle, rgba(130,189,167,1) 0%, rgba(243,255,210,1) 100%)",
+  width: "100%",
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+ '-webkit-box-shadow': '5px 5px 15px 5px #f3ffd2, -9px 5px 15px 5px #bff1ce, -7px -5px 15px 5px #82bda7, 12px -5px 15px 5px #6e837c, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #6e837c, 5px 5px 15px 5px rgba(0,0,0,0)', 
+  boxShadow: '5px 5px 15px 5px #82bda7, -9px 5px 15px 5px #6e837c, -7px -5px 15px 5px #bff1ce, 12px -5px 15px 5px #f3ffd2, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #6e837c, -10px -7px 27px 1px #82bda7, 5px 5px 15px 5px rgba(0,0,0,0)',
+  p: {
+    fontWeight: 400,
+    padding: "20px",
+    color: "$gray200"
+  },
+  position: "absolute",
+  bottom: 0,
+  zIndex: 2,
 });
 
 export const Body = styled("div", {
@@ -104,9 +125,9 @@ export const LinkContainer = styled('a', {
 
 
 const scaleUp = keyframes({
-  '0%': { transform: 'translateY(0px)', clip: 'rect(50px, 600px, 300px, -300px)', scale: 1.1 },
+  '0%': { transform: 'translateY(0px)', clip: 'rect(35px, 600px, 300px, -300px)', scale: 1 },
   '50%': { transform: 'translateY(-285px)', clip: 'rect(295px, 600px, 600px, -300px)', scale: 0.9 },
-  '100%': { transform: 'translateY(0px)', clip: 'rect(50px, 600px, 300px, -300px)', scale: 1.1 },
+  '100%': { transform: 'translateY(0px)', clip: 'rect(35px, 600px, 300px, -300px)', scale: 1 },
   
 });
 
