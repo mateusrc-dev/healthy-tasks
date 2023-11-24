@@ -51,3 +51,9 @@ export const Photo = styled(Image, {
 export const Name = styled("h2", {
     color: "$blue100"
 })
+
+export const Tag = styled("div", {})
+
+export const ButtonOfMotivation = styled("button", {})
+
+export const LikeIcon = styled("button", {})

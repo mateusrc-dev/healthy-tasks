@@ -24,6 +24,10 @@ import { Button as ButtonComponent } from "../components/button";
 import light from "../assets/light.gif";
 import { FaDoorOpen } from "react-icons/fa";
 import { TaskForSignIn } from "../components/taskForSignIn";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
 
 export default function Home() {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -251,7 +255,7 @@ export default function Home() {
         <div style={{ position: "relative", width: "800px", height: "700px" }}>
           <Image
             src={notebook}
-            style={{ position: "absolute", zIndex: 1, top: "-30px" }}
+            style={{ position: "absolute", zIndex: 1, top: "0px" }}
             alt="isso é um gif bem doido"
             width={830}
             height={630}
@@ -266,6 +270,44 @@ export default function Home() {
               />
             </div>
           </TaskAnimate>
+          <Swiper
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "20px",
+              justifyContent: "center",
+              background: "rgb(0,0,0,0.4)",
+              width: "460px",
+              color: "#ffff",
+              fontWeight: 700,
+              fontStyle: "italic",
+              fontSize: "14px",
+              transform: "perspective(350px) rotateX(15deg)",
+              position: "absolute",
+              zIndex: 0,
+              top: "315px",
+              left: "210px",
+            }}
+            modules={[Autoplay]}
+            slidesPerView={1}
+            autoplay={{ delay: 6000 }}
+          >
+            <SwiperSlide>
+              Visualize as atividades que seu profissional da saúde criou para
+              você!
+            </SwiperSlide>
+            <SwiperSlide>
+              Torne público suas atividades para os outros usuários lhe
+              motivarem!
+            </SwiperSlide>
+            <SwiperSlide>
+              Acompanhe as atividades públicas de outros usuários!
+            </SwiperSlide>
+            <SwiperSlide>
+              Seja acompanhado(a) pelos profissionais de saúde de outros
+              usuários através das atividades deles!
+            </SwiperSlide>
+          </Swiper>
         </div>
       </Body>
     </Container>

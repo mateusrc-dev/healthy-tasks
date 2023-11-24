@@ -23,7 +23,7 @@ export const Header = styled("header", {
 
 export const Body = styled("div", {
   padding: "0 20px",
-  marginTop: "0px",
+  marginTop: "-40px",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-evenly",
@@ -113,7 +113,7 @@ const scaleUp = keyframes({
 export const TaskAnimate = styled('div', {
   position: "absolute",
   zIndex: 0,
-  top: "65px",
+  top: "95px",
   left: "220px",
   animation: `${scaleUp} 10s infinite`
 })
