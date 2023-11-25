@@ -9,7 +9,7 @@ export const TaskContainer = styled("div", {
   justifyContent: "center",
   flexDirection: "column",
   gap: "20px",
-  background: "linear-gradient(90deg, rgba(191,241,206,1) 0%, rgba(130,189,167,1) 100%)",
+  background: "linear-gradient(90deg, #1618f1 0%, #138fe8 100%)",
   padding: "20px",
   "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
   "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",

@@ -9,13 +9,13 @@ export const Container = styled("main", {
 })
 
 export const Header = styled("header", {
-  background: "radial-gradient(circle, rgba(130,189,167,1) 0%, rgba(243,255,210,1) 100%)",
+  background: "radial-gradient(circle, #1618f1 0%, #138fe8 100%)",
   width: "100%",
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
- '-webkit-box-shadow': '5px 5px 15px 5px #f3ffd2, -9px 5px 15px 5px #bff1ce, -7px -5px 15px 5px #82bda7, 12px -5px 15px 5px #6e837c, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #6e837c, 5px 5px 15px 5px rgba(0,0,0,0)', 
-  boxShadow: '5px 5px 15px 5px #82bda7, -9px 5px 15px 5px #6e837c, -7px -5px 15px 5px #bff1ce, 12px -5px 15px 5px #f3ffd2, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #6e837c, -10px -7px 27px 1px #82bda7, 5px 5px 15px 5px rgba(0,0,0,0)',
+  '-webkit-box-shadow': '5px 5px 15px 5px #1618f1, -9px 5px 15px 5px #1112de, -7px -5px 15px 5px #0b0cca, 12px -5px 15px 5px #0606b7, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #3a89c9, 5px 5px 15px 5px rgba(0,0,0,0)', 
+  boxShadow: '5px 5px 15px 5px #1112de, -9px 5px 15px 5px #1618f1, -7px -5px 15px 5px #0b0cca, 12px -5px 15px 5px #0606b7, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #0b0cca, -10px -7px 27px 1px #3a89c9, 5px 5px 15px 5px rgba(0,0,0,0)',
   
   h1: {
     fontWeight: 700,
@@ -25,13 +25,13 @@ export const Header = styled("header", {
 });
 
 export const Footer = styled("footer", {
-  background: "radial-gradient(circle, rgba(130,189,167,1) 0%, rgba(243,255,210,1) 100%)",
+  background: "radial-gradient(circle, #1618f1 0%, #138fe8 100%)",
   width: "100%",
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
- '-webkit-box-shadow': '5px 5px 15px 5px #f3ffd2, -9px 5px 15px 5px #bff1ce, -7px -5px 15px 5px #82bda7, 12px -5px 15px 5px #6e837c, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #6e837c, 5px 5px 15px 5px rgba(0,0,0,0)', 
-  boxShadow: '5px 5px 15px 5px #82bda7, -9px 5px 15px 5px #6e837c, -7px -5px 15px 5px #bff1ce, 12px -5px 15px 5px #f3ffd2, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #6e837c, -10px -7px 27px 1px #82bda7, 5px 5px 15px 5px rgba(0,0,0,0)',
+ '-webkit-box-shadow': '5px 5px 15px 5px #1618f1, -9px 5px 15px 5px #1112de, -7px -5px 15px 5px #0b0cca, 12px -5px 15px 5px #0606b7, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #ffff, -10px -7px 27px 1px #3a89c9, 5px 5px 15px 5px rgba(0,0,0,0)', 
+  boxShadow: '5px 5px 15px 5px #1112de, -9px 5px 15px 5px #1618f1, -7px -5px 15px 5px #0b0cca, 12px -5px 15px 5px #0606b7, 12px 10px 15px 7px #2e0527, -10px 10px 15px 7px #0b0cca, -10px -7px 27px 1px #3a89c9, 5px 5px 15px 5px rgba(0,0,0,0)',
   p: {
     fontWeight: 400,
     padding: "20px",
@@ -52,8 +52,8 @@ export const Body = styled("div", {
 
 export const LoginContainer = styled("div", {
   background: "transparent",
-  '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
-  boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  '-webkit-box-shadow': "#1618f1 0 -1px 4px, #1112de 0 -2px 10px, #0b0cca 0 -10px 20px, #0606b7 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  boxShadow: "#0606b7 0 -1px 4px, #0b0cca 0 -2px 10px, #1618f1 0 -10px 20px, #1112de 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
@@ -82,8 +82,8 @@ export const Input = styled("input", {
   padding: '10px',
   border: 'none',
   borderRadius: '10px',
-  '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
-  boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  '-webkit-box-shadow': "#1618f1 0 -1px 4px, #1112de 0 -2px 10px, #0b0cca 0 -10px 20px, #0606b7 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  boxShadow: "#0606b7 0 -1px 4px, #0b0cca 0 -2px 10px, #1618f1 0 -10px 20px, #1112de 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
 })
 
 export const ImageContainer = styled("div", {
@@ -103,8 +103,8 @@ export const TextContainer = styled('p', {
 export const MessageContainer = styled('p', {
   borderRadius: '10px',
   marginTop: '20px',
-  '-webkit-box-shadow': "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
-  boxShadow: "#f3ffd2 0 -1px 4px, #bff1ce 0 -2px 10px, #82bda7 0 -10px 20px, #6e837c 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  '-webkit-box-shadow': "#1618f1 0 -1px 4px, #1112de 0 -2px 10px, #0b0cca 0 -10px 20px, #0606b7 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)",
+  boxShadow: "#0606b7 0 -1px 4px, #0b0cca 0 -2px 10px, #1618f1 0 -10px 20px, #1112de 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0)", 
   padding: "20px",
   width: "500px",
   color: "$red100",
