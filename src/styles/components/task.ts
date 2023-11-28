@@ -3,7 +3,7 @@ import { styled } from "..";
 
 
 export const TaskContainer = styled("div", {
-  width: "415px",
+  width: "100%",
   display: "flex",
   alignItems: "flex-start",
   justifyContent: "center",
@@ -23,11 +23,11 @@ export const TaskContainer = styled("div", {
 })
 
 export const Title = styled("h1", {
-    color: "$blue100"
+    color: "$gray200"
 })
 
 export const Description = styled("p", {
-    color: "$blue100",
+    color: "$gray300",
     fontStyle: "italic",
     marginTop: "5px",
 })
@@ -49,7 +49,7 @@ export const Photo = styled(Image, {
 })
 
 export const Name = styled("h2", {
-    color: "$blue100"
+    color: "$gray200"
 })
 
 export const Tag = styled("div", {

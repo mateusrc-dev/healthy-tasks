@@ -125,16 +125,16 @@ export const LinkContainer = styled('a', {
 
 
 const scaleUp = keyframes({
-  '0%': { transform: 'translateY(0px)', clip: 'rect(35px, 600px, 300px, -300px)', scale: 1 },
-  '50%': { transform: 'translateY(-285px)', clip: 'rect(295px, 600px, 600px, -300px)', scale: 0.9 },
-  '100%': { transform: 'translateY(0px)', clip: 'rect(35px, 600px, 300px, -300px)', scale: 1 },
+  '0%': { transform: 'translateY(0px)', clip: 'rect(45px, 600px, 300px, -300px)', scale: 0.8 },
+  '50%': { transform: 'translateY(-285px)', clip: 'rect(295px, 600px, 600px, -300px)', scale: 0.7 },
+  '100%': { transform: 'translateY(0px)', clip: 'rect(45px, 600px, 300px, -300px)', scale: 0.8 },
   
 });
 
 export const TaskAnimate = styled('div', {
   position: "absolute",
   zIndex: 0,
-  top: "85px",
-  left: "225px",
+  top: "50px",
+  left: "165px",
   animation: `${scaleUp} 20s infinite`
 })

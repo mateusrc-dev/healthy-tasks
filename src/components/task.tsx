@@ -1,5 +1,3 @@
-import Image from "next/image";
-import frame from "../assets/frame.gif";
 import {
   ButtonOfMotivation,
   Description,
@@ -9,7 +7,7 @@ import {
   Tag,
   TaskContainer,
   Title,
-} from "../styles/components/TaskForSignIn";
+} from "../styles/components/task";
 import { Comment } from "./comment";
 import { LiaEyeSolid } from "react-icons/lia";
 import { PiRocketLaunchLight } from "react-icons/pi";
@@ -21,7 +19,7 @@ type Props = {
   professionalName: string;
 };
 
-export function TaskForSignIn({
+export function Task({
   descriptionOfTask,
   professionalName,
   professionalPhotoUrl,
@@ -29,24 +27,15 @@ export function TaskForSignIn({
 }: Props) {
   return (
     <TaskContainer>
-      <div style={{ position: "relative" }}>
-        <Image
-          src={frame}
+      <Profile>
+        <Photo
+          src={professionalPhotoUrl}
           alt="foto do profissional"
-          width={140}
-          height={140}
-          style={{ position: "absolute", left: "-15px", top: "-15px" }}
+          width={100}
+          height={100}
         />
-        <Profile>
-          <Photo
-            src={professionalPhotoUrl}
-            alt="foto do profissional"
-            width={100}
-            height={100}
-          />
-          <Name>Dr. {professionalName}</Name>
-        </Profile>
-      </div>
+        <Name>Dr. {professionalName}</Name>
+      </Profile>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <Title>{titleOfTask}</Title>

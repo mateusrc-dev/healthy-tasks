@@ -2,7 +2,7 @@ import Image from "next/image";
 import { styled } from "..";
 
 export const CommentContainer = styled("div", {
-  width: "375px",
+  width: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
@@ -23,7 +23,7 @@ export const CommentText = styled("p", {
   justifyContent: "flex-start",
 
   borderRadius: "20px",
-  color: "$gray200",
+  color: "$gray300",
 
   '&:hover': {
     filter: "brightness(0.9)"
