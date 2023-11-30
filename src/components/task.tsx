@@ -14,6 +14,7 @@ import { LiaEyeSolid } from "react-icons/lia";
 import { PiRocketLaunchLight } from "react-icons/pi";
 import { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import { useSpring, animated, Controller } from "react-spring";
 
 type Props = {
   titleOfTask: string;
@@ -29,8 +30,17 @@ export function Task({
   titleOfTask,
 }: Props) {
   const [stateView, setStateView] = useState<string>("public");
+  const [animate, setAnimate] = useState(false);
   const [stateMotivation, setStateMotivation] = useState<boolean>(false);
   const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
+
+  const animationProps = useSpring({
+    to: async (next, cancel) => {
+      await next({ transform: "translateY(-100px)", color: "red" });
+      await next({ transform: "translateY(0px)", color: "#fff" });
+    },
+    //reset: animate, // Resetar a animação ao clicar novamente
+  });
 
   function handleStateView() {
     console.log("clicou");
@@ -39,6 +49,16 @@ export function Task({
     } else {
       setStateView("public");
     }
+  }
+
+  function handleMotivationState() {
+    if (!stateMotivation) {
+      setAnimate(!animate);
+      setStateSumMotivation((prevState) => prevState + 1);
+    } else {
+      setStateSumMotivation((prevState) => prevState - 1);
+    }
+    setStateMotivation((prevState) => !prevState);
   }
 
   return (
@@ -85,10 +105,13 @@ export function Task({
                 fontSize: "10px",
               }}
             >
-              10
+              {stateSumMotivation}
             </div>
-            <ButtonOfMotivation>
-              Força <PiRocketLaunchLight />
+            <ButtonOfMotivation onClick={handleMotivationState}>
+              Força{" "}
+              <animated.div style={animationProps}>
+                <PiRocketLaunchLight />
+              </animated.div>
             </ButtonOfMotivation>
           </div>
         </div>
