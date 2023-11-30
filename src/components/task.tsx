@@ -1,5 +1,6 @@
 import {
   ButtonOfMotivation,
+  CheckContainer,
   Description,
   Name,
   Photo,
@@ -11,6 +12,8 @@ import {
 import { Comment } from "./comment";
 import { LiaEyeSolid } from "react-icons/lia";
 import { PiRocketLaunchLight } from "react-icons/pi";
+import { useState } from "react";
+import { FaRegEyeSlash } from "react-icons/fa6";
 
 type Props = {
   titleOfTask: string;
@@ -25,6 +28,19 @@ export function Task({
   professionalPhotoUrl,
   titleOfTask,
 }: Props) {
+  const [stateView, setStateView] = useState<string>("public");
+  const [stateMotivation, setStateMotivation] = useState<boolean>(false);
+  const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
+
+  function handleStateView() {
+    console.log("clicou");
+    if (stateView === "public") {
+      setStateView("private");
+    } else {
+      setStateView("public");
+    }
+  }
+
   return (
     <TaskContainer>
       <Profile>
@@ -35,13 +51,24 @@ export function Task({
           height={100}
         />
         <Name>Dr. {professionalName}</Name>
+        <Tag>Psicólogo</Tag>
+        <CheckContainer>
+          <input type="checkbox" />
+          <p>Atividade realizada</p>
+        </CheckContainer>
       </Profile>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <Title>{titleOfTask}</Title>
-          <Tag>
-            Público <LiaEyeSolid />
-          </Tag>
+          {stateView === "public" ? (
+            <Tag onClick={() => handleStateView()}>
+              Público <LiaEyeSolid />
+            </Tag>
+          ) : (
+            <Tag onClick={() => handleStateView()}>
+              Privado <FaRegEyeSlash />
+            </Tag>
+          )}
           <div style={{ position: "relative" }}>
             <div
               style={{

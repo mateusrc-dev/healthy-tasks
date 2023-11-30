@@ -65,7 +65,12 @@ export const Tag = styled("div", {
     borderColor: "$green100",
     borderStyle: "outset",
     color: "$gray200",
-    fontSize: "10px"
+    fontSize: "10px",
+    cursor: "pointer",
+
+    '&:hover': {
+      background: "$green400",
+    }
 })
 
 export const ButtonOfMotivation = styled("button", {
@@ -81,7 +86,62 @@ export const ButtonOfMotivation = styled("button", {
     borderColor: "$blue100",
     borderStyle: "outset",
     color: "$gray200",
-    fontSize: "10px"
+    fontSize: "10px",
+    cursor: "pointer",
+
+    '&:hover': {
+        filter: "brightness(0.8)",
+      }
 })
 
 export const LikeIcon = styled("button", {})
+
+export const CheckContainer = styled("div", {
+    position: "relative",
+    width: "150px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    background: "$green300",
+    borderRadius: "30px",
+    padding: "10px",
+    borderWidth: "2px",
+    borderColor: "$green100",
+    borderStyle: "outset",
+    color: "$gray200",
+    fontSize: "10px",
+    fontWeight: 700,
+    whiteSpace: "nowrap",
+
+    "input[type=checkbox]:before": {
+        content: "",
+        display: "block",
+        position: "absolute",
+        width: "16px",
+        height: "16px",
+        top: "5px",
+        left: "14px",
+        borderWidth: "3px",
+        borderColor: "$gray200",
+        borderStyle: "outset",
+        borderRadius: "10px",
+        backgroundColor: "white",
+    },
+   "input[type=checkbox]:checked:after": {
+        content: "",
+        display: "block",
+        width: "5px",
+        height: "10px",
+        border: "solid",
+        borderColor: "$green100",
+        borderStyle: "outset",
+        borderWidth: "0 4px 4px 0",
+        "-webkit-transform": "rotate(45deg)",
+        "-ms-transform": "rotate(45deg)",
+        transform: "rotate(45deg)",
+        position: "absolute",
+        top: "7px",
+        left: "20px",
+    },
+})
