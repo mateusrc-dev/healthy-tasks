@@ -128,7 +128,6 @@ const scaleUp = keyframes({
   '0%': { transform: 'translateY(0px)', clip: 'rect(45px, 800px, 600px, -300px)', scale: 0.6 },
   '50%': { transform: 'translateY(-285px)', clip: 'rect(295px, 800px, 600px, -300px)', scale: 0.5 },
   '100%': { transform: 'translateY(0px)', clip: 'rect(45px, 800px, 600px, -300px)', scale: 0.6 },
-  
 });
 
 export const TaskAnimate = styled('div', {

@@ -94,14 +94,21 @@ export const ButtonOfMotivation = styled("button", {
       }
 })
 
-export const FavoriteIcon = styled("button", {})
+const moreScale = keyframes({
+    '0%': { opacity: 1, scale: 1 },
+    '100%': { opacity: 0, scale: 3 },
+});
+
+
+export const FavoriteIcon = styled("div", {
+    animation: `${moreScale} 1s`
+})
 
 const showCheck = keyframes({
     '0%': { opacity: 0, scale: 0.8 },
     '50%': { opacity: 0.8, scale: 1.5 },
     '100%': { opacity: 1, scale: 1 },
 });
-
 
 export const CheckContainer = styled("div", {
     position: "relative",
@@ -154,6 +161,11 @@ export const CheckContainer = styled("div", {
     },
 })
 
+const zoom = keyframes({
+    '0%': { scale: 0 },
+    '100%': { scale: 1 },
+  });
+
 export const CreateCommentContainer = styled("div", {
     width: "100%",
     position: "relative",
@@ -163,5 +175,6 @@ export const CreateCommentContainer = styled("div", {
     background: "$blue200",
     borderRadius: "10px",
     padding: "50px",
-    gap: "30px"
+    gap: "30px",
+    animation: `${zoom} 1s`,
 })

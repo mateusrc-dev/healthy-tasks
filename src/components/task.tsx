@@ -3,6 +3,7 @@ import {
   CheckContainer,
   CreateCommentContainer,
   Description,
+  FavoriteIcon,
   Name,
   Photo,
   Profile,
@@ -19,6 +20,8 @@ import { useSpring, animated } from "react-spring";
 import { TfiWrite } from "react-icons/tfi";
 import { Button } from "./button";
 import { BsCheck } from "react-icons/bs";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { IoCloseCircle } from "react-icons/io5";
 
 type Props = {
   titleOfTask: string;
@@ -39,11 +42,12 @@ export function Task({
   const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
   const [stateComment, setStateComment] = useState<boolean>(false);
   const [stateTextarea, setStateTextarea] = useState<string>("");
+  const [favorite, setFavorite] = useState<boolean>(false);
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
       await next({
-        transform: "translateY(-20px) translateX(20px) scale(4)",
+        transform: "translateY(-40px) translateX(40px) scale(4)",
         color: "#77f2de",
       });
       await next({
@@ -57,7 +61,7 @@ export function Task({
   const animationProps2 = useSpring({
     to: async (next, cancel) => {
       await next({
-        transform: "translateY(20px) translateX(20px) scale(4)",
+        transform: "translateY(40px) translateX(40px) scale(4)",
         color: "#ff194b",
       });
       await next({
@@ -136,7 +140,7 @@ export function Task({
         </CheckContainer>
       </Profile>
       <div>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Title>{titleOfTask}</Title>
           {stateView === "public" ? (
             <Tag onClick={handleStateView}>
@@ -184,6 +188,39 @@ export function Task({
           <Tag onClick={() => setStateComment(!stateComment)}>
             Comentar <TfiWrite size={20} />
           </Tag>
+          <div>
+            {favorite ? (
+              <div style={{ position: "absolute" }}>
+                <FaHeart
+                  onClick={() => setFavorite(!favorite)}
+                  size={25}
+                  color="#ff194b"
+                  style={{
+                    cursor: "pointer",
+                    position: "relative",
+                    zIndex: 2,
+                    top: -14,
+                  }}
+                />
+                <FavoriteIcon
+                  style={{
+                    position: "relative",
+                    zIndex: 1,
+                    top: -43.5,
+                  }}
+                >
+                  <FaHeart size={25} color="#ff194b" />
+                </FavoriteIcon>
+              </div>
+            ) : (
+              <FaRegHeart
+                onClick={() => setFavorite(!favorite)}
+                size={25}
+                color="#ff194b"
+                style={{ cursor: "pointer", position: "relative", zIndex: 2 }}
+              />
+            )}
+          </div>
         </div>
         <Description>{descriptionOfTask}</Description>
       </div>
@@ -217,6 +254,18 @@ export function Task({
               Pronto <BsCheck />
             </Button>
           )}
+          <IoCloseCircle
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              top: 10,
+              right: 10,
+              color: "#fff",
+            }}
+            size={25}
+            title="Fechar!"
+            onClick={() => setStateComment(!stateComment)}
+          />
         </CreateCommentContainer>
       )}
       <Comment
