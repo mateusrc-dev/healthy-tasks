@@ -52,7 +52,7 @@ export const Name = styled("h2", {
     color: "$gray200"
 })
 
-export const Tag = styled("div", {
+export const Tag = styled("button", {
     width: "100px",
     display: "flex",
     alignItems: "center",

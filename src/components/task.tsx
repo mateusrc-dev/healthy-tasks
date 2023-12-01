@@ -31,15 +31,35 @@ export function Task({
 }: Props) {
   const [stateView, setStateView] = useState<string>("public");
   const [animate, setAnimate] = useState(false);
-  const [stateMotivation, setStateMotivation] = useState<boolean>(false);
+  const [stateMotivation, setStateMotivation] = useState<boolean>(true);
   const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
-      await next({ transform: "translateY(-100px)", color: "red" });
-      await next({ transform: "translateY(0px)", color: "#fff" });
+      await next({
+        transform: "translateY(-20px) translateX(20px) scale(4)",
+        color: "#77f2de",
+      });
+      await next({
+        transform: "translateY(0px) translateX(0px) scale(1)",
+        color: "#fff",
+      });
     },
-    //reset: animate, // Resetar a animação ao clicar novamente
+    reset: animate, // Resetar a animação ao clicar novamente
+  });
+
+  const animationProps2 = useSpring({
+    to: async (next, cancel) => {
+      await next({
+        transform: "translateY(20px) translateX(20px) scale(4)",
+        color: "#ff194b",
+      });
+      await next({
+        transform: "translateY(0px) translateX(0px) scale(1)",
+        color: "#fff",
+      });
+    },
+    reset: animate, // Resetar a animação ao clicar novamente
   });
 
   function handleStateView() {
@@ -52,10 +72,11 @@ export function Task({
   }
 
   function handleMotivationState() {
-    if (!stateMotivation) {
+    if (stateMotivation === true) {
       setAnimate(!animate);
       setStateSumMotivation((prevState) => prevState + 1);
-    } else {
+    } else if (stateMotivation === false) {
+      setAnimate(!animate);
       setStateSumMotivation((prevState) => prevState - 1);
     }
     setStateMotivation((prevState) => !prevState);
@@ -109,7 +130,7 @@ export function Task({
             </div>
             <ButtonOfMotivation onClick={handleMotivationState}>
               Força{" "}
-              <animated.div style={animationProps}>
+              <animated.div style={animate ? animationProps : animationProps2}>
                 <PiRocketLaunchLight />
               </animated.div>
             </ButtonOfMotivation>
