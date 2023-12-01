@@ -262,7 +262,7 @@ export default function Home() {
             height={630}
           />
           <TaskAnimate>
-            <div style={{ transform: "perspective(450px) rotateX(15deg)" }}>
+            <div style={{ transform: "perspective(600px) rotateX(15deg)" }}>
               <Task
                 descriptionOfTask="Faça meditação durante 10 minutos. Observe a respiração e as sesações do corpo."
                 professionalName="Mateus Carvalho"

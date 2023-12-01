@@ -153,3 +153,15 @@ export const CheckContainer = styled("div", {
         animation: `${showCheck} 0.5s`
     },
 })
+
+export const CreateCommentContainer = styled("div", {
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    background: "$blue200",
+    borderRadius: "10px",
+    padding: "50px",
+    gap: "30px"
+})

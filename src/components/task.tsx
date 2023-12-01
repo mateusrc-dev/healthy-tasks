@@ -1,6 +1,7 @@
 import {
   ButtonOfMotivation,
   CheckContainer,
+  CreateCommentContainer,
   Description,
   Name,
   Photo,
@@ -15,6 +16,9 @@ import { PiRocketLaunchLight } from "react-icons/pi";
 import { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { useSpring, animated } from "react-spring";
+import { TfiWrite } from "react-icons/tfi";
+import { Button } from "./button";
+import { BsCheck } from "react-icons/bs";
 
 type Props = {
   titleOfTask: string;
@@ -33,6 +37,8 @@ export function Task({
   const [animate, setAnimate] = useState(false);
   const [stateMotivation, setStateMotivation] = useState<boolean>(true);
   const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
+  const [stateComment, setStateComment] = useState<boolean>(false);
+  const [stateTextarea, setStateTextarea] = useState<string>("");
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
@@ -175,9 +181,44 @@ export function Task({
               </animated.div>
             </ButtonOfMotivation>
           </div>
+          <Tag onClick={() => setStateComment(!stateComment)}>
+            Comentar <TfiWrite size={20} />
+          </Tag>
         </div>
         <Description>{descriptionOfTask}</Description>
       </div>
+      {stateComment && (
+        <CreateCommentContainer>
+          <textarea
+            placeholder="Escreva aqui seu comentário (no mínimo 100 caracteres)..."
+            maxLength={1000}
+            onChange={(e) => setStateTextarea(e.target.value)}
+            style={{
+              width: "100%",
+              height: "100px",
+              resize: "none",
+              border: "none",
+              borderRadius: "10px",
+              padding: "10px",
+            }}
+          />
+          <div
+            style={{
+              color: "#138fe8",
+              fontSize: "10px",
+              position: "absolute",
+              right: 65,
+              bottom: 65,
+              fontStyle: "italic",
+            }}
+          >{`${stateTextarea.length} | 1000`}</div>
+          {stateTextarea.length >= 100 && (
+            <Button>
+              Pronto <BsCheck />
+            </Button>
+          )}
+        </CreateCommentContainer>
+      )}
       <Comment
         text="muito massa a atividade, amei, você é incrível dr. Mateus 😍"
         userName="Roberto"
