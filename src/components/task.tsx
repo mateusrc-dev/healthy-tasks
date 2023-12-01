@@ -45,7 +45,7 @@ export function Task({
         color: "#fff",
       });
     },
-    reset: animate, // Resetar a animação ao clicar novamente
+    //reset: animate, // Resetar a animação ao clicar novamente
   });
 
   const animationProps2 = useSpring({
@@ -62,8 +62,39 @@ export function Task({
     reset: animate, // Resetar a animação ao clicar novamente
   });
 
+  const animationProps3 = useSpring({
+    to: async (next, cancel) => {
+      await next({
+        transform: "scale(1.2)",
+        fontWeight: 700,
+        color: "#ff194b",
+      });
+      await next({
+        transform: "scale(1)",
+        fontWeight: 400,
+        color: "#fff",
+      });
+    },
+    reset: animate, // Resetar a animação ao clicar novamente
+  });
+
+  const animationProps4 = useSpring({
+    to: async (next, cancel) => {
+      await next({
+        transform: "scale(1.2)",
+        fontWeight: 700,
+        color: "#77f2de",
+      });
+      await next({
+        transform: "scale(1)",
+        fontWeight: 400,
+        color: "#fff",
+      });
+    },
+    reset: animate, // Resetar a animação ao clicar novamente
+  });
+
   function handleStateView() {
-    console.log("clicou");
     if (stateView === "public") {
       setStateView("private");
     } else {
@@ -102,11 +133,11 @@ export function Task({
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <Title>{titleOfTask}</Title>
           {stateView === "public" ? (
-            <Tag onClick={() => handleStateView()}>
+            <Tag onClick={handleStateView}>
               Público <LiaEyeSolid />
             </Tag>
           ) : (
-            <Tag onClick={() => handleStateView()}>
+            <Tag onClick={handleStateView}>
               Privado <FaRegEyeSlash />
             </Tag>
           )}
@@ -126,10 +157,18 @@ export function Task({
                 fontSize: "10px",
               }}
             >
-              {stateSumMotivation}
+              <animated.div
+                style={!animate ? animationProps3 : animationProps4}
+              >
+                {stateSumMotivation}
+              </animated.div>
             </div>
             <ButtonOfMotivation onClick={handleMotivationState}>
-              Força{" "}
+              <animated.div
+                style={!animate ? animationProps3 : animationProps4}
+              >
+                Força{" "}
+              </animated.div>
               <animated.div style={animate ? animationProps : animationProps2}>
                 <PiRocketLaunchLight />
               </animated.div>

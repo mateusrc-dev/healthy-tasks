@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { styled } from "..";
+import { keyframes, styled } from "..";
 
 
 export const TaskContainer = styled("div", {
@@ -94,7 +94,14 @@ export const ButtonOfMotivation = styled("button", {
       }
 })
 
-export const LikeIcon = styled("button", {})
+export const FavoriteIcon = styled("button", {})
+
+const showCheck = keyframes({
+    '0%': { opacity: 0, scale: 0.8 },
+    '50%': { opacity: 0.8, scale: 1.5 },
+    '100%': { opacity: 1, scale: 1 },
+});
+
 
 export const CheckContainer = styled("div", {
     position: "relative",
@@ -143,5 +150,6 @@ export const CheckContainer = styled("div", {
         position: "absolute",
         top: "7px",
         left: "20px",
+        animation: `${showCheck} 0.5s`
     },
 })
