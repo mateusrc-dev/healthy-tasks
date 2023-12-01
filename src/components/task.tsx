@@ -14,7 +14,7 @@ import { LiaEyeSolid } from "react-icons/lia";
 import { PiRocketLaunchLight } from "react-icons/pi";
 import { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
-import { useSpring, animated, Controller } from "react-spring";
+import { useSpring, animated } from "react-spring";
 
 type Props = {
   titleOfTask: string;
@@ -145,6 +145,7 @@ export function Task({
             <div
               style={{
                 position: "absolute",
+                zIndex: 1,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
