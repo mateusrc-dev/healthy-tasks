@@ -95,13 +95,30 @@ export const ButtonOfMotivation = styled("button", {
 })
 
 const moreScale = keyframes({
-    '0%': { opacity: 1, scale: 1 },
-    '100%': { opacity: 0, scale: 3 },
+    '0%': { scale: 1 },
+    '50%': { scale: 3 },
+    '65%': { scale: 1 },
+    '85%': { scale: 1.5 },
+    '100%': { scale: 1 },
 });
 
 
 export const FavoriteIcon = styled("div", {
-    animation: `${moreScale} 1s`
+    animation: `${moreScale} 0.5s`
+})
+
+const showText = keyframes({
+    '0%': { transform: "translateX(-200px)", opacity: 0 },
+    '100%': { transform: "translateX(0px)", opacity: 1 },
+});
+
+export const TextInformation = styled("p", {
+    fontWeight: 700,
+    fontStyle: "italic",
+    fontSize: "10px",
+    animation: `${showText} 1s`,
+    position: "absolute",
+    top: "15px",
 })
 
 const showCheck = keyframes({

@@ -9,6 +9,7 @@ import {
   Profile,
   Tag,
   TaskContainer,
+  TextInformation,
   Title,
 } from "../styles/components/task";
 import { Comment } from "./comment";
@@ -190,26 +191,13 @@ export function Task({
           </Tag>
           <div>
             {favorite ? (
-              <div style={{ position: "absolute" }}>
-                <FaHeart
-                  onClick={() => setFavorite(!favorite)}
-                  size={25}
-                  color="#ff194b"
-                  style={{
-                    cursor: "pointer",
-                    position: "relative",
-                    zIndex: 2,
-                    top: -14,
-                  }}
-                />
-                <FavoriteIcon
-                  style={{
-                    position: "relative",
-                    zIndex: 1,
-                    top: -43.5,
-                  }}
-                >
-                  <FaHeart size={25} color="#ff194b" />
+              <div>
+                <FavoriteIcon>
+                  <FaHeart
+                    onClick={() => setFavorite(!favorite)}
+                    size={25}
+                    color="#ff194b"
+                  />
                 </FavoriteIcon>
               </div>
             ) : (
@@ -239,6 +227,11 @@ export function Task({
               padding: "10px",
             }}
           />
+          {stateTextarea.length !== 0 && (
+            <TextInformation>
+              Escreva aqui seu comentário (no mínimo 100 caracteres)...
+            </TextInformation>
+          )}
           <div
             style={{
               color: "#138fe8",
