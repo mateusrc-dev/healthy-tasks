@@ -25,6 +25,12 @@ export default function PublicTasks() {
             professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
             titleOfTask="Meditação top"
           />
+          <Task
+            descriptionOfTask="faça 10 minutos de meditação"
+            professionalName="Mateus Raimundo"
+            professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
+            titleOfTask="Meditação top"
+          />
         </ContentContainer>
       </BodyOfPublicTasks>
       <Footer>

@@ -3,8 +3,8 @@ import { styled } from ".."
 export const MenuContainer = styled("div", {
     background: "linear-gradient(90deg, rgba(6,6,183,1) 0%, rgba(22,24,241,1) 100%)",
     width: "400px",
+    marginTop: "-40px",
     height: "calc(100vh - 80px)",
-    marginTop: "80px",
     padding: "60px 30px 30px 30px",
     borderRightWidth: "4px",
     borderBottomWidth: "0px",

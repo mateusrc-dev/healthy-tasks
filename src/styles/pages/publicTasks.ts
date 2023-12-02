@@ -6,9 +6,10 @@ export const Container = styled("main", {
 })
 
 export const BodyOfPublicTasks = styled("div", {
+    marginTop: "90px",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     gap: "100px",
 })
 
@@ -32,7 +33,11 @@ export const Header = styled("header", {
 export const ContentContainer = styled("div", {
     overflow: "auto",
     width: "100%",
-    height: "500px",
+    height: "calc(100vh - 90px)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "30px",
+    paddingBottom: "100px",
 
     "&::-webkit-scrollbar": {
       width: 15,
