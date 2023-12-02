@@ -162,8 +162,8 @@ export const CheckContainer = styled("div", {
 })
 
 const zoom = keyframes({
-    '0%': { scale: 0 },
-    '100%': { scale: 1 },
+    '0%': { scale: 0, opacity: 0 },
+    '100%': { scale: 1, opacity: 1 },
   });
 
 export const CreateCommentContainer = styled("div", {
@@ -178,3 +178,5 @@ export const CreateCommentContainer = styled("div", {
     gap: "30px",
     animation: `${zoom} 1s`,
 })
+
+export const TimeForFinishTask = styled("div", {})

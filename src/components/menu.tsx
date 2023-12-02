@@ -1,4 +1,4 @@
-import { FaTasks } from "react-icons/fa";
+import { FaHeart, FaTasks } from "react-icons/fa";
 import { MenuContainer, MenuItem } from "../styles/components/menu";
 import { FaRegEye } from "react-icons/fa6";
 import { IoPersonCircleSharp } from "react-icons/io5";
@@ -22,6 +22,9 @@ export function Menu({ pageSelected }: Props) {
       </MenuItem>
       <MenuItem>
         <FaThList size="25px" /> Meu histórico de atividades
+      </MenuItem>
+      <MenuItem>
+        <FaHeart size="25px" /> Minhas atividades favoritas
       </MenuItem>
     </MenuContainer>
   );

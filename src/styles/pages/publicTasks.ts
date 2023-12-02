@@ -32,6 +32,24 @@ export const Header = styled("header", {
 export const ContentContainer = styled("div", {
     overflow: "auto",
     width: "100%",
-    height: "500px"
+    height: "500px",
+
+    "&::-webkit-scrollbar": {
+      width: 15,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "$green400",
+      borderRadius: 10,
+      width: 0,
+      backgroundClip: "padding-box",
+      border: "3px solid transparent",
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: "$green400",
+      width: 0,
+      borderRadius: 10,
+      backgroundClip: "padding-box",
+      border: "3px solid transparent",
+    },
 })
 

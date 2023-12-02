@@ -61,11 +61,11 @@ export function Task({
   const animationProps2 = useSpring({
     to: async (next, cancel) => {
       await next({
-        transform: "translateY(40px) translateX(40px) scale(4)",
+        transform: "translateY(40px) translateX(40px) rotate(90deg) scale(4)",
         color: "#ff194b",
       });
       await next({
-        transform: "translateY(0px) translateX(0px) scale(1)",
+        transform: "translateY(0px) translateX(0px) rotate(0) scale(1)",
         color: "#fff",
       });
     },
@@ -250,7 +250,7 @@ export function Task({
             }}
           >{`${stateTextarea.length} | 1000`}</div>
           {stateTextarea.length >= 100 && (
-            <Button>
+            <Button position={true}>
               Pronto <BsCheck />
             </Button>
           )}
