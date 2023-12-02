@@ -196,4 +196,32 @@ export const CreateCommentContainer = styled("div", {
     animation: `${zoom} 1s`,
 })
 
-export const TimeForFinishTask = styled("div", {})
+export const TimeForFinishTaskContainerLeft = styled("div", {
+    padding: "10px",
+    background: "$gray200",
+    borderRadius: "10px 0 0 10px",
+    borderRightWidth: "1px",
+    borderStyle: "outset",
+    borderColor: "$blue100",
+    fontWeight: 700,
+    cursor: "pointer",
+
+    '&:hover': {
+        filter: "brightness(0.8)",
+      }
+})
+
+export const TimeForFinishTaskContainerRight = styled("div", {
+    padding: "10px",
+    background: "$gray200",
+    borderRadius: "0 10px 10px 0px",
+    borderLeftWidth: "0px",
+    borderStyle: "outset",
+    borderColor: "$blue100",
+    fontWeight: 700,
+    cursor: "pointer",
+
+    '&:hover': {
+        filter: "brightness(0.8)",
+      }
+})

@@ -10,6 +10,8 @@ import {
   Tag,
   TaskContainer,
   TextInformation,
+  TimeForFinishTaskContainerLeft,
+  TimeForFinishTaskContainerRight,
   Title,
 } from "../styles/components/task";
 import { Comment } from "./comment";
@@ -139,6 +141,14 @@ export function Task({
           <input type="checkbox" />
           <p>Atividade realizada</p>
         </CheckContainer>
+        <div style={{ display: "flex" }}>
+          <TimeForFinishTaskContainerLeft>
+            Prazo para finalizar:
+          </TimeForFinishTaskContainerLeft>
+          <TimeForFinishTaskContainerRight>
+            3 horas
+          </TimeForFinishTaskContainerRight>
+        </div>
       </Profile>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
