@@ -32,6 +32,7 @@ export const Container = styled("main", {
       "-webkit-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
       "-moz-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
       "box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+      color: "#fff"
     },
     ".taskChooseContainer": {},
   }

@@ -73,7 +73,20 @@ export default function Profile() {
         onClick={handleOutsideClick}
       >
         <div className={"modalContent"}>
-          <h1>Pesquise por sua atividade preferida:</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <h1 style={{ fontSize: "20px", width: "420px" }}>
+              Pesquise por sua atividade preferida:
+            </h1>
+            <input
+              style={{
+                border: "none",
+                padding: "10px",
+                borderRadius: "10px",
+                width: "100%",
+              }}
+              type="text"
+            />
+          </div>
         </div>
       </div>
 
