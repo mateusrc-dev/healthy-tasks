@@ -12,7 +12,7 @@ export const BodyProfile = styled("div", {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    gap: "100px",
+    gap: "30px",
 })
 
 export const ContentContainerProfile = styled("div", {
@@ -58,6 +58,25 @@ export const ImageUser = styled (Image, {
     borderWidth: "5px",
     borderStyle: "outset",
     borderColor: "$green200"
+})
+
+export const ChangePhotoButton = styled("button", {
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100px",
+    height: "100px",
+    bottom: "-20px",
+    right: "-20px",
+    background: "#0b0cca",
+    border: "none",
+    cursor: "pointer",
+    borderRadius: "100%",
+                 
+    '&:hover': {
+        filter: "brightness(0.6)"
+    }
 })
 
 export const ProfessionalTag = styled("button", {

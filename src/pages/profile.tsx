@@ -3,6 +3,7 @@ import { Footer } from "../styles/pages/home";
 import {
   BestActivityContainerProfile,
   BodyProfile,
+  ChangePhotoButton,
   CheckContainerProfile,
   Container,
   ContentContainerProfile,
@@ -20,6 +21,7 @@ import { CgProfile } from "react-icons/cg";
 import { LiaEyeSolid } from "react-icons/lia";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { PiRocketLaunchLight } from "react-icons/pi";
+import { MdPhotoSizeSelectActual } from "react-icons/md";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
@@ -65,12 +67,17 @@ export default function Profile() {
           <div
             style={{ display: "flex", alignItems: "flex-start", gap: "50px" }}
           >
-            <ImageUser
-              src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
-              alt="sua foto"
-              width={200}
-              height={200}
-            />
+            <div style={{ position: "relative" }}>
+              <ImageUser
+                src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
+                alt="sua foto"
+                width={200}
+                height={200}
+              />
+              <ChangePhotoButton>
+                <MdPhotoSizeSelectActual size={50} color="#fff" />
+              </ChangePhotoButton>
+            </div>
             <div
               style={{
                 display: "flex",
