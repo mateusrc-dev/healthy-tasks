@@ -89,7 +89,9 @@ export default function Profile() {
               }}
             >
               <div style={{ position: "relative" }}>
-                {stateInput && <TextInformation>Seu nome</TextInformation>}
+                {stateInput && (
+                  <TextInformation color={"normal"}>Seu nome</TextInformation>
+                )}
                 <input
                   type="text"
                   placeholder="Escreva aqui seu nome"
@@ -106,7 +108,28 @@ export default function Profile() {
                 />
               </div>
               <div style={{ position: "relative" }}>
-                {stateTextarea && <TextInformation>Sua queixa</TextInformation>}
+                {stateTextarea && (
+                  <TextInformation
+                    color={
+                      stateTextarea.length >= 100 ? "alertPositive" : "alert"
+                    }
+                  >
+                    Sua queixa (no mínimo 100 caracteres)
+                  </TextInformation>
+                )}
+                <p
+                  style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    right: "10px",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    color: "#fff",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {stateTextarea.length} | 1000
+                </p>
                 <textarea
                   placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
                   maxLength={1000}

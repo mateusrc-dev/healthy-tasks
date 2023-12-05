@@ -66,6 +66,20 @@ export const TextInformation = styled("p", {
     position: "absolute",
     color: "$gray100",
     top: "-16px",
+
+    variants: {
+      color: {
+        normal: {
+          color: "$gray100",
+        },
+        alert: {
+          color: "$red100", 
+        },
+        alertPositive: {
+          color: "$green600",
+        },
+      },
+    },
 })
 
 export const ImageUser = styled (Image, {
