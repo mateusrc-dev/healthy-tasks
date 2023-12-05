@@ -33,6 +33,7 @@ export default function Profile() {
   const [stateView, setStateView] = useState<string>("public");
   const [stateStatisticView, setStateStatisticView] =
     useState<string>("public");
+  const [click, setClick] = useState<boolean>(false);
 
   function handleStateView() {
     if (stateView === "public") {
@@ -50,8 +51,32 @@ export default function Profile() {
     }
   }
 
+  function handleClick() {
+    if (click === false) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }
+
+  const handleOutsideClick = (e) => {
+    if (e.target.id === "modal") {
+      handleClick();
+    }
+  };
+
   return (
     <Container>
+      <div
+        id="modal"
+        className={click ? "modal" : "none"}
+        onClick={handleOutsideClick}
+      >
+        <div className={"modalContent"}>
+          <h1>Pesquise por sua atividade preferida:</h1>
+        </div>
+      </div>
+
       <Header>
         <h1>healthy tasks</h1>
         <FaHeartPulse color="#fff" size={"30px"} />
@@ -174,7 +199,7 @@ export default function Profile() {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
               >
-                <BestActivityContainerProfile>
+                <BestActivityContainerProfile onClick={handleClick}>
                   Atividade que mais me ajudou: meditação top (clique caso
                   desejar mudar)
                 </BestActivityContainerProfile>
@@ -280,15 +305,18 @@ export default function Profile() {
                 </p>
                 {stateStatisticView === "public" ? (
                   <Tooltip
-                    content="Sua estatística vai ficar pública para os usuários"
-                    //onClick={handleStateStatisticView}
+                    content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
+                    clickEvent={handleStateStatisticView}
                   >
                     Público <LiaEyeSolid />
                   </Tooltip>
                 ) : (
-                  <StatisticTag onClick={handleStateStatisticView}>
+                  <Tooltip
+                    content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
+                    clickEvent={handleStateStatisticView}
+                  >
                     Privado <FaRegEyeSlash />
-                  </StatisticTag>
+                  </Tooltip>
                 )}
 
                 <StrengthContainer>

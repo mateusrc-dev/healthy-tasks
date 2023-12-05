@@ -4,7 +4,37 @@ import { keyframes, styled } from "..";
 export const Container = styled("main", {
   width: "100%",
   height: "100vh",
-  overflow: "auto"
+  overflow: "auto",
+
+  ".none": {
+    display: "none",
+  },
+
+  ".modal": {
+    width: "100%",
+    position: "absolute",
+    zIndex: 2,
+    top: 0,
+    left: 0,
+    height: "100vh",
+    background: "rgba(212, 221, 255, 0.3)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    ".modalContent": {
+      position: "relative",
+      width: "100%",
+      margin: "50px",
+      padding: "20px",
+      background: "$green200",
+      border: "none",
+      borderRadius: "10px",
+      "-webkit-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+      "-moz-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+      "box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+    },
+    ".taskChooseContainer": {},
+  }
 })
 
 export const BodyProfile = styled("div", {

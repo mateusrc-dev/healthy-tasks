@@ -37,7 +37,7 @@ export const TooltipContainer = styled('span', {
   alignItems: 'center',
   justifyContent: 'center',
   width: 219,
-  height: 44,
+  padding: "20px",
   background: '$blue200',
   borderRadius: '10px',
   visibility: 'hidden',
