@@ -9,6 +9,7 @@ import {
   ImageUser,
   ProfessionalTag,
   ProfileTag,
+  StatisticContainer,
 } from "../styles/pages/profile";
 import { Menu } from "../components/menu";
 import { Header } from "../styles/pages/publicTasks";
@@ -126,12 +127,12 @@ export default function Profile() {
                   display: "flex",
                   flexDirection: "column",
                   gap: "15px",
-                  background: "#0b0cca",
+                  background: "#0606b7",
                   padding: "20px",
                   borderRadius: "10px",
                   borderWidth: "3px",
                   borderStyle: "outset",
-                  borderColor: "#0606b7",
+                  borderColor: "#0b0cca",
                 }}
               >
                 <p style={{ fontWeight: 700, fontSize: "16px", color: "#fff" }}>
@@ -175,6 +176,48 @@ export default function Profile() {
                   </>
                 )}
               </div>
+              <StatisticContainer color={"positiveColor"}>
+                <div>
+                  <p
+                    style={{
+                      fontWeight: 700,
+                      fontSize: "22px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Estatística:
+                  </p>
+                  <p
+                    style={{
+                      fontWeight: 400,
+                      fontStyle: "italic",
+                      fontSize: "22px",
+                    }}
+                  >
+                    Total de atividades: 10
+                  </p>
+                  <p
+                    style={{
+                      fontWeight: 400,
+                      fontStyle: "italic",
+                      fontSize: "22px",
+                    }}
+                  >
+                    Atividades realizadas dentro do prazo: 7
+                  </p>
+                </div>
+                <p
+                  style={{
+                    fontWeight: 700,
+                    fontStyle: "italic",
+                    fontSize: "100px",
+                    color: "rgba(255, 255, 255, 0.5)",
+                    paddingRight: "90px",
+                  }}
+                >
+                  70%
+                </p>
+              </StatisticContainer>
             </div>
           </div>
         </ContentContainerProfile>

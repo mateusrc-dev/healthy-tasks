@@ -181,3 +181,38 @@ export const ProfileTag = styled("button", {
       background: "$green400",
     }
 })
+
+export const StatisticContainer = styled("div", {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: "5px",
+    borderRadius: "10px",
+    padding: "20px",
+
+
+    variants: {
+        color: {
+          positiveColor: {
+            background: '$green500',
+            color: '$gray200',
+            borderWidth: "2px",
+            borderColor: "$green600",
+            borderStyle: "outset",
+            '&:hover': {
+                filter: "brightness(0.8)"
+              }
+          },
+          negativeColor: {
+            background: '$red100',
+            color: '$gray200',
+            borderWidth: "2px",
+            borderColor: "$red200",
+            borderStyle: "outset",
+            '&:hover': {
+                filter: "brightness(0.8)"
+              }
+          },
+        },
+      },
+})
