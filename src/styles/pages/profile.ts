@@ -70,7 +70,7 @@ export const TextInformation = styled("p", {
     variants: {
       color: {
         normal: {
-          color: "$gray100",
+          color: "$green600",
         },
         alert: {
           color: "$red100", 
@@ -314,4 +314,36 @@ export const StrengthContainer = styled("div", {
     '&:hover': {
       filter: "brightness(0.8)"
     }
+})
+
+const showButton = keyframes({
+  '0%': { opacity: 0, scale: 0 },
+  '50%': { opacity: 0.8, scale: 1.2 },
+  '100%': { opacity: 1, scale: 1 },
+});
+
+export const ButtonSave = styled("button", {
+  position: "absolute",
+  top: "250px",
+  left: "-25px",
+  width: "250px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "10px",
+  background: "$red100",
+  borderRadius: "10px",
+  padding: "20px",
+  borderWidth: "5px",
+  borderColor: "$red200",
+  borderStyle: "outset",
+  color: "$gray200",
+  fontSize: "16px",
+  fontWeight: 700,
+  cursor: "pointer",
+  animation: `${showButton} 1s`,
+
+  '&:hover': {
+    filter: "brightness(0.8)"
+  }
 })

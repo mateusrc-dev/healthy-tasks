@@ -3,6 +3,7 @@ import { Footer } from "../styles/pages/home";
 import {
   BestActivityContainerProfile,
   BodyProfile,
+  ButtonSave,
   ChangePhotoButton,
   CheckContainerProfile,
   Container,
@@ -23,6 +24,7 @@ import { LiaEyeSolid } from "react-icons/lia";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { PiRocketLaunchLight } from "react-icons/pi";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
+import { TfiSave } from "react-icons/tfi";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
@@ -79,6 +81,11 @@ export default function Profile() {
               <ChangePhotoButton>
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
               </ChangePhotoButton>
+              {stateInput.length != 0 && stateTextarea.length >= 100 ? (
+                <ButtonSave>
+                  Salvar informações <TfiSave />
+                </ButtonSave>
+              ) : null}
             </div>
             <div
               style={{
