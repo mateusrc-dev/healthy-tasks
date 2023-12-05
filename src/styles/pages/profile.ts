@@ -53,6 +53,21 @@ export const ContentContainerProfile = styled("div", {
     },
 })
 
+const showText = keyframes({
+    '0%': { transform: "translateX(-200px)", opacity: 0 },
+    '100%': { transform: "translateX(0px)", opacity: 1 },
+});
+
+export const TextInformation = styled("p", {
+    fontWeight: 700,
+    fontStyle: "italic",
+    fontSize: "12px",
+    animation: `${showText} 1s`,
+    position: "absolute",
+    color: "$gray100",
+    top: "-16px",
+})
+
 export const ImageUser = styled (Image, {
     borderRadius: "100%",
     borderWidth: "5px",

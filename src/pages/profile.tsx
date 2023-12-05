@@ -13,6 +13,7 @@ import {
   StatisticContainer,
   StatisticTag,
   StrengthContainer,
+  TextInformation,
 } from "../styles/pages/profile";
 import { Menu } from "../components/menu";
 import { Header } from "../styles/pages/publicTasks";
@@ -25,6 +26,7 @@ import { MdPhotoSizeSelectActual } from "react-icons/md";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
+  const [stateInput, setStateInput] = useState<string>("");
   const [stateView, setStateView] = useState<string>("public");
   const [stateStatisticView, setStateStatisticView] =
     useState<string>("public");
@@ -86,34 +88,42 @@ export default function Profile() {
                 width: "100%",
               }}
             >
-              <input
-                type="text"
-                placeholder="Escreva aqui seu nome"
-                style={{
-                  width: "100%",
-                  border: "none",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  background: "#1618f1",
-                  color: "#fff",
-                }}
-              />
-              <textarea
-                placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
-                maxLength={1000}
-                onChange={(e) => setStateTextarea(e.target.value)}
-                value={stateTextarea}
-                style={{
-                  width: "100%",
-                  height: "100px",
-                  resize: "none",
-                  border: "none",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  background: "#1618f1",
-                  color: "#fff",
-                }}
-              />
+              <div style={{ position: "relative" }}>
+                {stateInput && <TextInformation>Seu nome</TextInformation>}
+                <input
+                  type="text"
+                  placeholder="Escreva aqui seu nome"
+                  onChange={(e) => setStateInput(e.target.value)}
+                  value={stateInput}
+                  style={{
+                    width: "100%",
+                    border: "none",
+                    borderRadius: "10px",
+                    padding: "10px",
+                    background: "#1618f1",
+                    color: "#fff",
+                  }}
+                />
+              </div>
+              <div style={{ position: "relative" }}>
+                {stateTextarea && <TextInformation>Sua queixa</TextInformation>}
+                <textarea
+                  placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
+                  maxLength={1000}
+                  onChange={(e) => setStateTextarea(e.target.value)}
+                  value={stateTextarea}
+                  style={{
+                    width: "100%",
+                    height: "100px",
+                    resize: "none",
+                    border: "none",
+                    borderRadius: "10px",
+                    padding: "10px",
+                    background: "#1618f1",
+                    color: "#fff",
+                  }}
+                />
+              </div>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "15px" }}
               >
