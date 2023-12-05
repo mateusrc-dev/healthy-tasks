@@ -25,6 +25,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { PiRocketLaunchLight } from "react-icons/pi";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { TfiSave } from "react-icons/tfi";
+import { Tooltip } from "../components/tooltip";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
@@ -278,14 +279,18 @@ export default function Profile() {
                   70%
                 </p>
                 {stateStatisticView === "public" ? (
-                  <StatisticTag onClick={handleStateStatisticView}>
+                  <Tooltip
+                    content="Sua estatística vai ficar pública para os usuários"
+                    //onClick={handleStateStatisticView}
+                  >
                     Público <LiaEyeSolid />
-                  </StatisticTag>
+                  </Tooltip>
                 ) : (
                   <StatisticTag onClick={handleStateStatisticView}>
                     Privado <FaRegEyeSlash />
                   </StatisticTag>
                 )}
+
                 <StrengthContainer>
                   33 força <PiRocketLaunchLight />
                 </StrengthContainer>

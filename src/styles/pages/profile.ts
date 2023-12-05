@@ -287,8 +287,8 @@ export const StatisticTag = styled("button", {
     cursor: "pointer",
 
     '&:hover': {
-      filter: "brightness(0.8)"
-    }
+      filter: 'brightness(0.8)',
+    },
 })
 
 export const StrengthContainer = styled("div", {
