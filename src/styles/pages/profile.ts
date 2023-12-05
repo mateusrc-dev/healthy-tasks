@@ -183,6 +183,7 @@ export const ProfileTag = styled("button", {
 })
 
 export const StatisticContainer = styled("div", {
+    position: "relative",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -215,4 +216,54 @@ export const StatisticContainer = styled("div", {
           },
         },
       },
+})
+
+export const StatisticTag = styled("button", {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    width: "100px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    background: "$green600",
+    borderRadius: "30px",
+    padding: "5px",
+    borderWidth: "2px",
+    borderColor: "$green500",
+    borderStyle: "outset",
+    color: "$gray200",
+    fontSize: "16px",
+    fontWeight: 700,
+    cursor: "pointer",
+
+    '&:hover': {
+      filter: "brightness(0.8)"
+    }
+})
+
+export const StrengthContainer = styled("div", {
+    position: "absolute",
+    top: "50px",
+    right: "10px",
+    width: "120px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    background: "$green600",
+    borderRadius: "30px",
+    padding: "5px",
+    borderWidth: "2px",
+    borderColor: "$green500",
+    borderStyle: "outset",
+    color: "$gray200",
+    fontSize: "16px",
+    fontWeight: 700,
+    cursor: "pointer",
+
+    '&:hover': {
+      filter: "brightness(0.8)"
+    }
 })

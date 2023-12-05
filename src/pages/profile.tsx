@@ -10,6 +10,8 @@ import {
   ProfessionalTag,
   ProfileTag,
   StatisticContainer,
+  StatisticTag,
+  StrengthContainer,
 } from "../styles/pages/profile";
 import { Menu } from "../components/menu";
 import { Header } from "../styles/pages/publicTasks";
@@ -17,16 +19,27 @@ import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { LiaEyeSolid } from "react-icons/lia";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { PiRocketLaunchLight } from "react-icons/pi";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
   const [stateView, setStateView] = useState<string>("public");
+  const [stateStatisticView, setStateStatisticView] =
+    useState<string>("public");
 
   function handleStateView() {
     if (stateView === "public") {
       setStateView("private");
     } else {
       setStateView("public");
+    }
+  }
+
+  function handleStateStatisticView() {
+    if (stateStatisticView === "public") {
+      setStateStatisticView("private");
+    } else {
+      setStateStatisticView("public");
     }
   }
 
@@ -55,8 +68,8 @@ export default function Profile() {
             <ImageUser
               src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
               alt="sua foto"
-              width={100}
-              height={100}
+              width={200}
+              height={200}
             />
             <div
               style={{
@@ -212,11 +225,23 @@ export default function Profile() {
                     fontStyle: "italic",
                     fontSize: "100px",
                     color: "rgba(255, 255, 255, 0.5)",
-                    paddingRight: "90px",
+                    paddingRight: "140px",
                   }}
                 >
                   70%
                 </p>
+                {stateStatisticView === "public" ? (
+                  <StatisticTag onClick={handleStateStatisticView}>
+                    Público <LiaEyeSolid />
+                  </StatisticTag>
+                ) : (
+                  <StatisticTag onClick={handleStateStatisticView}>
+                    Privado <FaRegEyeSlash />
+                  </StatisticTag>
+                )}
+                <StrengthContainer>
+                  33 força <PiRocketLaunchLight />
+                </StrengthContainer>
               </StatisticContainer>
             </div>
           </div>
