@@ -17,7 +17,7 @@ export function Menu({ pageSelected }: Props) {
       <MenuItem color={pageSelected === "publicTasks" ? "selectColor" : null}>
         <FaRegEye size="25px" /> Atividades públicas
       </MenuItem>
-      <MenuItem>
+      <MenuItem color={pageSelected === "profile" ? "selectColor" : null}>
         <IoPersonCircleSharp size="25px" /> Perfil
       </MenuItem>
       <MenuItem>

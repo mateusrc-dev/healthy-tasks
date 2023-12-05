@@ -11,10 +11,6 @@ export const CommentContainer = styled("div", {
   background: "$green400",
   padding: "20px",
   borderRadius: "10px",
-
-  '&:hover': {
-    filter: "brightness(0.9)"
-  }
 })
 
 export const CommentText = styled("p", {

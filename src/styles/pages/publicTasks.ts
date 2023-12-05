@@ -39,6 +39,7 @@ export const ContentContainer = styled("div", {
     flexDirection: "column",
     gap: "30px",
     paddingBottom: "100px",
+    paddingTop: "40px",
 
     "&::-webkit-scrollbar": {
       width: 15,

@@ -16,10 +16,6 @@ export const TaskContainer = styled("div", {
   "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
   borderRadius: "10px",
   color: "$gray100",
-
-  '&:hover': {
-    filter: "brightness(0.9)"
-  }
 })
 
 export const Title = styled("h1", {
