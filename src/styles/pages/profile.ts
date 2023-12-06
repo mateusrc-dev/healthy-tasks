@@ -37,6 +37,11 @@ export const Container = styled("main", {
       "box-shadow": "1px 6px 20px 1px rgba(0,0,0,0.58)",
       color: "#fff"
     },
+    ".tasksContainer": {
+      display: "flex",
+      gap: "30px",
+      flexWrap: 'wrap',
+    },
     ".taskChooseContainer": {
       position: "relative",
       background: "linear-gradient(90deg, rgba(22,24,241,1) 0%, rgba(6,6,183,1) 100%)",
@@ -397,6 +402,14 @@ export const ButtonSave = styled("button", {
   animation: `${showButton} 1s`,
 
   '&:hover': {
+    filter: "brightness(0.8)"
+  }
+})
+
+export const ButtonWithHover = styled("button", {
+  background: "transparent",
+  border: "none",
+  "&:hover": {
     filter: "brightness(0.8)"
   }
 })
