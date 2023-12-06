@@ -74,12 +74,25 @@ export const ContentContainerProfile = styled("div", {
     paddingBottom: "100px",
     paddingTop: "40px",
 
+    variants: {
+      color: {
+        colorPositive: {
+          "input::placeholder": {
+            color: "$green500",
+            fontWeight: 700,
+          },
+        },
+      },
+    },
+
     "input::placeholder": {
-        color: "$gray200",
+        color: "$red100",
+        fontWeight: 700,
     },
 
     "textarea::placeholder": {
-        color: "$gray200",
+        color: "$red100",
+        fontWeight: 700,
     },
 
     "&::-webkit-scrollbar": {
@@ -418,9 +431,10 @@ export const ToAddProfessional = styled("button", {
   justifyContent: "center",
   gap: "10px",
   background: "$green300",
-  borderRadius: "100%",
+  borderRadius: "0px 50px 50px 0px",
   padding: "5px",
   borderWidth: "2px",
+  borderWidthLeft: "0px",
   borderColor: "$green100",
   borderStyle: "outset",
   color: "$gray200",

@@ -84,7 +84,16 @@ export default function Profile() {
   };
 
   function handleNewProfessional() {
-    SetAddProfessionals((prevState) => [...prevState, inputNewProfessional]);
+    if (inputNewProfessional.length === 0) {
+      alert("Digite o nome do profissional!");
+      return;
+    } else if (addProfessionals.includes(inputNewProfessional)) {
+      alert("Não é possível adicionar o mesmo profissional!");
+      return;
+    } else {
+      SetAddProfessionals((prevState) => [...prevState, inputNewProfessional]);
+      setInputNewProfessional("");
+    }
   }
 
   function handleDeleteProfessional(professionalDeleted: string) {
@@ -300,7 +309,9 @@ export default function Profile() {
       </Header>
       <BodyProfile>
         <Menu pageSelected="profile" />
-        <ContentContainerProfile>
+        <ContentContainerProfile
+          color={addProfessionals.length !== 0 ? "colorPositive" : null}
+        >
           <h1
             style={{
               display: "flex",
@@ -324,7 +335,9 @@ export default function Profile() {
               <ChangePhotoButton>
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
               </ChangePhotoButton>
-              {stateInput.length != 0 && stateTextarea.length >= 100 ? (
+              {stateInput.length != 0 &&
+              stateTextarea.length >= 100 &&
+              addProfessionals.length !== 0 ? (
                 <ButtonSave>
                   Salvar informações <TfiSave />
                 </ButtonSave>
@@ -413,13 +426,33 @@ export default function Profile() {
                   <div key={professional} style={{ position: "relative" }}>
                     <ProfessionalTag>{professional}</ProfessionalTag>
                     <ButtonWithHover
+                      onClick={() => handleDeleteProfessional(professional)}
                       style={{ position: "absolute", top: -10, right: -10 }}
                     >
                       <IoIosCloseCircle size={25} color="#3a89c9" />
                     </ButtonWithHover>
                   </div>
                 ))}
-                <ToAddProfessional>+</ToAddProfessional>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <input
+                    placeholder="Adicione pelo menos um profissional."
+                    value={inputNewProfessional}
+                    onChange={(e) => setInputNewProfessional(e.target.value)}
+                    style={{
+                      width: "250px",
+                      borderWidth: "2px",
+                      borderRightWidth: "0px",
+                      borderColor: "#1618f1",
+                      padding: "9px",
+                      borderRadius: "50px 0px 0px 50px",
+                      background: "#138fe8",
+                      color: "#fff",
+                    }}
+                  />
+                  <ToAddProfessional onClick={handleNewProfessional}>
+                    +
+                  </ToAddProfessional>
+                </div>
               </div>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
