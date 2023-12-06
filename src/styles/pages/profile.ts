@@ -166,7 +166,7 @@ export const ChangePhotoButton = styled("button", {
     }
 })
 
-export const ProfessionalTag = styled("button", {
+export const ProfessionalTag = styled("div", {
     width: "100px",
     display: "flex",
     alignItems: "center",
@@ -180,11 +180,6 @@ export const ProfessionalTag = styled("button", {
     borderStyle: "outset",
     color: "$gray200",
     fontSize: "10px",
-    cursor: "pointer",
-
-    '&:hover': {
-      background: "$green400",
-    }
 })
 
 export const BestActivityContainerProfile = styled("button", {
@@ -409,7 +404,31 @@ export const ButtonSave = styled("button", {
 export const ButtonWithHover = styled("button", {
   background: "transparent",
   border: "none",
+  cursor: "pointer",
+
   "&:hover": {
     filter: "brightness(0.8)"
+  }
+})
+
+export const ToAddProfessional = styled("button", {
+  width: "40px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "10px",
+  background: "$green300",
+  borderRadius: "100%",
+  padding: "5px",
+  borderWidth: "2px",
+  borderColor: "$green100",
+  borderStyle: "outset",
+  color: "$gray200",
+  fontSize: "20px",
+  fontWeight: 700,
+  cursor: "pointer",
+
+  '&:hover': {
+    background: "$green400",
   }
 })

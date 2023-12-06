@@ -16,6 +16,7 @@ import {
   StatisticContainer,
   StrengthContainer,
   TextInformation,
+  ToAddProfessional,
 } from "../styles/pages/profile";
 import { Menu } from "../components/menu";
 import { Header } from "../styles/pages/publicTasks";
@@ -38,6 +39,11 @@ export default function Profile() {
     useState<string>("public");
   const [click, setClick] = useState<boolean>(false);
   const [favoriteTask, setFavoriteTask] = useState<boolean>(false);
+  const [addProfessionals, SetAddProfessionals] = useState<string[]>([
+    "Psicólogo",
+    "Psiquiatra",
+  ]);
+  const [inputNewProfessional, setInputNewProfessional] = useState<string>("");
 
   function handleStateView() {
     if (stateView === "public") {
@@ -76,6 +82,18 @@ export default function Profile() {
       handleClick();
     }
   };
+
+  function handleNewProfessional() {
+    SetAddProfessionals((prevState) => [...prevState, inputNewProfessional]);
+  }
+
+  function handleDeleteProfessional(professionalDeleted: string) {
+    const professionalsWithoutProfessionalDeleted = addProfessionals.filter(
+      (professional) => professional !== professionalDeleted
+    );
+
+    SetAddProfessionals(professionalsWithoutProfessionalDeleted);
+  }
 
   return (
     <Container>
@@ -391,9 +409,17 @@ export default function Profile() {
                 >
                   Profissionais que sou acompanhado:
                 </p>
-                <ProfessionalTag>Psicólogo</ProfessionalTag>
-                <ProfessionalTag>Psiquiatra</ProfessionalTag>
-                <ProfessionalTag>Nutricionista</ProfessionalTag>
+                {addProfessionals.map((professional) => (
+                  <div key={professional} style={{ position: "relative" }}>
+                    <ProfessionalTag>{professional}</ProfessionalTag>
+                    <ButtonWithHover
+                      style={{ position: "absolute", top: -10, right: -10 }}
+                    >
+                      <IoIosCloseCircle size={25} color="#3a89c9" />
+                    </ButtonWithHover>
+                  </div>
+                ))}
+                <ToAddProfessional>+</ToAddProfessional>
               </div>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
