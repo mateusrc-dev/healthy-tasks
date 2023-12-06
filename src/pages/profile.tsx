@@ -8,11 +8,11 @@ import {
   CheckContainerProfile,
   Container,
   ContentContainerProfile,
+  ImageProfessional,
   ImageUser,
   ProfessionalTag,
   ProfileTag,
   StatisticContainer,
-  StatisticTag,
   StrengthContainer,
   TextInformation,
 } from "../styles/pages/profile";
@@ -86,6 +86,29 @@ export default function Profile() {
               }}
               type="text"
             />
+          </div>
+          <div className="taskChooseContainer">
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <ImageProfessional
+                src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
+                alt="foto do profissional"
+                width={100}
+                height={100}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "10px",
+                }}
+              >
+                <p style={{ fontSize: "12px", fontStyle: "italic" }}>
+                  Mateus Carvalho
+                </p>
+                <ProfileTag>Psicólogo</ProfileTag>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -26,15 +26,22 @@ export const Container = styled("main", {
       width: "100%",
       margin: "50px",
       padding: "20px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "30px",
       background: "$green200",
       border: "none",
       borderRadius: "10px",
-      "-webkit-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
-      "-moz-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
-      "box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+      "-webkit-box-shadow": "1px 6px 10px 10px rgba(0,0,0,0.58)",
+      "-moz-box-shadow": "1px 6px 10px 10px rgba(0,0,0,0.58)",
+      "box-shadow": "1px 6px 20px 1px rgba(0,0,0,0.58)",
       color: "#fff"
     },
-    ".taskChooseContainer": {},
+    ".taskChooseContainer": {
+      background: "linear-gradient(90deg, rgba(22,24,241,1) 0%, rgba(6,6,183,1) 100%)",
+      padding: "20px",
+      borderRadius: "10px"
+    },
   }
 })
 
@@ -118,6 +125,16 @@ export const ImageUser = styled (Image, {
     borderWidth: "5px",
     borderStyle: "outset",
     borderColor: "$green200"
+})
+
+export const ImageProfessional = styled (Image, {
+  borderRadius: "100%",
+  borderWidth: "5px",
+  borderStyle: "outset",
+  borderColor: "$green200",
+  "-webkit-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+  "-moz-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+  "box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
 })
 
 export const ChangePhotoButton = styled("button", {
