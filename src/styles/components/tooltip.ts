@@ -3,23 +3,36 @@ import { styled } from ".."
 
 export const Container = styled('button', {
     position: "absolute",
-    top: "10px",
-    right: "10px",
     width: "100px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     gap: "10px",
-    background: "$green600",
     borderRadius: "30px",
     padding: "5px",
-    borderWidth: "2px",
-    borderColor: "$green500",
-    borderStyle: "outset",
     color: "$gray200",
     fontSize: "16px",
     fontWeight: 700,
     cursor: "pointer",
+
+    variants: {
+      background: {
+        withBackground: {
+          top: "10px",
+          right: "10px",
+          background: "$green600",
+          borderWidth: "2px",
+          borderColor: "$green500",
+          borderStyle: "outset",
+        },
+        withoutBackground: {
+          top: "-20px",
+          right: "-40px",
+          background: "transparent",
+          borderWidth: "0px",
+        }
+      },
+    },
 
     '&:hover': {
       filter: 'brightness(0.8)',

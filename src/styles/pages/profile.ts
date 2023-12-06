@@ -38,9 +38,14 @@ export const Container = styled("main", {
       color: "#fff"
     },
     ".taskChooseContainer": {
+      position: "relative",
       background: "linear-gradient(90deg, rgba(22,24,241,1) 0%, rgba(6,6,183,1) 100%)",
+      width: "600px",
       padding: "20px",
-      borderRadius: "10px"
+      borderRadius: "10px",
+      display: "flex",
+      alignItems: "center",
+      gap: "50px",
     },
   }
 })

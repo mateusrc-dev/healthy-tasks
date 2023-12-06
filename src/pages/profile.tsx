@@ -21,11 +21,12 @@ import { Header } from "../styles/pages/publicTasks";
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { LiaEyeSolid } from "react-icons/lia";
-import { FaRegEyeSlash } from "react-icons/fa";
+import { FaCheckCircle, FaRegEyeSlash } from "react-icons/fa";
 import { PiRocketLaunchLight } from "react-icons/pi";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { TfiSave } from "react-icons/tfi";
 import { Tooltip } from "../components/tooltip";
+import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
@@ -34,6 +35,7 @@ export default function Profile() {
   const [stateStatisticView, setStateStatisticView] =
     useState<string>("public");
   const [click, setClick] = useState<boolean>(false);
+  const [favoriteTask, setFavoriteTask] = useState<boolean>(false);
 
   function handleStateView() {
     if (stateView === "public") {
@@ -48,6 +50,14 @@ export default function Profile() {
       setStateStatisticView("private");
     } else {
       setStateStatisticView("public");
+    }
+  }
+
+  function handleFavoriteTask() {
+    if (favoriteTask) {
+      setFavoriteTask(false);
+    } else {
+      setFavoriteTask(true);
     }
   }
 
@@ -109,6 +119,81 @@ export default function Profile() {
                 <ProfileTag>Psicólogo</ProfileTag>
               </div>
             </div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+            >
+              <div>
+                <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
+                  Título:
+                </h3>
+                <p style={{ fontSize: "12px" }}>Meditação top</p>
+              </div>
+              <div>
+                <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
+                  Descrição:
+                </h3>
+                <p style={{ fontSize: "12px" }}>
+                  preste atenção na respiração durante 10 minutos trazendo a
+                  mente para o agora.
+                </p>
+              </div>
+            </div>
+            <Tooltip
+              icon={true}
+              clickEvent={handleFavoriteTask}
+              content="Este item está selecionado e vai ficar visível no seu perfil como sua atividade favorita, clique caso deseje retirar a seleção."
+            >
+              <FaCheckCircle color={"#96ffa0"} size={50} />{" "}
+            </Tooltip>
+          </div>
+          <div className="taskChooseContainer">
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <ImageProfessional
+                src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
+                alt="foto do profissional"
+                width={100}
+                height={100}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "10px",
+                }}
+              >
+                <p style={{ fontSize: "12px", fontStyle: "italic" }}>
+                  Mateus Carvalho
+                </p>
+                <ProfileTag>Psicólogo</ProfileTag>
+              </div>
+            </div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+            >
+              <div>
+                <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
+                  Título:
+                </h3>
+                <p style={{ fontSize: "12px" }}>Meditação top</p>
+              </div>
+              <div>
+                <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
+                  Descrição:
+                </h3>
+                <p style={{ fontSize: "12px" }}>
+                  preste atenção na respiração durante 10 minutos trazendo a
+                  mente para o agora.
+                </p>
+              </div>
+            </div>
+            <Tooltip
+              icon={true}
+              clickEvent={handleFavoriteTask}
+              content="Este item não está selecionado e não vai ser exibido no seu perfil como sua atividade favorita, clique caso deseje seleciona-lo."
+            >
+              <RiCheckboxBlankCircleFill color={"#96ffa0"} size={58} />{" "}
+            </Tooltip>
           </div>
         </div>
       </div>
