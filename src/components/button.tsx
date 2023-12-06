@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  position: boolean;
+  position?: boolean;
 };
 
 export function Button({ children, position = false }: Props) {

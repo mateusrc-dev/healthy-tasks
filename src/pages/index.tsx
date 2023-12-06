@@ -29,6 +29,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
+import PublicTasks from "./publicTasks";
 
 export default function Home() {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -262,13 +263,8 @@ export default function Home() {
             height={630}
           />
           <TaskAnimate>
-            <div style={{ transform: "perspective(600px) rotateX(15deg)" }}>
-              <Task
-                descriptionOfTask="Faça meditação durante 10 minutos. Observe a respiração e as sesações do corpo."
-                professionalName="Mateus Carvalho"
-                professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                titleOfTask="Meditação"
-              />
+            <div style={{ transform: "perspective(800px) rotateX(15deg)" }}>
+              <PublicTasks />
             </div>
           </TaskAnimate>
           <Swiper
