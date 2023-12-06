@@ -192,7 +192,7 @@ export default function Profile() {
               clickEvent={handleFavoriteTask}
               content="Este item não está selecionado e não vai ser exibido no seu perfil como sua atividade favorita, clique caso deseje seleciona-lo."
             >
-              <RiCheckboxBlankCircleFill color={"#96ffa0"} size={58} />{" "}
+              <RiCheckboxBlankCircleFill color={"#96ffa0"} size={58} />
             </Tooltip>
           </div>
         </div>
