@@ -274,7 +274,7 @@ export default function Home() {
               padding: "20px",
               justifyContent: "center",
               background: "rgb(0,0,0,0.4)",
-              width: "460px",
+              width: "490px",
               color: "#ffff",
               fontWeight: 700,
               fontSize: "14px",
@@ -282,7 +282,7 @@ export default function Home() {
               position: "absolute",
               zIndex: 0,
               top: "315px",
-              left: "210px",
+              left: "215px",
             }}
             modules={[Autoplay]}
             slidesPerView={1}
