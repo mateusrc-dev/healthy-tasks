@@ -355,11 +355,11 @@ export default function Profile() {
                 {stateInput && (
                   <TextInformation color={"normal"}>Seu nome</TextInformation>
                 )}
-                <input
-                  type="text"
+                <textarea
                   placeholder="Escreva aqui seu nome"
                   onChange={(e) => setStateInput(e.target.value)}
                   value={stateInput}
+                  rows={1}
                   style={{
                     width: "100%",
                     border: "none",

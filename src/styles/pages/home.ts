@@ -125,9 +125,9 @@ export const LinkContainer = styled('a', {
 
 
 const scaleUp = keyframes({
-  '0%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 1000px, 350px)', scale: 0.5, left: "-260px" },
+  '0%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 600px, 350px)', scale: 0.5, left: "-260px" },
   '50%': { transform: 'translateY(-285px)', clip: 'rect(295px, 2000px, 1000px, 350px)', scale: 0.5, left: "-285px" },
-  '100%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 1000px, 350px)', scale: 0.5, left: "-260px" },
+  '100%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 600px, 350px)', scale: 0.5, left: "-260px" },
 });
 
 export const TaskAnimate = styled('div', {
