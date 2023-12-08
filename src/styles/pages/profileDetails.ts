@@ -21,7 +21,7 @@ export const ContentContainerProfileDetails = styled("div", {
     height: "calc(100vh - 90px)",
     display: "flex",
     flexDirection: "column",
-    gap: "30px",
+    gap: "60px",
     paddingInline: "50px",
     paddingBottom: "100px",
     paddingTop: "40px",
@@ -50,9 +50,9 @@ export const ImageUser = styled (Image, {
     borderWidth: "5px",
     borderStyle: "outset",
     borderColor: "$green200",
-    "-webkit-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
-    "-moz-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
-    "box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
+    "-webkit-box-shadow": "10px 10px 11px 0px rgba(0,0,0,0.75)",
+    "-moz-box-shadow": "10px 10px 11px 0px rgba(0,0,0,0.75)",
+    boxShadow: "10px 10px 11px 0px rgba(0,0,0,0.75)",
 })
 
 export const TypeUserTag = styled("button", {
@@ -159,4 +159,28 @@ export const StrengthContainer = styled("button", {
   '&:hover': {
     filter: "brightness(0.8)"
   }
+})
+
+const rotationMovement = keyframes({
+  '0%': { transform: "rotate(-10deg)" },
+  '50%': { transform: "rotate(0deg)"},
+  '100%': { transform: "rotate(-10deg)"},
+});
+
+export const BestTask = styled("div", {
+  color: "$green500",
+  fontWeight: 700,
+  fontSize: "12px",
+  display: "flex",
+  alignItems: "center",
+  background: "#ff194b",
+  position: "absolute",
+  borderWidth: "3px",
+  borderColor: "#e8175d",
+  borderStyle: "outset",
+  padding: "5px",
+  borderRadius: "100%",
+  animation: `${rotationMovement} 3s infinite`,
+  top: "-40px",
+  left: "-50px",
 })

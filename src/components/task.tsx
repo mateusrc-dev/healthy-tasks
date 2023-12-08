@@ -31,6 +31,7 @@ type Props = {
   descriptionOfTask: string;
   professionalPhotoUrl: string;
   professionalName: string;
+  isRenderInProfile?: boolean;
 };
 
 export function Task({
@@ -38,6 +39,7 @@ export function Task({
   professionalName,
   professionalPhotoUrl,
   titleOfTask,
+  isRenderInProfile = true,
 }: Props) {
   const [stateView, setStateView] = useState<string>("public");
   const [animate, setAnimate] = useState(false);
@@ -137,18 +139,22 @@ export function Task({
         />
         <Name>Dr. {professionalName}</Name>
         <Tag>Psicólogo</Tag>
-        <CheckContainer>
-          <input type="checkbox" />
-          <p>Atividade realizada</p>
-        </CheckContainer>
-        <div style={{ display: "flex" }}>
-          <TimeForFinishTaskContainerLeft>
-            Prazo para finalizar:
-          </TimeForFinishTaskContainerLeft>
-          <TimeForFinishTaskContainerRight>
-            3 horas
-          </TimeForFinishTaskContainerRight>
-        </div>
+        {isRenderInProfile ? (
+          <CheckContainer>
+            <input type="checkbox" />
+            <p>Atividade realizada</p>
+          </CheckContainer>
+        ) : null}
+        {isRenderInProfile ? (
+          <div style={{ display: "flex" }}>
+            <TimeForFinishTaskContainerLeft>
+              Prazo para finalizar:
+            </TimeForFinishTaskContainerLeft>
+            <TimeForFinishTaskContainerRight>
+              3 horas
+            </TimeForFinishTaskContainerRight>
+          </div>
+        ) : null}
       </Profile>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
