@@ -32,14 +32,14 @@ export const Header = styled("header", {
   });
 
 export const ContentContainerCreateTask = styled("div", {
-    overflow: "auto",
     width: "100%",
-    height: "calc(100vh - 90px)",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
+    alignItems: "flex-start",
     gap: "30px",
     paddingBottom: "100px",
     paddingTop: "40px",
+    paddingRight: "40px",
 
     "&::-webkit-scrollbar": {
       width: 15,
@@ -60,3 +60,36 @@ export const ContentContainerCreateTask = styled("div", {
     },
 })
 
+export const TasksCreatedContainer = styled("div", {
+  width: "100%",
+  display: "flex",
+  gap: "30px",
+  paddingBottom: "100px",
+  paddingTop: "40px",
+  overflow: "auto",
+  height: "calc(100vh - 350px)",
+  flexDirection: "column",
+  borderWidth: "3px",
+  borderColor: "#1112de",
+  borderStyle: "outset",
+  padding: "20px",
+  borderRadius: "20px",
+
+  "&::-webkit-scrollbar": {
+    width: 15,
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "$green400",
+    borderRadius: 10,
+    width: 0,
+    backgroundClip: "padding-box",
+    border: "3px solid transparent",
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    backgroundColor: "$green400",
+    width: 0,
+    borderRadius: 10,
+    backgroundClip: "padding-box",
+    border: "3px solid transparent",
+  },
+})
