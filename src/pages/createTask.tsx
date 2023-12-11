@@ -236,7 +236,7 @@ export default function CreateTask() {
                   fontStyle: "italic",
                 }}
               >
-                Atividades criadas:
+                Todas as atividades criadas:
               </h3>
               <Task
                 descriptionOfTask="faça 10 minutos de meditação"

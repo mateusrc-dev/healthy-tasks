@@ -36,8 +36,8 @@ export const ContentContainerCreateTask = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    gap: "30px",
-    paddingBottom: "100px",
+    gap: "10px",
+    paddingBottom: "50px",
     paddingTop: "40px",
     paddingRight: "40px",
 
