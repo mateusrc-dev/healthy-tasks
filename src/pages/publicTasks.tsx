@@ -5,6 +5,8 @@ import {
   Container,
   ContentContainer,
   Header,
+  PageContainer,
+  PaginationContainer,
 } from "../styles/pages/publicTasks";
 import { Task } from "../components/task";
 import { Menu } from "../components/menu";
@@ -31,6 +33,15 @@ export default function PublicTasks() {
             professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
             titleOfTask="Meditação top"
           />
+          <PaginationContainer>
+            <PageContainer>1</PageContainer>
+            <PageContainer>2</PageContainer>
+            <PageContainer>3</PageContainer>
+            <PageContainer>4</PageContainer>
+            <PageContainer>5</PageContainer>
+            <PageContainer>6</PageContainer>
+            <PageContainer>7</PageContainer>
+          </PaginationContainer>
         </ContentContainer>
       </BodyOfPublicTasks>
       <Footer>

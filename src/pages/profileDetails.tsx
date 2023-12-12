@@ -174,7 +174,9 @@ export default function ProfessionalDetails() {
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "30px" }}>
+          <div
+            style={{ display: "flex", alignItems: "flex-start", gap: "30px" }}
+          >
             <div style={{ position: "relative" }}>
               <BestTask>
                 Atividade que mais gostei <CgCheck size={40} color="#96ffa0" />

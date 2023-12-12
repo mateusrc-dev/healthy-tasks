@@ -60,3 +60,35 @@ export const ContentContainer = styled("div", {
     },
 })
 
+export const PaginationContainer = styled("div", {
+  width: "100%",
+  display: "flex",
+  padding: "10px",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: "10px",
+  background: "$blue100",
+  borderRadius: "5px",  
+  "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+  "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+  "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+})
+
+export const PageContainer = styled("button", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "$gray100",
+  padding: "10px",
+  background: "$gray200",
+  borderRadius: "5px",
+  fontWeight: 700,
+  borderWidth: "4px",
+  borderStyle: "outset",
+  borderColor: "$gray100",
+  cursor: "pointer",
+
+  "&:hover": {
+    filter: "brightness(0.8)"
+  }
+})

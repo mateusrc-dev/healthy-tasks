@@ -48,6 +48,7 @@ export function Task({
   const [stateComment, setStateComment] = useState<boolean>(false);
   const [stateTextarea, setStateTextarea] = useState<string>("");
   const [favorite, setFavorite] = useState<boolean>(false);
+  const [stateTask, setStateTask] = useState<boolean>(true);
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
@@ -60,7 +61,7 @@ export function Task({
         color: "#fff",
       });
     },
-    //reset: animate, // Resetar a animação ao clicar novamente
+    reset: animate, // Resetar a animação ao clicar novamente
   });
 
   const animationProps2 = useSpring({
@@ -146,14 +147,25 @@ export function Task({
           </CheckContainer>
         ) : null}
         {isRenderInProfile ? (
-          <div style={{ display: "flex" }}>
-            <TimeForFinishTaskContainerLeft>
-              Prazo para finalizar:
-            </TimeForFinishTaskContainerLeft>
-            <TimeForFinishTaskContainerRight>
-              3 horas
-            </TimeForFinishTaskContainerRight>
-          </div>
+          stateTask ? (
+            <div style={{ display: "flex" }}>
+              <TimeForFinishTaskContainerLeft>
+                Prazo para finalizar:
+              </TimeForFinishTaskContainerLeft>
+              <TimeForFinishTaskContainerRight>
+                3 horas
+              </TimeForFinishTaskContainerRight>
+            </div>
+          ) : (
+            <div style={{ display: "flex" }}>
+              <TimeForFinishTaskContainerLeft>
+                Prazo finalizado
+              </TimeForFinishTaskContainerLeft>
+              <TimeForFinishTaskContainerRight>
+                0 horas
+              </TimeForFinishTaskContainerRight>
+            </div>
+          )
         ) : null}
       </Profile>
       <div>
