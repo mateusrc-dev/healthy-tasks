@@ -39,6 +39,54 @@ export default function FavoriteTasks() {
               professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
               professionalSpecialization="Psicólogo"
             />
+            <FavoriteTask
+              description="atividade top"
+              patientName="Junior"
+              professionalName="Mateus Carvalho"
+              title="Meditação top"
+              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+              professionalSpecialization="Psicólogo"
+            />
+            <FavoriteTask
+              description="atividade top"
+              patientName="Junior"
+              professionalName="Mateus Carvalho"
+              title="Meditação top"
+              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+              professionalSpecialization="Psicólogo"
+            />
+            <FavoriteTask
+              description="atividade top"
+              patientName="Junior"
+              professionalName="Mateus Carvalho"
+              title="Meditação top"
+              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+              professionalSpecialization="Psicólogo"
+            />
+            <FavoriteTask
+              description="atividade top"
+              patientName="Junior"
+              professionalName="Mateus Carvalho"
+              title="Meditação top"
+              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+              professionalSpecialization="Psicólogo"
+            />
+            <FavoriteTask
+              description="atividade top"
+              patientName="Junior"
+              professionalName="Mateus Carvalho"
+              title="Meditação top"
+              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+              professionalSpecialization="Psicólogo"
+            />
+            <FavoriteTask
+              description="atividade top"
+              patientName="Junior"
+              professionalName="Mateus Carvalho"
+              title="Meditação top"
+              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+              professionalSpecialization="Psicólogo"
+            />
           </FavoriteTasksContainer>
         </ContentContainer>
       </BodyFavoritesTasks>

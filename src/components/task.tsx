@@ -32,6 +32,8 @@ type Props = {
   professionalPhotoUrl: string;
   professionalName: string;
   isRenderInProfile?: boolean;
+  stateTimeTask?: boolean;
+  checkTask?: boolean;
 };
 
 export function Task({
@@ -40,6 +42,8 @@ export function Task({
   professionalPhotoUrl,
   titleOfTask,
   isRenderInProfile = true,
+  stateTimeTask = true,
+  checkTask = false,
 }: Props) {
   const [stateView, setStateView] = useState<string>("public");
   const [animate, setAnimate] = useState(false);
@@ -48,7 +52,11 @@ export function Task({
   const [stateComment, setStateComment] = useState<boolean>(false);
   const [stateTextarea, setStateTextarea] = useState<string>("");
   const [favorite, setFavorite] = useState<boolean>(false);
-  const [stateTask, setStateTask] = useState<boolean>(true);
+  const [stateCheckTask, setStateCheckTask] = useState<boolean>(checkTask);
+
+  function handleCheckTask() {
+    setStateCheckTask(!stateCheckTask);
+  }
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
@@ -141,13 +149,34 @@ export function Task({
         <Name>Dr. {professionalName}</Name>
         <Tag>Psicólogo</Tag>
         {isRenderInProfile ? (
-          <CheckContainer>
-            <input type="checkbox" />
-            <p>Atividade realizada</p>
-          </CheckContainer>
+          stateTimeTask ? (
+            <CheckContainer color={stateCheckTask ? "colorPositive" : null}>
+              <input
+                type="checkbox"
+                checked={stateCheckTask}
+                onChange={handleCheckTask}
+              />
+              <p>Atividade realizada</p>
+            </CheckContainer>
+          ) : (
+            <CheckContainer
+              color={stateCheckTask ? "colorPositive" : "colorNegative"}
+            >
+              <input
+                type="checkbox"
+                checked={stateCheckTask}
+                onChange={handleCheckTask}
+              />
+              <p>
+                {stateCheckTask
+                  ? "Atividade realizada"
+                  : "Atividade não realizada"}
+              </p>
+            </CheckContainer>
+          )
         ) : null}
         {isRenderInProfile ? (
-          stateTask ? (
+          stateTimeTask ? (
             <div style={{ display: "flex" }}>
               <TimeForFinishTaskContainerLeft>
                 Prazo para finalizar:

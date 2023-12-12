@@ -20,7 +20,7 @@ export function Menu({ pageSelected }: Props) {
       <MenuItem color={pageSelected === "profile" ? "selectColor" : null}>
         <IoPersonCircleSharp size="25px" /> Perfil
       </MenuItem>
-      <MenuItem>
+      <MenuItem color={pageSelected === "allTasks" ? "selectColor" : null}>
         <FaThList size="25px" /> Meu histórico de atividades
       </MenuItem>
       <MenuItem>

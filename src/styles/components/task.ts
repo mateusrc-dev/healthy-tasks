@@ -123,6 +123,12 @@ const showCheck = keyframes({
     '100%': { opacity: 1, scale: 1 },
 });
 
+const changeColor = keyframes({
+    '0%': { opacity: 0},
+    '50%': { opacity: 0.8 },
+    '100%': { opacity: 1 },
+});
+
 export const CheckContainer = styled("div", {
     position: "relative",
     width: "150px",
@@ -140,6 +146,27 @@ export const CheckContainer = styled("div", {
     fontSize: "10px",
     fontWeight: 700,
     whiteSpace: "nowrap",
+
+    variants: {
+        color: {
+          colorPositive: {
+            background: "$green500",
+            borderWidth: "2px",
+            borderColor: "$green600",
+            borderStyle: "outset",
+            animation: `${changeColor} 1s`,
+            color: "$gray100",
+          },
+          colorNegative: {
+            background: "$red100",
+            borderWidth: "2px",
+            borderColor: "$red200",
+            borderStyle: "outset",
+            animation: `${changeColor} 1s`,
+            width: "170px",
+          },
+        },
+      },
 
     "input[type=checkbox]:before": {
         content: "",
