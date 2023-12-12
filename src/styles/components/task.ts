@@ -16,6 +16,15 @@ export const TaskContainer = styled("div", {
   "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
   borderRadius: "10px",
   color: "$gray100",
+
+  variants: {
+    margin: {
+      elementWithMarginInline: {
+        width: "calc(100% - 40px)",
+        marginInline: "20px"
+      },
+    },
+  },
 })
 
 export const Title = styled("h1", {
@@ -229,6 +238,15 @@ export const TimeForFinishTaskContainerLeft = styled("div", {
     fontWeight: 700,
     cursor: "pointer",
 
+    variants: {
+        color: {
+          colorNegative: {
+            background: "$red100",
+            borderColor: "$red200",
+          },
+        },
+      },
+
     '&:hover': {
         filter: "brightness(0.8)",
       }
@@ -243,6 +261,15 @@ export const TimeForFinishTaskContainerRight = styled("div", {
     borderColor: "$blue100",
     fontWeight: 700,
     cursor: "pointer",
+
+    variants: {
+        color: {
+          colorNegative: {
+            background: "$red100",
+            borderColor: "$red200",
+          },
+        },
+      },
 
     '&:hover': {
         filter: "brightness(0.8)",

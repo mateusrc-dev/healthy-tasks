@@ -39,7 +39,7 @@ export const Footer = styled("footer", {
   },
   position: "absolute",
   bottom: 0,
-  zIndex: 2,
+  zIndex: 4,
 });
 
 export const Body = styled("div", {

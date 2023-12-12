@@ -37,8 +37,9 @@ export const ContentContainerAllTasks = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "20px",
+    gap: "50px",
     padding: "40px",
+    paddingBottom: "120px",
 
     "&::-webkit-scrollbar": {
       width: 15,
@@ -71,6 +72,7 @@ export const ContainerForSpecificTasks = styled("div", {
     borderWidth: "4px",
     borderStyle: "outset",
     borderColor: "$green300",
+    borderRadius: "20px",
 
     "&::-webkit-scrollbar": {
       width: 15,

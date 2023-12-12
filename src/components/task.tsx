@@ -34,6 +34,7 @@ type Props = {
   isRenderInProfile?: boolean;
   stateTimeTask?: boolean;
   checkTask?: boolean;
+  marginInline?: boolean;
 };
 
 export function Task({
@@ -44,6 +45,7 @@ export function Task({
   isRenderInProfile = true,
   stateTimeTask = true,
   checkTask = false,
+  marginInline = false,
 }: Props) {
   const [stateView, setStateView] = useState<string>("public");
   const [animate, setAnimate] = useState(false);
@@ -138,7 +140,7 @@ export function Task({
   }
 
   return (
-    <TaskContainer>
+    <TaskContainer margin={marginInline ? "elementWithMarginInline" : null}>
       <Profile>
         <Photo
           src={professionalPhotoUrl}
@@ -187,10 +189,10 @@ export function Task({
             </div>
           ) : (
             <div style={{ display: "flex" }}>
-              <TimeForFinishTaskContainerLeft>
-                Prazo finalizado
+              <TimeForFinishTaskContainerLeft color={"colorNegative"}>
+                Prazo para finalizar
               </TimeForFinishTaskContainerLeft>
-              <TimeForFinishTaskContainerRight>
+              <TimeForFinishTaskContainerRight color={"colorNegative"}>
                 0 horas
               </TimeForFinishTaskContainerRight>
             </div>
