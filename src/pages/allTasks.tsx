@@ -21,9 +21,17 @@ export default function AllTasks() {
         <Menu pageSelected="allTasks" />
         <ContentContainerAllTasks>
           <ContainerForSpecificTasks>
-            <h3 style={{ position: "sticky", top: 0 }}>
-              Atividades por concluir
-            </h3>
+            <div
+              style={{
+                position: "sticky",
+                top: 0,
+                background: "#138fe8",
+                width: "100%",
+                padding: "20px",
+              }}
+            >
+              <h3>Atividades por concluir</h3>
+            </div>
             <Task
               descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
               professionalName="Fernando Noronha"

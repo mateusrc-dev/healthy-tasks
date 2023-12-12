@@ -68,7 +68,6 @@ export const ContainerForSpecificTasks = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     gap: "20px",
-    padding: "20px",
     borderWidth: "4px",
     borderStyle: "outset",
     borderColor: "$green300",
