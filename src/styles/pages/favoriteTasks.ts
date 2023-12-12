@@ -60,4 +60,8 @@ export const ContentContainer = styled("div", {
     },
 })
 
-export const FavoriteTasksContainer = styled("div", {})
+export const FavoriteTasksContainer = styled("div", {
+  display: "flex",
+  gap: "30px",
+  flexWrap: 'wrap',
+})
