@@ -4,6 +4,7 @@ import {
   ButtonMenuBetween,
   ButtonMenuFirst,
   ButtonMenuLast,
+  ButtonMenuPenultimate,
   ContainerAllTasks,
   ContainerForSpecificTasks,
   ContentContainerAllTasks,
@@ -14,8 +15,13 @@ import { Footer } from "../styles/pages/home";
 import { Task } from "../components/task";
 import { BsCheckCircleFill, BsClockFill } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
+import { StatisticContainer } from "../styles/pages/profile";
+import { FcStatistics } from "react-icons/fc";
+import { useState } from "react";
 
 export default function AllTasks() {
+  const [stateStatistic, _setStateStatistic] = useState<boolean>(false);
+
   return (
     <ContainerAllTasks>
       <HeaderAllTasks>
@@ -45,8 +51,14 @@ export default function AllTasks() {
               <ButtonMenuBetween href="#page-2">
                 Atividades concluídas
               </ButtonMenuBetween>
-              <ButtonMenuLast href="#page-3">
+              <ButtonMenuPenultimate href="#page-3">
                 Atividades não concluídas
+              </ButtonMenuPenultimate>
+              <ButtonMenuLast
+                href="#page-4"
+                color={stateStatistic ? "colorPositive" : "colorNegative"}
+              >
+                Ver estatística
               </ButtonMenuLast>
             </nav>
             <scroll-page
@@ -231,6 +243,97 @@ export default function AllTasks() {
                   stateTimeTask={false}
                 />
               </ContainerForSpecificTasks>
+            </scroll-page>
+            <scroll-page
+              id="page-4"
+              style={{
+                width: "100%",
+                minHeight: "calc(100vh - 250px)",
+                overflow: "auto",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  position: "sticky",
+                  zIndex: 3,
+                  top: 0,
+                  background: "#138fe8",
+                  width: "100%",
+                  padding: "20px",
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "20px",
+                  fontStyle: "italic",
+                }}
+              >
+                <h3>Estatística de todas as atividades</h3>
+                <FcStatistics size={35} />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "40px",
+                  gap: "40px",
+                }}
+              >
+                <StatisticContainer
+                  color={stateStatistic ? "positiveColor" : "negativeColor"}
+                >
+                  <div>
+                    <p
+                      style={{
+                        fontWeight: 700,
+                        fontSize: "22px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      Estatística:
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: 400,
+                        fontStyle: "italic",
+                        fontSize: "22px",
+                      }}
+                    >
+                      Total de atividades: 10
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: 400,
+                        fontStyle: "italic",
+                        fontSize: "22px",
+                      }}
+                    >
+                      Atividades realizadas dentro do prazo:{" "}
+                      {stateStatistic ? "7" : "3"}
+                    </p>
+                  </div>
+                  <p
+                    style={{
+                      fontWeight: 700,
+                      fontStyle: "italic",
+                      fontSize: "100px",
+                      color: "rgba(255, 255, 255, 0.5)",
+                      paddingRight: "140px",
+                    }}
+                  >
+                    {stateStatistic ? "70%" : "30%"}
+                  </p>
+                </StatisticContainer>
+                <StatisticContainer
+                  color={stateStatistic ? "positiveColor" : "negativeColor"}
+                >
+                  {stateStatistic ? (
+                    <h1>Você está indo muito bem, parabéns... 😊</h1>
+                  ) : (
+                    <h1>Não desanime, você vai chegar lá... 🚀</h1>
+                  )}
+                </StatisticContainer>
+              </div>
             </scroll-page>
           </ContentContainerAllTasks>
         </scroll-container>

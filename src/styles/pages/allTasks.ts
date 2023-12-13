@@ -156,9 +156,10 @@ export const ButtonMenuBetween = styled("a", {
     }
 })
 
-export const ButtonMenuLast = styled("a", {
+export const ButtonMenuPenultimate = styled("a", {
     borderWidth: "4px",
     borderStyle: "outset",
+    borderRightWidth: "0px",
     borderColor: "#0b0cca",
     background: "#1618f1",
     color: "#fff",
@@ -166,7 +167,6 @@ export const ButtonMenuLast = styled("a", {
     fontWeight: 700,
     cursor: "pointer",
     textDecoration: "none",
-    borderRadius: "0 100px 100px 0",
     "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
     "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
     "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
@@ -174,4 +174,42 @@ export const ButtonMenuLast = styled("a", {
     "&:hover": {
         filter: "brightness(0.8)"
     }
+})
+
+export const ButtonMenuLast = styled("a", {
+  borderWidth: "4px",
+  borderStyle: "outset",
+  borderColor: "$red100",
+  background: "$red200",
+  color: "#fff",
+  padding: "10px",
+  fontWeight: 700,
+  cursor: "pointer",
+  textDecoration: "none",
+  borderRadius: "0 100px 100px 0",
+  "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+  "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+  "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+
+  variants: {
+    color: {
+      colorPositive: {
+        background: "$green500",
+        borderWidth: "2px",
+        borderColor: "$green600",
+        borderStyle: "outset",
+        color: "$gray100",
+      },
+      colorNegative: {
+        background: "$red100",
+        borderWidth: "2px",
+        borderColor: "$red200",
+        borderStyle: "outset",
+      },
+    },
+  },
+
+  "&:hover": {
+      filter: "brightness(0.8)"
+  }
 })
