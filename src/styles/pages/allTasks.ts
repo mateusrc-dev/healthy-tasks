@@ -115,7 +115,7 @@ export const ContainerForSpecificTasks = styled("div", {
     },
 })
 
-export const ButtonMenu = styled("a", {
+export const ButtonMenuFirst = styled("a", {
     borderWidth: "4px",
     borderRightWidth: "0px",
     borderStyle: "outset",
@@ -126,10 +126,34 @@ export const ButtonMenu = styled("a", {
     fontWeight: 700,
     cursor: "pointer",
     textDecoration: "none",
+    borderRadius: "100px 0 0 100px",
+    "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+    "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+    "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
 
     "&:hover": {
         filter: "brightness(0.8)"
-      }
+    }
+})
+
+export const ButtonMenuBetween = styled("a", {
+    borderWidth: "4px",
+    borderRightWidth: "0px",
+    borderStyle: "outset",
+    borderColor: "#0b0cca",
+    background: "#1618f1",
+    color: "#fff",
+    padding: "10px",
+    fontWeight: 700,
+    cursor: "pointer",
+    textDecoration: "none",
+    "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+    "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+    "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+
+    "&:hover": {
+        filter: "brightness(0.8)"
+    }
 })
 
 export const ButtonMenuLast = styled("a", {
@@ -142,8 +166,12 @@ export const ButtonMenuLast = styled("a", {
     fontWeight: 700,
     cursor: "pointer",
     textDecoration: "none",
+    borderRadius: "0 100px 100px 0",
+    "-webkit-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+    "-moz-box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
+    "box-shadow": "10px 7px 14px 0px rgba(0,0,0,0.75)",
 
     "&:hover": {
         filter: "brightness(0.8)"
-      }
+    }
 })

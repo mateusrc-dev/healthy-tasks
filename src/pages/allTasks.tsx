@@ -1,7 +1,8 @@
 import { FaHeartPulse } from "react-icons/fa6";
 import {
   BodyAllTasks,
-  ButtonMenu,
+  ButtonMenuBetween,
+  ButtonMenuFirst,
   ButtonMenuLast,
   ContainerAllTasks,
   ContainerForSpecificTasks,
@@ -38,8 +39,12 @@ export default function AllTasks() {
                 fontStyle: "italic",
               }}
             >
-              <ButtonMenu href="#page-1">Atividades por concluir</ButtonMenu>
-              <ButtonMenu href="#page-2">Atividades concluídas</ButtonMenu>
+              <ButtonMenuFirst href="#page-1">
+                Atividades por concluir
+              </ButtonMenuFirst>
+              <ButtonMenuBetween href="#page-2">
+                Atividades concluídas
+              </ButtonMenuBetween>
               <ButtonMenuLast href="#page-3">
                 Atividades não concluídas
               </ButtonMenuLast>
