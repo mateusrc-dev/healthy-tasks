@@ -11,7 +11,7 @@ type Props = {
 export function Menu({ pageSelected }: Props) {
   return (
     <MenuContainer>
-      <MenuItem>
+      <MenuItem color={pageSelected === "myRecentTasks" ? "selectColor" : null}>
         <FaTasks size="25px" /> Minhas atividades recentes
       </MenuItem>
       <MenuItem color={pageSelected === "publicTasks" ? "selectColor" : null}>

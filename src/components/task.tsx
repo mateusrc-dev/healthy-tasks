@@ -35,6 +35,7 @@ type Props = {
   stateTimeTask?: boolean;
   checkTask?: boolean;
   marginInline?: boolean;
+  taskIsForOtherUser?: boolean;
 };
 
 export function Task({
@@ -46,6 +47,7 @@ export function Task({
   stateTimeTask = true,
   checkTask = false,
   marginInline = false,
+  taskIsForOtherUser = false,
 }: Props) {
   const [stateView, setStateView] = useState<string>("public");
   const [animate, setAnimate] = useState(false);
