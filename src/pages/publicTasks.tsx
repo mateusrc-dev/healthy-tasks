@@ -10,6 +10,7 @@ import {
 } from "../styles/pages/publicTasks";
 import { Task } from "../components/task";
 import { Menu } from "../components/menu";
+import { InputComponent } from "../components/input";
 
 export default function PublicTasks() {
   return (
@@ -21,6 +22,7 @@ export default function PublicTasks() {
       <BodyOfPublicTasks>
         <Menu pageSelected="publicTasks" />
         <ContentContainer>
+          <InputComponent placeholder="Clique para pesquisar por alguma atividade" />
           <Task
             descriptionOfTask="faça 10 minutos de meditação"
             professionalName="Mateus Raimundo"
