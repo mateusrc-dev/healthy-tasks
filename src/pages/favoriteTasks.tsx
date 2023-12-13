@@ -18,7 +18,7 @@ export default function FavoriteTasks() {
         <FaHeartPulse color="#fff" size={"30px"} />
       </Header>
       <BodyFavoritesTasks>
-        <Menu pageSelected={null} />
+        <Menu pageSelected={"favoriteTasks"} />
         <ContentContainer>
           <h3
             style={{

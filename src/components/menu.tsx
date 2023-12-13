@@ -23,7 +23,7 @@ export function Menu({ pageSelected }: Props) {
       <MenuItem color={pageSelected === "allTasks" ? "selectColor" : null}>
         <FaThList size="25px" /> Meu histórico de atividades
       </MenuItem>
-      <MenuItem>
+      <MenuItem color={pageSelected === "favoriteTasks" ? "selectColor" : null}>
         <FaHeart size="25px" /> Minhas atividades favoritas
       </MenuItem>
     </MenuContainer>

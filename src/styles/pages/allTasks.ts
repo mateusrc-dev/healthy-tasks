@@ -3,7 +3,32 @@ import { styled } from "..";
 export const ContainerAllTasks = styled("main", {
   width: "100%",
   height: "100vh",
-  overflow: "auto"
+  overflow: "auto",
+   
+  "scroll-page": {
+    borderWidth: "4px",
+    borderStyle: "outset",
+    borderColor: "$green300",
+    borderRadius: "20px",
+
+    "&::-webkit-scrollbar": {
+        width: 15,
+      },
+      "&::-webkit-scrollbar-thumb": {
+        background: "$green400",
+        borderRadius: 10,
+        width: 0,
+        backgroundClip: "padding-box",
+        border: "3px solid transparent",
+      },
+      "&::-webkit-scrollbar-thumb:hover": {
+        backgroundColor: "$green400",
+        width: 0,
+        borderRadius: 10,
+        backgroundClip: "padding-box",
+        border: "3px solid transparent",
+      },
+}
 })
 
 export const BodyAllTasks = styled("div", {
@@ -31,6 +56,7 @@ export const HeaderAllTasks = styled("header", {
   });
 
 export const ContentContainerAllTasks = styled("div", {
+    position: "relative",
     width: "100%",
     height: "calc(100vh - 90px)",
     overflow: "auto",
@@ -40,6 +66,7 @@ export const ContentContainerAllTasks = styled("div", {
     gap: "50px",
     padding: "40px",
     paddingBottom: "120px",
+    scrollBehavior: "smooth",
 
     "&::-webkit-scrollbar": {
       width: 15,
@@ -61,7 +88,6 @@ export const ContentContainerAllTasks = styled("div", {
 })
 
 export const ContainerForSpecificTasks = styled("div", {
-    position: "relative",
     width: "100%",
     minHeight: "calc(100vh - 250px)",
     overflow: "auto",
@@ -69,10 +95,6 @@ export const ContainerForSpecificTasks = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     gap: "20px",
-    borderWidth: "4px",
-    borderStyle: "outset",
-    borderColor: "$green300",
-    borderRadius: "20px",
 
     "&::-webkit-scrollbar": {
       width: 15,
@@ -91,4 +113,37 @@ export const ContainerForSpecificTasks = styled("div", {
       backgroundClip: "padding-box",
       border: "3px solid transparent",
     },
+})
+
+export const ButtonMenu = styled("a", {
+    borderWidth: "4px",
+    borderRightWidth: "0px",
+    borderStyle: "outset",
+    borderColor: "#0b0cca",
+    background: "#1618f1",
+    color: "#fff",
+    padding: "10px",
+    fontWeight: 700,
+    cursor: "pointer",
+    textDecoration: "none",
+
+    "&:hover": {
+        filter: "brightness(0.8)"
+      }
+})
+
+export const ButtonMenuLast = styled("a", {
+    borderWidth: "4px",
+    borderStyle: "outset",
+    borderColor: "#0b0cca",
+    background: "#1618f1",
+    color: "#fff",
+    padding: "10px",
+    fontWeight: 700,
+    cursor: "pointer",
+    textDecoration: "none",
+
+    "&:hover": {
+        filter: "brightness(0.8)"
+      }
 })
