@@ -29,7 +29,11 @@ export const ButtonContainer = styled("button", {
     },
   },
 
-  '&:hover': {
+  "&:disabled, &[disabled]": {
+    filter: "brightness(0.8)"
+  },
+
+  '&:hover:not([disabled])': {
     background: "$green400",
     borderStyle: 'inset',
   }

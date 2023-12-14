@@ -5,13 +5,21 @@ type Props = {
   children: ReactNode;
   position?: boolean;
   clickEvent?: () => void;
+  disabled?: boolean;
 };
 
-export function Button({ children, position = false, clickEvent }: Props) {
+export function Button({
+  children,
+  position = false,
+  clickEvent,
+  disabled = false,
+}: Props) {
   return (
     <ButtonContainer
       onClick={clickEvent}
       position={position ? "absolute" : null}
+      disabled={!disabled}
+      style={{ cursor: !disabled ? "not-allowed" : "pointer" }}
     >
       {children}
     </ButtonContainer>
