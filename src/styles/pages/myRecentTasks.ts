@@ -85,8 +85,18 @@ export const PageContainer = styled("button", {
   fontWeight: 700,
   borderWidth: "4px",
   borderStyle: "outset",
-  borderColor: "$gray100",
+  borderColor: "$gray300",
   cursor: "pointer",
+
+  variants: {
+    color: {
+      selectColor: {
+        borderColor: "$green300",
+        backgroundColor: '$green200',
+        color: '$gray200',
+      },
+    },
+  },
 
   "&:hover": {
     filter: "brightness(0.8)"

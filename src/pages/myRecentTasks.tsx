@@ -36,7 +36,7 @@ export default function myRecentTasks() {
             titleOfTask="Meditação top"
           />
           <PaginationContainer>
-            <PageContainer>1</PageContainer>
+            <PageContainer color={"selectColor"}>1</PageContainer>
             <PageContainer>2</PageContainer>
             <PageContainer>3</PageContainer>
             <PageContainer>4</PageContainer>

@@ -263,7 +263,12 @@ export default function Home() {
             height={630}
           />
           <TaskAnimate>
-            <div style={{ transform: "perspective(800px) rotateX(15deg)" }}>
+            <div
+              style={{
+                transform: "perspective(900px) rotateX(15deg)",
+                position: "absolute",
+              }}
+            >
               <PublicTasks />
             </div>
           </TaskAnimate>
