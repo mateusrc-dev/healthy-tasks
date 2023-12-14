@@ -38,6 +38,6 @@ export const ButtonWithHover = styled("button", {
   border: "none",
   scale: 0,
   opacity: 0,
-  transition: "all 0.5s",
+  transition: "all 0.5s ease-in-out",
   cursor: "pointer",
 })

@@ -1,7 +1,7 @@
 import { FaHeartPulse } from "react-icons/fa6";
-import { Footer } from "../styles/pages/home";
-import { Menu } from "../components/menu";
-import { Header } from "../styles/pages/publicTasks";
+import { Footer } from "../../styles/pages/home";
+import { Menu } from "../../components/menu";
+import { Header } from "../../styles/pages/publicTasks";
 import { useState } from "react";
 import { CgCheck, CgProfile } from "react-icons/cg";
 import {
@@ -13,13 +13,14 @@ import {
   StatisticContainer,
   StrengthContainer,
   TypeUserTag,
-} from "../styles/pages/profileDetails";
-import { Task } from "../components/task";
+} from "../../styles/pages/profileDetails";
+import { Task } from "../../components/task";
 import { PiRocketLaunchLight } from "react-icons/pi";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { LiaEyeSolid } from "react-icons/lia";
-import { Tooltip } from "../components/tooltip";
+import { Tooltip } from "../../components/tooltip";
 import { useSpring, animated } from "react-spring";
+import { useRouter } from "next/router";
 
 export default function ProfessionalDetails() {
   const [stateStatisticView, setStateStatisticView] =
@@ -27,6 +28,8 @@ export default function ProfessionalDetails() {
   const [countState, setCountState] = useState<number>(0);
   const [state, setState] = useState<boolean>(true);
   const [animate, setAnimate] = useState<boolean>(false);
+  const { query } = useRouter();
+  console.log(JSON.stringify(query));
 
   const animationProps = useSpring({
     to: async (next, cancel) => {

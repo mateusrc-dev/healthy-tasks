@@ -26,7 +26,7 @@ export const MenuItem = styled("a", {
     borderRadius: "10px",
     color: "$green300",
     fontWeight: 700,
-    transition: "all 0.5s",
+    transition: "all 0.5s ease-in-out",
     fontStyle: "normal",
     cursor: "pointer",
 
