@@ -9,6 +9,7 @@ import {
   Profile,
   Tag,
   TaskContainer,
+  TaskRecipient,
   TextInformation,
   TimeForFinishTaskContainerLeft,
   TimeForFinishTaskContainerRight,
@@ -204,6 +205,26 @@ export function Task({
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Title>{titleOfTask}</Title>
+          {taskIsForOtherUser && (
+            <TaskRecipient>
+              <h3
+                style={{ fontStyle: "italic", color: "#fff", fontSize: "16px" }}
+              >
+                para
+              </h3>
+              <Photo
+                src={professionalPhotoUrl}
+                alt="foto do paciente"
+                width={50}
+                height={50}
+              />
+              <h3
+                style={{ fontStyle: "italic", color: "#fff", fontSize: "20px" }}
+              >
+                Roberto
+              </h3>
+            </TaskRecipient>
+          )}
           {stateView === "public" ? (
             <Tag onClick={handleStateView}>
               Público <LiaEyeSolid />

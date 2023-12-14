@@ -28,15 +28,17 @@ export default function PublicTasks() {
             professionalName="Mateus Raimundo"
             professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
             titleOfTask="Meditação top"
+            taskIsForOtherUser={true}
           />
           <Task
             descriptionOfTask="faça 10 minutos de meditação"
             professionalName="Mateus Raimundo"
             professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
             titleOfTask="Meditação top"
+            taskIsForOtherUser={true}
           />
           <PaginationContainer>
-            <PageContainer>1</PageContainer>
+            <PageContainer color={"selectColor"}>1</PageContainer>
             <PageContainer>2</PageContainer>
             <PageContainer>3</PageContainer>
             <PageContainer>4</PageContainer>

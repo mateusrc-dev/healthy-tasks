@@ -275,3 +275,9 @@ export const TimeForFinishTaskContainerRight = styled("div", {
         filter: "brightness(0.8)",
       }
 })
+
+export const TaskRecipient = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px"
+})
