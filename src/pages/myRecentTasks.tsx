@@ -12,7 +12,9 @@ import { Task } from "../components/task";
 import { Menu } from "../components/menu";
 import { InputComponent } from "../components/input";
 
-export default function myRecentTasks() {
+export default function myRecentTasks(props) {
+  console.log(JSON.stringify(props.list));
+
   return (
     <Container>
       <Header>
@@ -52,3 +54,13 @@ export default function myRecentTasks() {
     </Container>
   );
 }
+
+export const getServerSideProps = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  return {
+    props: {
+      list: [1, 2, 3, 4],
+    },
+  };
+};

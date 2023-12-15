@@ -12,7 +12,7 @@ export function Button({
   children,
   position = false,
   clickEvent,
-  disabled = false,
+  disabled = true,
 }: Props) {
   return (
     <ButtonContainer

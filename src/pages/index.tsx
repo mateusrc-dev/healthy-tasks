@@ -32,7 +32,7 @@ import PublicTasks from "./publicTasks";
 import { MdNotStarted } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 
-export default function Home() {
+export default function Home(props) {
   const [stateUser, setStateUser] = useState<string | null>(null);
   const [statePassword, setStatePassword] = useState<boolean | null>(null);
   const [stateEmail, setStateEmail] = useState<boolean | null>(null);
