@@ -390,7 +390,15 @@ export default function Home(props) {
                     !statePassword &&
                     !validEmail(emailChange) ? (
                       <TextContainer>
-                        Seu email não está válido...
+                        Seu email não está válido ainda...
+                      </TextContainer>
+                    ) : null}
+                    {stateEmail &&
+                    !statePassword &&
+                    passwordChange.length < 6 &&
+                    validEmail(emailChange) ? (
+                      <TextContainer>
+                        Pronto, seu email está válido...
                       </TextContainer>
                     ) : null}
                     {statePassword &&
@@ -398,6 +406,14 @@ export default function Home(props) {
                     passwordChange.length < 6 ? (
                       <TextContainer>
                         Insira sua senha, no mínimo 6 caracteres! ;)
+                      </TextContainer>
+                    ) : null}
+                    {statePassword &&
+                    !stateEmail &&
+                    !validEmail(emailChange) &&
+                    passwordChange.length >= 6 ? (
+                      <TextContainer>
+                        Pronto, sua senha tem no mínimo 6 caracteres! ;)
                       </TextContainer>
                     ) : null}
                     {validEmail(emailChange) && passwordChange.length >= 6 ? (
