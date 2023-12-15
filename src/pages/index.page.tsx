@@ -28,7 +28,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import PublicTasks from "./publicTasks";
+import PublicTasks from "./publicTasks.page";
 import { MdNotStarted } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 
@@ -46,6 +46,10 @@ export default function Home(props) {
     useState<string>("");
   const [makeLogin, setMakeLogin] = useState<boolean>(true);
   const [stateCreateAccount, setStateCreateAccount] = useState<boolean>(false);
+
+  function validEmail(email) {
+    return /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
+  }
 
   function handleStateUser(user: string) {
     if (user === stateUser) {
@@ -182,15 +186,47 @@ export default function Home(props) {
                     Preencha os dados da sua nova conta{" "}
                     <FaPencilAlt size={20} />
                   </h3>
-                  <Input
-                    onChange={(e) => setEmailChangeNewAccount(e.target.value)}
-                    placeholder="E-mail"
-                    type="email"
-                    value={emailChangeNewAccount}
-                    style={{
-                      width: "100%",
-                    }}
-                  />
+                  <div style={{ position: "relative" }}>
+                    {emailChangeNewAccount.length !== 0 &&
+                    validEmail(emailChangeNewAccount) ? (
+                      <p
+                        style={{
+                          position: "absolute",
+                          top: "-18px",
+                          fontSize: "12px",
+                          fontStyle: "italic",
+                          color: "#78f784",
+                          fontWeight: 700,
+                        }}
+                      >
+                        Email válido.
+                      </p>
+                    ) : null}
+                    {emailChangeNewAccount.length !== 0 &&
+                    !validEmail(emailChangeNewAccount) ? (
+                      <p
+                        style={{
+                          position: "absolute",
+                          top: "-18px",
+                          fontSize: "12px",
+                          fontStyle: "italic",
+                          color: "#ff194b",
+                          fontWeight: 700,
+                        }}
+                      >
+                        Escreva um e-mail válido.
+                      </p>
+                    ) : null}
+                    <Input
+                      onChange={(e) => setEmailChangeNewAccount(e.target.value)}
+                      placeholder="E-mail"
+                      type="email"
+                      value={emailChangeNewAccount}
+                      style={{
+                        width: "100%",
+                      }}
+                    />
+                  </div>
                   <div style={{ position: "relative" }}>
                     {passwordChangeNewAccount.length < 6 &&
                     passwordChangeNewAccount.length !== 0 ? (
@@ -284,7 +320,7 @@ export default function Home(props) {
                       passwordConfirmChangeNewAccount ===
                         passwordChangeNewAccount &&
                       passwordChangeNewAccount.length >= 6 &&
-                      emailChangeNewAccount.length !== 0
+                      validEmail(emailChangeNewAccount)
                     }
                   >
                     Criar conta <CiCircleCheck size="25px" />
@@ -331,7 +367,7 @@ export default function Home(props) {
                         height={280}
                       />
                     )}
-                    {passwordChange.length >= 6 && emailChange.length !== 0 ? (
+                    {passwordChange.length >= 6 && validEmail(emailChange) ? (
                       <Image
                         priority={true}
                         style={{ position: "absolute", left: 0, top: "-55px" }}
@@ -351,19 +387,21 @@ export default function Home(props) {
                       <TextContainer>Agora preencha seus dados!</TextContainer>
                     ) : null}
                     {stateEmail &&
-                    (passwordChange.length < 6 || emailChange.length === 0) ? (
-                      <TextContainer>Insira seu email!</TextContainer>
+                    !statePassword &&
+                    !validEmail(emailChange) ? (
+                      <TextContainer>
+                        Seu email não está válido...
+                      </TextContainer>
                     ) : null}
                     {statePassword &&
-                    (passwordChange.length < 6 || emailChange.length === 0) ? (
+                    !stateEmail &&
+                    passwordChange.length < 6 ? (
                       <TextContainer>
                         Insira sua senha, no mínimo 6 caracteres! ;)
                       </TextContainer>
                     ) : null}
-                    {passwordChange.length >= 6 && emailChange.length !== 0 ? (
-                      <TextContainer>
-                        Agora você está pronto para começar! :)
-                      </TextContainer>
+                    {validEmail(emailChange) && passwordChange.length >= 6 ? (
+                      <TextContainer>Tudo pronto! :)</TextContainer>
                     ) : null}
                   </ImageContainer>
                   <div
@@ -467,7 +505,7 @@ export default function Home(props) {
                         }}
                       />
                     </div>
-                    {passwordChange.length >= 6 && emailChange.length !== 0 ? (
+                    {passwordChange.length >= 6 && validEmail(emailChange) ? (
                       <ButtonComponent>
                         Entrar <FaDoorOpen size="25px" />
                       </ButtonComponent>
