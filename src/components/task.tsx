@@ -26,6 +26,7 @@ import { Button } from "./button";
 import { BsCheck } from "react-icons/bs";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoCloseCircle } from "react-icons/io5";
+import Link from "next/link";
 
 type Props = {
   titleOfTask: string;
@@ -145,13 +146,17 @@ export function Task({
   return (
     <TaskContainer margin={marginInline ? "elementWithMarginInline" : null}>
       <Profile>
-        <Photo
-          src={professionalPhotoUrl}
-          alt="foto do profissional"
-          width={100}
-          height={100}
-        />
-        <Name>Dr. {professionalName}</Name>
+        <Link href={`/profileDetails/1`}>
+          <Photo
+            src={professionalPhotoUrl}
+            alt="foto do profissional"
+            width={100}
+            height={100}
+          />
+        </Link>
+        <Link href={`/profileDetails/1`}>
+          <Name>Dr. {professionalName}</Name>
+        </Link>
         <Tag>Psicólogo</Tag>
         {isRenderInProfile ? (
           stateTimeTask ? (
@@ -206,24 +211,34 @@ export function Task({
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Title>{titleOfTask}</Title>
           {taskIsForOtherUser && (
-            <TaskRecipient>
-              <h3
-                style={{ fontStyle: "italic", color: "#fff", fontSize: "16px" }}
-              >
-                para
-              </h3>
-              <Photo
-                src={professionalPhotoUrl}
-                alt="foto do paciente"
-                width={50}
-                height={50}
-              />
-              <h3
-                style={{ fontStyle: "italic", color: "#fff", fontSize: "20px" }}
-              >
-                Roberto
-              </h3>
-            </TaskRecipient>
+            <Link href={`/profileDetails/1`}>
+              <TaskRecipient>
+                <h3
+                  style={{
+                    fontStyle: "italic",
+                    color: "#fff",
+                    fontSize: "16px",
+                  }}
+                >
+                  para
+                </h3>
+                <Photo
+                  src={professionalPhotoUrl}
+                  alt="foto do paciente"
+                  width={50}
+                  height={50}
+                />
+                <h3
+                  style={{
+                    fontStyle: "italic",
+                    color: "#fff",
+                    fontSize: "20px",
+                  }}
+                >
+                  Roberto
+                </h3>
+              </TaskRecipient>
+            </Link>
           )}
           {stateView === "public" ? (
             <Tag onClick={handleStateView}>

@@ -21,8 +21,9 @@ import { LiaEyeSolid } from "react-icons/lia";
 import { Tooltip } from "../../components/tooltip";
 import { useSpring, animated } from "react-spring";
 import { useRouter } from "next/router";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-export default function ProfessionalDetails() {
+export default function ProfileDetails(props) {
   const [stateStatisticView, setStateStatisticView] =
     useState<string>("public");
   const [countState, setCountState] = useState<number>(0);
@@ -30,6 +31,7 @@ export default function ProfessionalDetails() {
   const [animate, setAnimate] = useState<boolean>(false);
   const { query } = useRouter();
   console.log(JSON.stringify(query));
+  console.log(JSON.stringify(props.list));
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
@@ -267,3 +269,23 @@ export default function ProfessionalDetails() {
     </Container>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    // quando temos páginas estáticas que possuem parametros, precisamos retornar um getStaticPaths que é um método que retorna esses parâmetros
+    paths: [
+      //{ params: { id: "prod_NBzSSHOrjnd4kD" } }, // aqui vamos retornar os parâmetros dentro desse array - temos que deixar enxuto porque pode pesar na hora de executar a build - podemos colocar apenas os produtos mais vendidos, mais acessados - podemos deixar vazio e deixar o fallback gerar as páginas
+    ],
+    fallback: true, // com true, as páginas dos produtos que não passamos nos paths o next vai tentar pegar o id dessa página e passar para o método getStaticProps - só que vai demorar um tempo para esses dados carregarem... precisamos colocar um loading - usando blocking como valor não precisar colocar loading
+  };
+};
+
+export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
+  params,
+}) => {
+  return {
+    props: {
+      id: params.id,
+    },
+  };
+};

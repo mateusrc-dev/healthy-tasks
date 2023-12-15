@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   CommentContainer,
   CommentText,
@@ -18,9 +19,11 @@ type Props = {
 export function Comment({ text, userName, userPhoto, patient = false }: Props) {
   return (
     <CommentContainer>
-      <Profile>
-        <Photo src={userPhoto} alt="foto do usuário" width={70} height={70} />
-      </Profile>
+      <Link href={`profileDetails/1`}>
+        <Profile>
+          <Photo src={userPhoto} alt="foto do usuário" width={70} height={70} />
+        </Profile>
+      </Link>
       <div
         style={{
           display: "flex",
@@ -36,7 +39,9 @@ export function Comment({ text, userName, userPhoto, patient = false }: Props) {
             gap: "10px",
           }}
         >
-          <Name>{userName}</Name>
+          <Link href={`profileDetails/1`}>
+            <Name>{userName}</Name>
+          </Link>
           {patient && (
             <Tag>
               Paciente do dr. Mateus Carvalho <BsPerson />

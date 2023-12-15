@@ -20,5 +20,13 @@ export const globalStyles = globalCss({
 
     'img': {
         objectFit: 'cover',
+    },
+
+    "a": {
+        textDecoration: "none"
+    },
+
+    "a:hover": {
+        filter: "brightness(0.8)"
     }
 })
