@@ -17,7 +17,7 @@ export const MenuContainer = styled("div", {
     gap: "20px"
 })
 
-export const MenuItem = styled("a", {
+export const MenuItem = styled("div", {
     display: "flex",
     alignItems: "center",
     gap: "10px",

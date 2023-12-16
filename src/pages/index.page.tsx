@@ -31,6 +31,7 @@ import "swiper/css/autoplay";
 import PublicTasks from "./publicTasks.page";
 import { MdNotStarted } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
+import { useRouter } from "next/router";
 
 export default function Home(props) {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -46,6 +47,8 @@ export default function Home(props) {
     useState<string>("");
   const [makeLogin, setMakeLogin] = useState<boolean>(true);
   const [stateCreateAccount, setStateCreateAccount] = useState<boolean>(false);
+
+  const router = useRouter();
 
   function validEmail(email) {
     return /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
@@ -75,6 +78,12 @@ export default function Home(props) {
   function handleFocusEmail() {
     setStatePassword(false);
     setStateEmail(true);
+  }
+
+  async function handleLogin() {
+    // fazer aqui alguma lógica com o backend para fazer login - verificar se email e senha estão corretos
+
+    await router.push(`/myRecentTasks`);
   }
 
   return (
@@ -522,7 +531,7 @@ export default function Home(props) {
                       />
                     </div>
                     {passwordChange.length >= 6 && validEmail(emailChange) ? (
-                      <ButtonComponent>
+                      <ButtonComponent clickEvent={handleLogin}>
                         Entrar <FaDoorOpen size="25px" />
                       </ButtonComponent>
                     ) : null}
