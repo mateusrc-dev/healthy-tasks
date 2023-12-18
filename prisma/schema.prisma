@@ -19,34 +19,49 @@ model User {
   specializacion  String?
   description     String?
   complaint       String?
-  Profilepublic   Boolean?       @default(false)
-  StatisticPublic Boolean?       @default(false)
+  Profilepublic   Boolean?
+  StatisticPublic Boolean?
   profileForce    Int? // if the statistics are public, clicks on the 'force' button will be counted
+  taskId          String
   password        String
   created_at      DateTime       @default(now())
   Task            Task[]
-  CommentUser     CommentUser[]
-  FavoriteTask    FavoriteTask[]
+  commentUser     CommentUser[]
+  favoriteTask    FavoriteTask[]
+  BestTask        BestTask[]
 
   @@map("users")
 }
 
 model Task {
-  id             String         @id @default(uuid())
-  title          String
-  description    String
-  professional   User           @relation(fields: [professionalId], references: [id])
-  professionalId String
+  id           String         @id @default(uuid())
+  title        String
+  description  String
+  user         User           @relation(fields: [userId], references: [id])
+  userId       String
   //recipient      User           @relation(fields: [patientEmail], references: [email])
-  patientEmail   String
-  carriedOut     Boolean        @default(false)
-  Taskpublic     Boolean        @default(false)
-  forceTask      Int // if the task are public, clicks on the 'force' button will be counted
-  created_at     DateTime       @default(now())
-  FavoriteTask   FavoriteTask[]
-  Comment        CommentUser[]
+  patientEmail String
+  carriedOut   Boolean        @default(false)
+  isTaskPublic Boolean        @default(false)
+  forceTask    Int // if the task are public, clicks on the 'force' button will be counted
+  deadline     DateTime
+  created_at   DateTime       @default(now())
+  favoriteTask FavoriteTask[]
+  comment      CommentUser[]
+  BestTask     BestTask[]
 
   @@map("task")
+}
+
+model BestTask {
+  id       String  @id @default(uuid())
+  isPublic Boolean @default(false)
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
+  bestTask Task    @relation(fields: [taskId], references: [id])
+  taskId   String
+
+  @@map("bestTask")
 }
 
 model CommentUser {
