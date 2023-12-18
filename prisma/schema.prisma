@@ -10,86 +10,62 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Professional {
-  id                  String                @id @default(uuid())
-  email               String                @unique
-  username            String
-  photo               String
-  specializacion      String
-  description         String
-  password            String
-  created_at          DateTime              @default(now())
-  Task                Task[]
-  CommentProfessional CommentProfessional[]
+model User {
+  id              String         @id @default(uuid())
+  email           String         @unique
+  username        String
+  typeUser        String
+  photoUrl        String
+  specializacion  String?
+  description     String?
+  complaint       String?
+  Profilepublic   Boolean?       @default(false)
+  StatisticPublic Boolean?       @default(false)
+  profileForce    Int? // if the statistics are public, clicks on the 'force' button will be counted
+  password        String
+  created_at      DateTime       @default(now())
+  Task            Task[]
+  CommentUser     CommentUser[]
+  FavoriteTask    FavoriteTask[]
 
   @@map("users")
 }
 
-model Patient {
-  id              String           @id @default(uuid())
-  email           String           @unique
-  username        String
-  photo           String
-  complaint       String
-  password        String
-  Profilepublic   Boolean          @default(false)
-  StatisticPublic Boolean          @default(false)
-  profileForce    Int // if the statistics are public, clicks on the 'force' button will be counted
-  created_at      DateTime         @default(now())
-  Task            Task[]
-  FavoriteTask    FavoriteTask[]
-  Comment         CommentPatient[]
-
-  @@map("patient")
-}
-
 model Task {
-  id                  String                @id @default(uuid())
-  title               String
-  description         String
-  professional        Professional          @relation(fields: [professionalId], references: [id])
-  professionalId      String
-  recipient           Patient               @relation(fields: [patientEmail], references: [email])
-  patientEmail        String
-  carriedOut          Boolean               @default(false)
-  Taskpublic          Boolean               @default(false)
-  forceTask           Int // if the task are public, clicks on the 'force' button will be counted
-  created_at          DateTime              @default(now())
-  FavoriteTask        FavoriteTask[]
-  Comment             CommentPatient[]
-  CommentProfessional CommentProfessional[]
+  id             String         @id @default(uuid())
+  title          String
+  description    String
+  professional   User           @relation(fields: [professionalId], references: [id])
+  professionalId String
+  //recipient      User           @relation(fields: [patientEmail], references: [email])
+  patientEmail   String
+  carriedOut     Boolean        @default(false)
+  Taskpublic     Boolean        @default(false)
+  forceTask      Int // if the task are public, clicks on the 'force' button will be counted
+  created_at     DateTime       @default(now())
+  FavoriteTask   FavoriteTask[]
+  Comment        CommentUser[]
 
   @@map("task")
 }
 
-model CommentPatient {
-  id          String  @id @default(uuid())
+model CommentUser {
+  id          String @id @default(uuid())
   description String
-  patient     Patient @relation(fields: [patientId], references: [id])
-  patientId   String
-  task        Task    @relation(fields: [taskId], references: [id])
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+  task        Task   @relation(fields: [taskId], references: [id])
   taskId      String
 
-  @@map("commentPatient")
-}
-
-model CommentProfessional {
-  id             String       @id @default(uuid())
-  description    String
-  patient        Professional @relation(fields: [professionalId], references: [id])
-  professionalId String
-  task           Task         @relation(fields: [taskId], references: [id])
-  taskId         String
-
-  @@map("commentProfessional")
+  @@map("commentUser")
 }
 
 model FavoriteTask {
-  id        String  @id @default(uuid())
-  patient   Patient @relation(fields: [patientId], references: [id])
-  patientId String
-  task      Task    @relation(fields: [taskId], references: [id])
-  taskId    String
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  task   Task   @relation(fields: [taskId], references: [id])
+  taskId String
 
   @@map("favoriteTask")
 }
