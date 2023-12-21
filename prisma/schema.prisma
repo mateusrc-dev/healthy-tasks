@@ -15,7 +15,7 @@ model User {
   email           String            @unique
   username        String
   typeUser        String
-  photoUrl        String
+  photoUrl        String?
   specializacion  String?
   description     String?
   complaint       String?

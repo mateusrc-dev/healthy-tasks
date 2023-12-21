@@ -32,6 +32,7 @@ import PublicTasks from "./publicTasks.page";
 import { MdNotStarted } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import { useRouter } from "next/router";
+import { api } from "../lib/axios";
 
 export default function Home(props) {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -43,6 +44,7 @@ export default function Home(props) {
     useState<string>("");
   const [passwordConfirmChangeNewAccount, setPasswordConfirmChangeNewAccount] =
     useState<string>("");
+  const [nameChangeNewAccount, setNameChangeNewAccount] = useState<string>("");
   const [emailChangeNewAccount, setEmailChangeNewAccount] =
     useState<string>("");
   const [makeLogin, setMakeLogin] = useState<boolean>(true);
@@ -78,6 +80,22 @@ export default function Home(props) {
   function handleFocusEmail() {
     setStatePassword(false);
     setStateEmail(true);
+  }
+
+  async function handleRegister() {
+    try {
+      await api.post("/users", {
+        username: nameChangeNewAccount,
+        email: emailChangeNewAccount,
+        password: passwordChangeNewAccount,
+        typeUser: "patient",
+      });
+
+      alert("Usuário criado com sucesso!");
+    } catch (err) {
+      alert("Não foi possível criar o usuário!");
+      console.log(err);
+    }
   }
 
   async function handleLogin() {
@@ -195,6 +213,31 @@ export default function Home(props) {
                     Preencha os dados da sua nova conta{" "}
                     <FaPencilAlt size={20} />
                   </h3>
+                  <div style={{ position: "relative" }}>
+                    {nameChangeNewAccount.length !== 0 ? (
+                      <p
+                        style={{
+                          position: "absolute",
+                          top: "-18px",
+                          fontSize: "12px",
+                          fontStyle: "italic",
+                          color: "#78f784",
+                          fontWeight: 700,
+                        }}
+                      >
+                        Pronto.
+                      </p>
+                    ) : null}
+                    <Input
+                      onChange={(e) => setNameChangeNewAccount(e.target.value)}
+                      placeholder="Nome"
+                      type="text"
+                      value={nameChangeNewAccount}
+                      style={{
+                        width: "100%",
+                      }}
+                    />
+                  </div>
                   <div style={{ position: "relative" }}>
                     {emailChangeNewAccount.length !== 0 &&
                     validEmail(emailChangeNewAccount) ? (
@@ -325,6 +368,7 @@ export default function Home(props) {
                   </div>
 
                   <ButtonComponent
+                    clickEvent={handleRegister}
                     disabled={
                       passwordConfirmChangeNewAccount ===
                         passwordChangeNewAccount &&
