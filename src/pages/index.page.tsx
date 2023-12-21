@@ -33,6 +33,7 @@ import { MdNotStarted } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import { useRouter } from "next/router";
 import { api } from "../lib/axios";
+import { AxiosError } from "axios";
 
 export default function Home(props) {
   const [stateUser, setStateUser] = useState<string | null>(null);
@@ -92,9 +93,15 @@ export default function Home(props) {
       });
 
       alert("Usuário criado com sucesso!");
-    } catch (err) {
-      alert("Não foi possível criar o usuário!");
-      console.log(err);
+    } catch (error) {
+      if (error instanceof AxiosError && error?.response?.data?.message) {
+        alert(
+          `Não foi possível criar o usuário. ${error.response.data.message}`
+        );
+        return;
+      }
+
+      console.log(error);
     }
   }
 
