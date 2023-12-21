@@ -23,7 +23,7 @@ model User {
   profilePublic   Boolean?
   statisticPublic Boolean?
   profileForce    Int? // if the statistics are public, clicks on the 'force' button will be counted
-  taskId          String
+  //taskId          String
   password        String
   created_at      DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
@@ -51,7 +51,7 @@ model Task {
   patientEmail String
   carriedOut   Boolean        @default(false)
   isTaskPublic Boolean        @default(false)
-  forceTask    Int // if the task are public, clicks on the 'force' button will be counted
+  forceTask    Int? // if the task are public, clicks on the 'force' button will be counted
   deadline     DateTime
   created_at   DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
