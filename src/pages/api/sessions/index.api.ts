@@ -32,7 +32,5 @@ export default async function handler(
 
     const token = sign({}, secret, { subject: String(userExists.id), expiresIn })
 
-    // const hashedPassword = await hash(password, 8)
-
     return res.status(200).json({ userExists, token })
 }
