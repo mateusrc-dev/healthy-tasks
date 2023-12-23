@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../lib/axios";
 
 interface User {
@@ -34,10 +40,12 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
 
   async function signIn(email: string, password: string) {
     try {
-      console.log(email, password);
       const response = await api.post("/sessions", { email, password });
 
       const { user, token } = response.data;
+
+      localStorage.setItem("@healthy-tasks:user", JSON.stringify(user));
+      localStorage.setItem("@healthy-tasks:token", JSON.stringify(token));
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -46,6 +54,17 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       alert(`Não foi possível entrar. Erro: ${error}`);
     }
   }
+
+  useEffect(() => {
+    const user = localStorage.getItem("@healthy-tasks:user");
+    const token = localStorage.getItem("@healthy-tasks:token");
+
+    if (token && user) {
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
+      setData({ user: JSON.parse(user), token: token });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ signIn, user: data?.user }}>
