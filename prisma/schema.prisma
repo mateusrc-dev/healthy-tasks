@@ -16,7 +16,7 @@ model User {
   username        String
   typeUser        String
   photoUrl        String?
-  specializacion  String?
+  specialization  String?
   description     String?
   complaint       String?
   myProfessionals ProfessionalTag[]

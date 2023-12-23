@@ -32,5 +32,5 @@ export default async function handler(
 
     const token = sign({}, secret, { subject: String(userExists.id), expiresIn })
 
-    return res.status(200).json({ userExists, token })
+    return res.status(200).json({ user: userExists, token: token })
 }

@@ -20,7 +20,7 @@ import patient from "../assets/patient.gif";
 import arrow from "../assets/arrow.gif";
 import notebook from "../assets/notebook.gif";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Button as ButtonComponent } from "../components/button";
 import light from "../assets/light.gif";
 import { FaDoorOpen, FaPencilAlt } from "react-icons/fa";
@@ -34,8 +34,9 @@ import { CiCircleCheck } from "react-icons/ci";
 import { useRouter } from "next/router";
 import { api } from "../lib/axios";
 import { AxiosError } from "axios";
+import { useAuth } from "../hooks/auth";
 
-export default function Home(props) {
+export default function Home() {
   const [stateUser, setStateUser] = useState<string | null>(null);
   const [statePassword, setStatePassword] = useState<boolean | null>(null);
   const [stateEmail, setStateEmail] = useState<boolean | null>(null);
@@ -51,6 +52,7 @@ export default function Home(props) {
   const [makeLogin, setMakeLogin] = useState<boolean>(true);
   const [stateCreateAccount, setStateCreateAccount] = useState<boolean>(false);
 
+  const { signIn, user } = useAuth();
   const router = useRouter();
 
   function validEmail(email) {
@@ -105,11 +107,25 @@ export default function Home(props) {
     }
   }
 
-  async function handleLogin() {
-    // fazer aqui alguma lógica com o backend para fazer login - verificar se email e senha estão corretos
+  console.log(user);
 
-    await router.push(`/myRecentTasks`);
+  async function handleLogin() {
+    try {
+      signIn(emailChange, passwordChange);
+    } catch (err) {
+      alert(err);
+    }
   }
+
+  useEffect(() => {
+    async function handleChangePage() {
+      await router.push(`/myRecentTasks`);
+    }
+
+    if (user) {
+      handleChangePage();
+    }
+  }, [user, router]);
 
   return (
     <Container>
