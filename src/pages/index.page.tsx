@@ -118,12 +118,18 @@ export default function Home() {
   }
 
   useEffect(() => {
-    async function handleChangePage() {
+    async function handleLoginChangePageUserPatient() {
       await router.push(`/myRecentTasks`);
     }
 
-    if (user) {
-      handleChangePage();
+    async function handleLoginChangePageUserProfessional() {
+      await router.push(`/publicTasks`);
+    }
+
+    if (user?.typeUser === "patient") {
+      handleLoginChangePageUserPatient();
+    } else if (user?.typeUser === "professional") {
+      handleLoginChangePageUserProfessional();
     }
   }, [user, router]);
 

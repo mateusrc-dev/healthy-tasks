@@ -20,8 +20,6 @@ export default function CreateTask() {
   const [stateName, setStateName] = useState<string>("");
   const [stateEmail, setStateEmail] = useState<string>("");
 
-  console.log(stateTextarea);
-
   function handleNewTask() {
     setNewTask(!newTask);
     setStateTime("");
@@ -38,7 +36,7 @@ export default function CreateTask() {
         <FaHeartPulse color="#fff" size={"30px"} />
       </Header>
       <BodyCreateTask>
-        <Menu pageSelected="null" />
+        <Menu pageSelected="createTask" />
         <ContentContainerCreateTask>
           <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             <Button clickEvent={() => handleNewTask()}>

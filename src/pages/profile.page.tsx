@@ -30,10 +30,13 @@ import { TfiSave } from "react-icons/tfi";
 import { Tooltip } from "../components/tooltip";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useAuth } from "../hooks/auth";
 
 export default function Profile() {
   const [stateTextarea, setStateTextarea] = useState<string>("");
   const [stateInput, setStateInput] = useState<string>("");
+  const [stateInputSpecialization, setStateInputSpecialization] =
+    useState<string>("");
   const [stateView, setStateView] = useState<string>("public");
   const [stateStatisticView, setStateStatisticView] =
     useState<string>("public");
@@ -44,6 +47,8 @@ export default function Profile() {
     "Psiquiatra",
   ]);
   const [inputNewProfessional, setInputNewProfessional] = useState<string>("");
+
+  const { user } = useAuth();
 
   function handleStateView() {
     if (stateView === "public") {
@@ -335,9 +340,18 @@ export default function Profile() {
               <ChangePhotoButton>
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
               </ChangePhotoButton>
-              {stateInput.length != 0 &&
+              {user?.typeUser === "patient" &&
+              stateInput.length != 0 &&
               stateTextarea.length >= 100 &&
-              addProfessionals.length !== 0 ? (
+              addProfessionals.length != 0 ? (
+                <ButtonSave>
+                  Salvar informações <TfiSave />
+                </ButtonSave>
+              ) : null}
+              {user?.typeUser === "professional" &&
+              stateInputSpecialization.length != 0 &&
+              stateInput.length != 0 &&
+              stateTextarea.length >= 100 ? (
                 <ButtonSave>
                   Salvar informações <TfiSave />
                 </ButtonSave>
@@ -367,9 +381,36 @@ export default function Profile() {
                     padding: "10px",
                     background: "#1618f1",
                     color: "#fff",
+                    resize: "none",
                   }}
                 />
               </div>
+              {user?.typeUser === "professional" && (
+                <div style={{ position: "relative" }}>
+                  {stateInputSpecialization && (
+                    <TextInformation color={"normal"}>
+                      Sua especialização
+                    </TextInformation>
+                  )}
+                  <textarea
+                    placeholder="Escreva aqui sua especialização"
+                    onChange={(e) =>
+                      setStateInputSpecialization(e.target.value)
+                    }
+                    value={stateInputSpecialization}
+                    rows={1}
+                    style={{
+                      width: "100%",
+                      border: "none",
+                      borderRadius: "10px",
+                      padding: "10px",
+                      background: "#1618f1",
+                      color: "#fff",
+                      resize: "none",
+                    }}
+                  />
+                </div>
+              )}
               <div style={{ position: "relative" }}>
                 {stateTextarea && (
                   <TextInformation
@@ -393,194 +434,223 @@ export default function Profile() {
                 >
                   {stateTextarea.length} | 1000
                 </p>
-                <textarea
-                  placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
-                  maxLength={1000}
-                  onChange={(e) => setStateTextarea(e.target.value)}
-                  value={stateTextarea}
-                  style={{
-                    width: "100%",
-                    height: "100px",
-                    resize: "none",
-                    border: "none",
-                    borderRadius: "10px",
-                    padding: "10px",
-                    background: "#1618f1",
-                    color: "#fff",
-                  }}
-                />
-              </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "15px" }}
-              >
-                <p
-                  style={{
-                    color: "#1618f1",
-                    fontWeight: 700,
-                    fontStyle: "italic",
-                  }}
-                >
-                  Profissionais que sou acompanhado:
-                </p>
-                {addProfessionals.map((professional) => (
-                  <div key={professional} style={{ position: "relative" }}>
-                    <ProfessionalTag>{professional}</ProfessionalTag>
-                    <ButtonWithHover
-                      onClick={() => handleDeleteProfessional(professional)}
-                      style={{ position: "absolute", top: -10, right: -10 }}
-                    >
-                      <IoIosCloseCircle size={25} color="#3a89c9" />
-                    </ButtonWithHover>
-                  </div>
-                ))}
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <input
-                    placeholder="Adicione pelo menos um profissional."
-                    value={inputNewProfessional}
-                    onChange={(e) => setInputNewProfessional(e.target.value)}
+                {user?.typeUser === "patient" ? (
+                  <textarea
+                    placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
+                    maxLength={1000}
+                    onChange={(e) => setStateTextarea(e.target.value)}
+                    value={stateTextarea}
                     style={{
-                      width: "250px",
-                      borderWidth: "2px",
-                      borderRightWidth: "0px",
-                      borderColor: "#1618f1",
-                      padding: "9px",
-                      borderRadius: "50px 0px 0px 50px",
-                      background: "#138fe8",
+                      width: "100%",
+                      height: "100px",
+                      resize: "none",
+                      border: "none",
+                      borderRadius: "10px",
+                      padding: "10px",
+                      background: "#1618f1",
                       color: "#fff",
                     }}
                   />
-                  <ToAddProfessional onClick={handleNewProfessional}>
-                    +
-                  </ToAddProfessional>
-                </div>
-              </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
-              >
-                <BestActivityContainerProfile onClick={handleClick}>
-                  Atividade que mais me ajudou: meditação top (clique caso
-                  desejar mudar)
-                </BestActivityContainerProfile>
-                <CheckContainerProfile>
-                  <input type="checkbox" />
-                  Atividade pública
-                </CheckContainerProfile>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "15px",
-                  background: "#0606b7",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  borderWidth: "3px",
-                  borderStyle: "outset",
-                  borderColor: "#0b0cca",
-                }}
-              >
-                <p style={{ fontWeight: 700, fontSize: "16px", color: "#fff" }}>
-                  Você deseja deixar seu perfil público ou privado?
-                </p>
-                {stateView === "public" ? (
-                  <>
-                    <ProfileTag onClick={handleStateView}>
-                      Público <LiaEyeSolid />
-                    </ProfileTag>
-                    <p
-                      style={{
-                        fontWeight: 400,
-                        fontSize: "12px",
-                        color: "#fff",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      Caso você deixar seu perfil público, os outros usuários
-                      poderão ver suas informações como nome e foto nas suas
-                      atividades públicas e acessar seu perfil.
-                    </p>
-                  </>
                 ) : (
-                  <>
-                    <ProfileTag onClick={handleStateView}>
-                      Privado <FaRegEyeSlash />
-                    </ProfileTag>
-                    <p
-                      style={{
-                        fontWeight: 400,
-                        fontSize: "12px",
-                        color: "#fff",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      Caso você deixar seu perfil privado, suas atividades
-                      públicas ficarão com seu nome e foto em anônimo e seu
-                      perfil não poderá ser acessado pelos outros usuários.
-                    </p>
-                  </>
+                  <textarea
+                    placeholder="Escreva aqui sua descrição profissional (no mínimo 100 caracteres)..."
+                    maxLength={1000}
+                    onChange={(e) => setStateTextarea(e.target.value)}
+                    value={stateTextarea}
+                    style={{
+                      width: "100%",
+                      height: "100px",
+                      resize: "none",
+                      border: "none",
+                      borderRadius: "10px",
+                      padding: "10px",
+                      background: "#1618f1",
+                      color: "#fff",
+                    }}
+                  />
                 )}
               </div>
-              <StatisticContainer color={"positiveColor"}>
-                <div>
+              {user?.typeUser === "patient" && (
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "15px" }}
+                >
+                  <p
+                    style={{
+                      color: "#1618f1",
+                      fontWeight: 700,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Profissionais que sou acompanhado:
+                  </p>
+                  {addProfessionals.map((professional) => (
+                    <div key={professional} style={{ position: "relative" }}>
+                      <ProfessionalTag>{professional}</ProfessionalTag>
+                      <ButtonWithHover
+                        onClick={() => handleDeleteProfessional(professional)}
+                        style={{ position: "absolute", top: -10, right: -10 }}
+                      >
+                        <IoIosCloseCircle size={25} color="#3a89c9" />
+                      </ButtonWithHover>
+                    </div>
+                  ))}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input
+                      placeholder="Adicione pelo menos um profissional."
+                      value={inputNewProfessional}
+                      onChange={(e) => setInputNewProfessional(e.target.value)}
+                      style={{
+                        width: "250px",
+                        borderWidth: "2px",
+                        borderRightWidth: "0px",
+                        borderColor: "#1618f1",
+                        padding: "9px",
+                        borderRadius: "50px 0px 0px 50px",
+                        background: "#138fe8",
+                        color: "#fff",
+                      }}
+                    />
+                    <ToAddProfessional onClick={handleNewProfessional}>
+                      +
+                    </ToAddProfessional>
+                  </div>
+                </div>
+              )}
+              {user?.typeUser === "patient" && (
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "20px" }}
+                >
+                  <BestActivityContainerProfile onClick={handleClick}>
+                    Atividade que mais me ajudou: meditação top (clique caso
+                    desejar mudar)
+                  </BestActivityContainerProfile>
+                  <CheckContainerProfile>
+                    <input type="checkbox" />
+                    Atividade pública
+                  </CheckContainerProfile>
+                </div>
+              )}
+              {user?.typeUser === "patient" && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "15px",
+                    background: "#0606b7",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    borderWidth: "3px",
+                    borderStyle: "outset",
+                    borderColor: "#0b0cca",
+                  }}
+                >
+                  <p
+                    style={{ fontWeight: 700, fontSize: "16px", color: "#fff" }}
+                  >
+                    Você deseja deixar seu perfil público ou privado?
+                  </p>
+                  {stateView === "public" ? (
+                    <>
+                      <ProfileTag onClick={handleStateView}>
+                        Público <LiaEyeSolid />
+                      </ProfileTag>
+                      <p
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "12px",
+                          color: "#fff",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        Caso você deixar seu perfil público, os outros usuários
+                        poderão ver suas informações como nome e foto nas suas
+                        atividades públicas e acessar seu perfil.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <ProfileTag onClick={handleStateView}>
+                        Privado <FaRegEyeSlash />
+                      </ProfileTag>
+                      <p
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "12px",
+                          color: "#fff",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        Caso você deixar seu perfil privado, suas atividades
+                        públicas ficarão com seu nome e foto em anônimo e seu
+                        perfil não poderá ser acessado pelos outros usuários.
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+              {user?.typeUser === "patient" && (
+                <StatisticContainer color={"positiveColor"}>
+                  <div>
+                    <p
+                      style={{
+                        fontWeight: 700,
+                        fontSize: "22px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      Estatística:
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: 400,
+                        fontStyle: "italic",
+                        fontSize: "22px",
+                      }}
+                    >
+                      Total de atividades: 10
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: 400,
+                        fontStyle: "italic",
+                        fontSize: "22px",
+                      }}
+                    >
+                      Atividades realizadas dentro do prazo: 7
+                    </p>
+                  </div>
                   <p
                     style={{
                       fontWeight: 700,
-                      fontSize: "22px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Estatística:
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: 400,
                       fontStyle: "italic",
-                      fontSize: "22px",
+                      fontSize: "100px",
+                      color: "rgba(255, 255, 255, 0.5)",
+                      paddingRight: "140px",
                     }}
                   >
-                    Total de atividades: 10
+                    70%
                   </p>
-                  <p
-                    style={{
-                      fontWeight: 400,
-                      fontStyle: "italic",
-                      fontSize: "22px",
-                    }}
-                  >
-                    Atividades realizadas dentro do prazo: 7
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontWeight: 700,
-                    fontStyle: "italic",
-                    fontSize: "100px",
-                    color: "rgba(255, 255, 255, 0.5)",
-                    paddingRight: "140px",
-                  }}
-                >
-                  70%
-                </p>
-                {stateStatisticView === "public" ? (
-                  <Tooltip
-                    content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
-                    clickEvent={handleStateStatisticView}
-                  >
-                    Público <LiaEyeSolid />
-                  </Tooltip>
-                ) : (
-                  <Tooltip
-                    content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
-                    clickEvent={handleStateStatisticView}
-                  >
-                    Privado <FaRegEyeSlash />
-                  </Tooltip>
-                )}
+                  {stateStatisticView === "public" ? (
+                    <Tooltip
+                      content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
+                      clickEvent={handleStateStatisticView}
+                    >
+                      Público <LiaEyeSolid />
+                    </Tooltip>
+                  ) : (
+                    <Tooltip
+                      content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
+                      clickEvent={handleStateStatisticView}
+                    >
+                      Privado <FaRegEyeSlash />
+                    </Tooltip>
+                  )}
 
-                <StrengthContainer>
-                  33 força <PiRocketLaunchLight />
-                </StrengthContainer>
-              </StatisticContainer>
+                  <StrengthContainer>
+                    33 força <PiRocketLaunchLight />
+                  </StrengthContainer>
+                </StatisticContainer>
+              )}
             </div>
           </div>
         </ContentContainerProfile>
