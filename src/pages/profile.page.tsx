@@ -20,7 +20,7 @@ import {
 } from "../styles/pages/profile";
 import { Menu } from "../components/menu";
 import { Header } from "../styles/pages/publicTasks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { LiaEyeSolid } from "react-icons/lia";
 import { FaCheckCircle, FaRegEyeSlash } from "react-icons/fa";
@@ -31,38 +31,49 @@ import { Tooltip } from "../components/tooltip";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useAuth } from "../hooks/auth";
+import { api } from "../lib/axios";
+
+interface MyProfessionals {
+  name: string;
+  userId: string;
+}
 
 export default function Profile() {
-  const [stateTextarea, setStateTextarea] = useState<string>("");
-  const [stateInput, setStateInput] = useState<string>("");
+  const { user } = useAuth();
+  const [stateTextarea, setStateTextarea] = useState<string>(
+    user?.complaint ? user?.complaint : ""
+  );
+  const [stateTextareaProfessional, setStateTextareaProfessional] =
+    useState<string>(user?.description ? user?.description : "");
+  const [stateInput, setStateInput] = useState<string>(user?.username);
   const [stateInputSpecialization, setStateInputSpecialization] =
-    useState<string>("");
-  const [stateView, setStateView] = useState<string>("public");
-  const [stateStatisticView, setStateStatisticView] =
-    useState<string>("public");
+    useState<string>(user?.specialization ? user?.specialization : "");
+  const [stateView, setStateView] = useState<boolean>(
+    user?.profilePublic ? user?.profilePublic : false
+  );
+  const [stateStatisticView, setStateStatisticView] = useState<boolean>(
+    user?.statisticPublic ? user?.statisticPublic : false
+  );
   const [click, setClick] = useState<boolean>(false);
   const [favoriteTask, setFavoriteTask] = useState<boolean>(false);
-  const [addProfessionals, SetAddProfessionals] = useState<string[]>([
-    "Psicólogo",
-    "Psiquiatra",
-  ]);
+  const [addProfessionals, SetAddProfessionals] = useState<MyProfessionals[]>(
+    []
+  );
   const [inputNewProfessional, setInputNewProfessional] = useState<string>("");
 
-  const { user } = useAuth();
-
   function handleStateView() {
-    if (stateView === "public") {
-      setStateView("private");
+    if (stateView === true) {
+      setStateView(false);
     } else {
-      setStateView("public");
+      setStateView(true);
     }
   }
 
   function handleStateStatisticView() {
-    if (stateStatisticView === "public") {
-      setStateStatisticView("private");
+    if (stateStatisticView === true) {
+      setStateStatisticView(false);
     } else {
-      setStateStatisticView("public");
+      setStateStatisticView(true);
     }
   }
 
@@ -88,26 +99,64 @@ export default function Profile() {
     }
   };
 
-  function handleNewProfessional() {
+  async function handleNewProfessional() {
     if (inputNewProfessional.length === 0) {
       alert("Digite o nome do profissional!");
       return;
-    } else if (addProfessionals.includes(inputNewProfessional)) {
+    } else if (
+      addProfessionals.find((item) => item.name === inputNewProfessional)
+    ) {
       alert("Não é possível adicionar o mesmo profissional!");
       return;
     } else {
-      SetAddProfessionals((prevState) => [...prevState, inputNewProfessional]);
-      setInputNewProfessional("");
+      try {
+        await api.post("/myProfessionals/create", {
+          name: inputNewProfessional,
+          userId: user?.id,
+        });
+
+        SetAddProfessionals((prevState) => [
+          ...prevState,
+          { name: inputNewProfessional, userId: user?.id },
+        ]);
+
+        setInputNewProfessional("");
+      } catch (error) {
+        alert(`Não foi possível adicionar o profissional. ${error}`);
+        return;
+      }
     }
   }
 
-  function handleDeleteProfessional(professionalDeleted: string) {
-    const professionalsWithoutProfessionalDeleted = addProfessionals.filter(
-      (professional) => professional !== professionalDeleted
-    );
+  async function handleDeleteProfessional(professionalDeleted: string) {
+    try {
+      await api.delete(`/myProfessionals/delete/${professionalDeleted}`);
 
-    SetAddProfessionals(professionalsWithoutProfessionalDeleted);
+      const professionalsWithoutDeleted = addProfessionals.filter(
+        (item) => item.name !== professionalDeleted
+      );
+      SetAddProfessionals(professionalsWithoutDeleted);
+    } catch (error) {
+      alert(`Não foi possível deletar o profissional. ${error}`);
+      return;
+    }
   }
+
+  useEffect(() => {
+    async function handleFindMyProfessionals() {
+      try {
+        const response = await api.get(
+          `/myProfessionals/getMyProfessionals/${user?.id}`
+        );
+
+        SetAddProfessionals(response.data);
+      } catch (error) {
+        alert(`Não foi buscar os meus profissionais criar o usuário. ${error}`);
+      }
+    }
+
+    handleFindMyProfessionals();
+  }, [user]);
 
   return (
     <Container>
@@ -455,8 +504,10 @@ export default function Profile() {
                   <textarea
                     placeholder="Escreva aqui sua descrição profissional (no mínimo 100 caracteres)..."
                     maxLength={1000}
-                    onChange={(e) => setStateTextarea(e.target.value)}
-                    value={stateTextarea}
+                    onChange={(e) =>
+                      setStateTextareaProfessional(e.target.value)
+                    }
+                    value={stateTextareaProfessional}
                     style={{
                       width: "100%",
                       height: "100px",
@@ -484,10 +535,15 @@ export default function Profile() {
                     Profissionais que sou acompanhado:
                   </p>
                   {addProfessionals.map((professional) => (
-                    <div key={professional} style={{ position: "relative" }}>
-                      <ProfessionalTag>{professional}</ProfessionalTag>
+                    <div
+                      key={professional.name}
+                      style={{ position: "relative" }}
+                    >
+                      <ProfessionalTag>{professional.name}</ProfessionalTag>
                       <ButtonWithHover
-                        onClick={() => handleDeleteProfessional(professional)}
+                        onClick={() =>
+                          handleDeleteProfessional(professional.name)
+                        }
                         style={{ position: "absolute", top: -10, right: -10 }}
                       >
                         <IoIosCloseCircle size={25} color="#3a89c9" />
@@ -549,7 +605,7 @@ export default function Profile() {
                   >
                     Você deseja deixar seu perfil público ou privado?
                   </p>
-                  {stateView === "public" ? (
+                  {stateView === true ? (
                     <>
                       <ProfileTag onClick={handleStateView}>
                         Público <LiaEyeSolid />
@@ -630,7 +686,7 @@ export default function Profile() {
                   >
                     70%
                   </p>
-                  {stateStatisticView === "public" ? (
+                  {stateStatisticView === true ? (
                     <Tooltip
                       content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
                       clickEvent={handleStateStatisticView}
