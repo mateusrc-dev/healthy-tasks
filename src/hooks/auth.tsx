@@ -27,6 +27,13 @@ interface User {
 interface AuthContextType {
   signIn: (email: string, password: string) => void;
   signOut: () => void;
+  updateProfilePatient: (
+    username: string,
+    complaint: string,
+    profilePublic: boolean,
+    statisticPublic: boolean,
+    userId: string
+  ) => void;
   user: User;
 }
 
@@ -62,6 +69,33 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     setData(null);
   }
 
+  async function updateProfilePatient(
+    username: string,
+    complaint: string,
+    profilePublic: boolean,
+    statisticPublic: boolean,
+    userId: string
+  ) {
+    try {
+      const response = await api.patch("/users/updatePatient", {
+        username,
+        complaint,
+        profilePublic,
+        statisticPublic,
+        userId,
+      });
+
+      const user = response.data;
+
+      localStorage.setItem("@healthy-tasks:user", JSON.stringify(user));
+
+      setData({ user, token: data.token });
+      alert("Perfil atualizado");
+    } catch (error) {
+      alert(`Não foi possível atualizar o perfil. ${error}`);
+    }
+  }
+
   useEffect(() => {
     const user = localStorage.getItem("@healthy-tasks:user");
     const token = localStorage.getItem("@healthy-tasks:token");
@@ -74,7 +108,9 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, user: data?.user }}>
+    <AuthContext.Provider
+      value={{ signIn, signOut, updateProfilePatient, user: data?.user }}
+    >
       {children}
     </AuthContext.Provider>
   );

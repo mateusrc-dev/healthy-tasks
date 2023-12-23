@@ -39,7 +39,7 @@ interface MyProfessionals {
 }
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, updateProfilePatient } = useAuth();
   const [stateTextarea, setStateTextarea] = useState<string>(
     user?.complaint ? user?.complaint : ""
   );
@@ -140,6 +140,16 @@ export default function Profile() {
       alert(`Não foi possível deletar o profissional. ${error}`);
       return;
     }
+  }
+
+  async function handleUpdatePatient() {
+    await updateProfilePatient(
+      stateInput,
+      stateTextarea,
+      stateView,
+      stateStatisticView,
+      user?.id
+    );
   }
 
   useEffect(() => {
@@ -393,7 +403,7 @@ export default function Profile() {
               stateInput.length != 0 &&
               stateTextarea.length >= 100 &&
               addProfessionals.length != 0 ? (
-                <ButtonSave>
+                <ButtonSave onClick={handleUpdatePatient}>
                   Salvar informações <TfiSave />
                 </ButtonSave>
               ) : null}
