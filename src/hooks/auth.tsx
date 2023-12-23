@@ -88,6 +88,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       const user = response.data;
 
       localStorage.setItem("@healthy-tasks:user", JSON.stringify(user));
+      localStorage.setItem("@healthy-tasks:token", data.token);
 
       setData({ user, token: data.token });
       alert("Perfil atualizado");
@@ -99,6 +100,8 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   useEffect(() => {
     const user = localStorage.getItem("@healthy-tasks:user");
     const token = localStorage.getItem("@healthy-tasks:token");
+
+    console.log(user, token);
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;

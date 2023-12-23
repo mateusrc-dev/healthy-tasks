@@ -400,7 +400,7 @@ export default function Profile() {
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
               </ChangePhotoButton>
               {user?.typeUser === "patient" &&
-              stateInput.length != 0 &&
+              stateInput?.length != 0 &&
               stateTextarea.length >= 100 &&
               addProfessionals.length != 0 ? (
                 <ButtonSave onClick={handleUpdatePatient}>
