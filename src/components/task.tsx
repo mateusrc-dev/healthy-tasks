@@ -18,7 +18,7 @@ import {
 import { Comment } from "./comment";
 import { LiaEyeSolid } from "react-icons/lia";
 import { PiRocketLaunchLight } from "react-icons/pi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { useSpring, animated } from "react-spring";
 import { TfiWrite } from "react-icons/tfi";
@@ -29,6 +29,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import Link from "next/link";
 import { api } from "../lib/axios";
 import dayjs from "dayjs";
+import { useAuth } from "../hooks/auth";
 
 type Props = {
   titleOfTask: string;
@@ -36,6 +37,7 @@ type Props = {
   professionalPhotoUrl: string;
   professionalName: string;
   taskId: string;
+  userEmailOfTask: string;
   isRenderInProfile?: boolean;
   stateTimeTask?: boolean;
   checkTask?: boolean;
@@ -43,7 +45,20 @@ type Props = {
   taskIsForOtherUser?: boolean;
   deadline: Date;
   isTaskPublic: boolean;
+  forceTask: number;
 };
+
+interface DataCommentProps {
+  description: string;
+  id: string;
+  taskId: string;
+  user: {
+    username: string;
+    photoUrl: string;
+    email: string;
+  };
+  userId: string;
+}
 
 export function Task({
   descriptionOfTask,
@@ -56,17 +71,24 @@ export function Task({
   marginInline = false,
   taskIsForOtherUser = false,
   taskId,
+  userEmailOfTask,
   deadline,
   isTaskPublic,
+  forceTask,
 }: Props) {
   const [stateView, setStateView] = useState<boolean>(isTaskPublic);
   const [animate, setAnimate] = useState(false);
   const [stateMotivation, setStateMotivation] = useState<boolean>(true);
-  const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
+  const [stateSumMotivation, setStateSumMotivation] = useState<number>(
+    forceTask === null ? 0 : forceTask
+  );
   const [stateComment, setStateComment] = useState<boolean>(false);
   const [stateTextarea, setStateTextarea] = useState<string>("");
   const [favorite, setFavorite] = useState<boolean>(false);
   const [stateCheckTask, setStateCheckTask] = useState<boolean>(checkTask);
+  const [dataComments, setDataComments] = useState<DataCommentProps[]>([]);
+  const [state, setState] = useState<boolean>(false);
+  const { user } = useAuth();
 
   const dateNow = new Date();
   const date1 = dayjs(dateNow);
@@ -177,16 +199,72 @@ export function Task({
     }
   }
 
-  function handleMotivationState() {
+  async function handleMotivationState() {
     if (stateMotivation === true) {
       setAnimate(!animate);
       setStateSumMotivation((prevState) => prevState + 1);
+      try {
+        await api.patch("/tasks/updateForceTask", {
+          forceTask: stateSumMotivation + 1,
+          taskId,
+        });
+      } catch (error) {
+        alert(`Não foi possível atualizar o status de força. ${error}`);
+      }
     } else if (stateMotivation === false) {
       setAnimate(!animate);
       setStateSumMotivation((prevState) => prevState - 1);
+      try {
+        await api.patch("/tasks/updateForceTask", {
+          forceTask: stateSumMotivation - 1,
+          taskId,
+        });
+      } catch (error) {
+        alert(`Não foi possível atualizar o status de força. ${error}`);
+      }
     }
     setStateMotivation((prevState) => !prevState);
   }
+
+  async function handleCreateComment() {
+    try {
+      await api.post("/comments/create", {
+        description: stateTextarea,
+        userId: user.id,
+        taskId,
+      });
+
+      setStateTextarea("");
+      setStateComment(!stateComment);
+    } catch (error) {
+      alert(`Não foi possível criar um novo comentário. ${error}`);
+    }
+  }
+
+  async function handleDeleteComment(commentId: string) {
+    try {
+      await api.delete(`/comments/delete/${commentId}`);
+      setState(!state);
+    } catch (error) {
+      alert(`Não foi possível deletar o comentário. ${error}`);
+    }
+  }
+
+  useEffect(() => {
+    async function handleFetchCommentsOfTask() {
+      try {
+        const response = await api.get(
+          `/comments/getCommentByTaskId/${taskId}`
+        );
+
+        setDataComments(response.data);
+      } catch (error) {
+        alert(`Não foi possível buscar pelos comentários da tarefa. ${error}`);
+      }
+    }
+
+    handleFetchCommentsOfTask();
+  }, [taskId, stateComment, state]);
 
   return (
     <TaskContainer margin={marginInline ? "elementWithMarginInline" : null}>
@@ -309,6 +387,8 @@ export function Task({
                 color: "#ffff",
                 borderRadius: "100%",
                 padding: "5px",
+                width: "20px",
+                height: "20px",
                 top: "-10px",
                 right: "-10px",
                 fontSize: "10px",
@@ -388,7 +468,7 @@ export function Task({
             }}
           >{`${stateTextarea.length} | 1000`}</div>
           {stateTextarea.length >= 100 && (
-            <Button position={true}>
+            <Button position={true} clickEvent={handleCreateComment}>
               Pronto <BsCheck />
             </Button>
           )}
@@ -406,17 +486,18 @@ export function Task({
           />
         </CreateCommentContainer>
       )}
-      <Comment
-        text="muito massa a atividade, amei, você é incrível dr. Mateus 😍"
-        userName="Roberto"
-        userPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-        patient={true}
-      />
-      <Comment
-        text="muito massa a atividade, fiquei com vontade de me consultar com o dr.Mateus"
-        userName="Luiz"
-        userPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-      />
+      {dataComments.map((item) => (
+        <Comment
+          key={item.id}
+          text={item.description}
+          userName={item.user.username}
+          userPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+          patient={item.user.email === userEmailOfTask}
+          renderInMyRecentTasks={true}
+          commentId={item.id}
+          handleDeleteComment={handleDeleteComment}
+        />
+      ))}
     </TaskContainer>
   );
 }

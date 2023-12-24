@@ -2,8 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/publicTasks": "pages/publicTasks.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
-  "/profile": "pages/profile.js",
-  "/api/tasks/getTaskById/[...params]": "pages/api/tasks/getTaskById/[...params].js"
+  "/publicTasks": "pages/publicTasks.js",
+  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
+  "/": "pages/index.js",
+  "/api/comments/delete/[commentId]": "pages/api/comments/delete/[commentId].js",
+  "/api/comments/create": "pages/api/comments/create.js"
 }

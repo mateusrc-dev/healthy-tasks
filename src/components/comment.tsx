@@ -7,16 +7,28 @@ import {
   Profile,
   Tag,
 } from "../styles/components/comment";
-import { BsPerson } from "react-icons/bs";
+import { BsPerson, BsTrash2Fill } from "react-icons/bs";
+import { api } from "../lib/axios";
 
 type Props = {
   text: string;
   userPhoto: string;
   userName: string;
   patient?: boolean;
+  renderInMyRecentTasks?: boolean;
+  commentId: string;
+  handleDeleteComment: (commentId: string) => void;
 };
 
-export function Comment({ text, userName, userPhoto, patient = false }: Props) {
+export function Comment({
+  text,
+  userName,
+  userPhoto,
+  commentId,
+  handleDeleteComment,
+  patient = false,
+  renderInMyRecentTasks = false,
+}: Props) {
   return (
     <CommentContainer>
       <Link href={`profileDetails/1`}>
@@ -44,12 +56,29 @@ export function Comment({ text, userName, userPhoto, patient = false }: Props) {
           </Link>
           {patient && (
             <Tag>
-              Paciente do dr. Mateus Carvalho <BsPerson />
+              {renderInMyRecentTasks
+                ? "Seu comentário"
+                : "Paciente do dr. Mateus Carvalho"}{" "}
+              <BsPerson />
             </Tag>
           )}
         </div>
         <CommentText>{text}</CommentText>
       </div>
+      <button
+        onClick={() => handleDeleteComment(commentId)}
+        title="deletar"
+        style={{
+          position: "absolute",
+          top: 5,
+          right: 5,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        <BsTrash2Fill color={"#ff194b"} size={30} />
+      </button>
     </CommentContainer>
   );
 }

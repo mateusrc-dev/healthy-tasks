@@ -106,6 +106,8 @@ export default function MyRecentTasks(props) {
               taskId={item.id}
               deadline={item.deadline}
               isTaskPublic={item.isTaskPublic}
+              forceTask={item.forceTask}
+              userEmailOfTask={item.patientEmail}
             />
           ))}
           <PaginationContainer>
