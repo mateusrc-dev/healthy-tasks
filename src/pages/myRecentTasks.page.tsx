@@ -49,8 +49,9 @@ export default function MyRecentTasks(props) {
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
   const [pageSelected, setPageSelected] = useState<number>(1);
   const [count, setCount] = useState(0);
+  const [searchTask, setSearchTask] = useState<string>("");
   const { user } = useAuth();
-  console.log(dataTasksState);
+  console.log(searchTask);
 
   function handleChangePage(page: number) {
     setPageSelected(page);
@@ -60,7 +61,7 @@ export default function MyRecentTasks(props) {
     async function handleGetTasksByUserId() {
       try {
         const response = await api.get(
-          `/tasks/getTaskById/${user.email}/${pageSelected - 1}`
+          `/tasks/getTasks/${user.email}/${pageSelected - 1}/${searchTask}`
         );
 
         setDataTasksState(response.data);
@@ -70,7 +71,7 @@ export default function MyRecentTasks(props) {
       }
     }
     handleGetTasksByUserId();
-  }, [user, pageSelected]);
+  }, [user, pageSelected, searchTask]);
 
   useEffect(() => {
     function handlePages() {
@@ -94,7 +95,10 @@ export default function MyRecentTasks(props) {
       <BodyOfPublicTasks>
         <Menu pageSelected="myRecentTasks" />
         <ContentContainer>
-          <InputComponent placeholder="Clique para pesquisar por alguma atividade" />
+          <InputComponent
+            handleOnChange={setSearchTask}
+            placeholder="Clique para pesquisar por alguma atividade"
+          />
           {dataTasksState?.map((item) => (
             <Task
               key={item.id}

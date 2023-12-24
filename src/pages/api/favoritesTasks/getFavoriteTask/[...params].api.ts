@@ -11,19 +11,15 @@ export default async function handler(
 
     const { params }= req.query
 
-    const email = params[0]
-    const page = params[1]
+    const userId = params[0]
+    const taskId = params[1]
 
-    const tasks = await prisma.task.findMany({
-        skip: Number(page),
-        take: 5,
+    const favoriteTask = await prisma.favoriteTask.findMany({
         where: { 
-            patientEmail: email, 
-            carriedOut: false 
+            userId,
+            taskId
         },
-        orderBy: { created_at: "desc" },
-        include: { user: true }
     })
 
-    return res.status(201).json(tasks)
+    return res.status(201).json(favoriteTask)
 }

@@ -88,6 +88,7 @@ export function Task({
   const [stateCheckTask, setStateCheckTask] = useState<boolean>(checkTask);
   const [dataComments, setDataComments] = useState<DataCommentProps[]>([]);
   const [state, setState] = useState<boolean>(false);
+  const [favoriteId, setFavoriteId] = useState<string>();
   const { user } = useAuth();
 
   const dateNow = new Date();
@@ -250,6 +251,31 @@ export function Task({
     }
   }
 
+  async function handleChangeStateFavoriteTask() {
+    if (!favorite) {
+      try {
+        const response = await api.post(`/favoritesTasks/create`, {
+          taskId,
+          userId: user.id,
+        });
+
+        setFavorite(!favorite);
+        setFavoriteId(response.data.id);
+      } catch (error) {
+        alert(`Não foi possível favoritar. ${error}`);
+      }
+    } else {
+      try {
+        await api.delete(`/favoritesTasks/delete/${favoriteId}`);
+
+        setFavorite(!favorite);
+      } catch (error) {
+        alert(`Não foi possível desfavoritar. ${error}`);
+      }
+      setFavorite(!favorite);
+    }
+  }
+
   useEffect(() => {
     async function handleFetchCommentsOfTask() {
       try {
@@ -263,8 +289,27 @@ export function Task({
       }
     }
 
+    async function handleFindFavoriteTask() {
+      try {
+        const response = await api.get(
+          `/favoritesTasks/getFavoriteTask/${user.id}/${taskId}`
+        );
+
+        if (response.data.length !== 0) {
+          setFavorite(true);
+          console.log(response.data[0].id);
+          setFavoriteId(response.data[0].id);
+        } else {
+          setFavorite(false);
+        }
+      } catch (error) {
+        alert(`Não foi possível buscar se a atividade é favorita. ${error}`);
+      }
+    }
+
+    handleFindFavoriteTask();
     handleFetchCommentsOfTask();
-  }, [taskId, stateComment, state]);
+  }, [taskId, stateComment, state, user]);
 
   return (
     <TaskContainer margin={marginInline ? "elementWithMarginInline" : null}>
@@ -419,7 +464,7 @@ export function Task({
               <div>
                 <FavoriteIcon>
                   <FaHeart
-                    onClick={() => setFavorite(!favorite)}
+                    onClick={handleChangeStateFavoriteTask}
                     size={25}
                     color="#ff194b"
                   />
@@ -427,7 +472,7 @@ export function Task({
               </div>
             ) : (
               <FaRegHeart
-                onClick={() => setFavorite(!favorite)}
+                onClick={handleChangeStateFavoriteTask}
                 size={25}
                 color="#ff194b"
                 style={{ cursor: "pointer", position: "relative", zIndex: 2 }}
@@ -491,7 +536,7 @@ export function Task({
           key={item.id}
           text={item.description}
           userName={item.user.username}
-          userPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
+          userPhoto={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
           patient={item.user.email === userEmailOfTask}
           renderInMyRecentTasks={true}
           commentId={item.id}
