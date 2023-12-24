@@ -39,7 +39,7 @@ interface MyProfessionals {
 }
 
 export default function Profile() {
-  const { user, updateProfilePatient } = useAuth();
+  const { user, updateProfilePatient, updateProfileProfessional } = useAuth();
   const [stateTextarea, setStateTextarea] = useState<string>(
     user?.complaint ? user?.complaint : ""
   );
@@ -153,6 +153,18 @@ export default function Profile() {
       stateTextarea,
       stateView,
       stateStatisticView,
+      avatarFile,
+      user?.id
+    );
+  }
+
+  console.log(avatarFile);
+
+  async function handleUpdateProfessional() {
+    await updateProfileProfessional(
+      stateInput,
+      stateInputSpecialization,
+      stateTextareaProfessional,
       avatarFile,
       user?.id
     );
@@ -441,8 +453,8 @@ export default function Profile() {
               {user?.typeUser === "professional" &&
               stateInputSpecialization.length != 0 &&
               stateInput.length != 0 &&
-              stateTextarea.length >= 100 ? (
-                <ButtonSave>
+              stateTextareaProfessional.length >= 100 ? (
+                <ButtonSave onClick={handleUpdateProfessional}>
                   Salvar informações <TfiSave />
                 </ButtonSave>
               ) : null}
@@ -502,64 +514,94 @@ export default function Profile() {
                 </div>
               )}
               <div style={{ position: "relative" }}>
-                {stateTextarea && (
-                  <TextInformation
-                    color={
-                      stateTextarea.length >= 100 ? "alertPositive" : "alert"
-                    }
-                  >
-                    Sua queixa (no mínimo 100 caracteres)
-                  </TextInformation>
-                )}
-                <p
-                  style={{
-                    position: "absolute",
-                    bottom: "10px",
-                    right: "10px",
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    color: "#fff",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {stateTextarea.length} | 1000
-                </p>
                 {user?.typeUser === "patient" ? (
-                  <textarea
-                    placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
-                    maxLength={1000}
-                    onChange={(e) => setStateTextarea(e.target.value)}
-                    value={stateTextarea}
-                    style={{
-                      width: "100%",
-                      height: "100px",
-                      resize: "none",
-                      border: "none",
-                      borderRadius: "10px",
-                      padding: "10px",
-                      background: "#1618f1",
-                      color: "#fff",
-                    }}
-                  />
+                  <>
+                    {stateTextarea && (
+                      <TextInformation
+                        color={
+                          stateTextarea.length >= 100
+                            ? "alertPositive"
+                            : "alert"
+                        }
+                      >
+                        Sua queixa (no mínimo 100 caracteres)
+                      </TextInformation>
+                    )}
+                    <p
+                      style={{
+                        position: "absolute",
+                        bottom: "10px",
+                        right: "10px",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        color: "#fff",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {stateTextarea.length} | 1000
+                    </p>
+                    <textarea
+                      placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
+                      maxLength={1000}
+                      onChange={(e) => setStateTextarea(e.target.value)}
+                      value={stateTextarea}
+                      style={{
+                        width: "100%",
+                        height: "100px",
+                        resize: "none",
+                        border: "none",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        background: "#1618f1",
+                        color: "#fff",
+                      }}
+                    />
+                  </>
                 ) : (
-                  <textarea
-                    placeholder="Escreva aqui sua descrição profissional (no mínimo 100 caracteres)..."
-                    maxLength={1000}
-                    onChange={(e) =>
-                      setStateTextareaProfessional(e.target.value)
-                    }
-                    value={stateTextareaProfessional}
-                    style={{
-                      width: "100%",
-                      height: "100px",
-                      resize: "none",
-                      border: "none",
-                      borderRadius: "10px",
-                      padding: "10px",
-                      background: "#1618f1",
-                      color: "#fff",
-                    }}
-                  />
+                  <>
+                    {stateTextareaProfessional && (
+                      <TextInformation
+                        color={
+                          stateTextareaProfessional.length >= 100
+                            ? "alertPositive"
+                            : "alert"
+                        }
+                      >
+                        Sua descrição (no mínimo 100 caracteres)
+                      </TextInformation>
+                    )}
+                    <p
+                      style={{
+                        position: "absolute",
+                        bottom: "10px",
+                        right: "10px",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        color: "#fff",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {stateTextareaProfessional.length} | 1000
+                    </p>
+                    <textarea
+                      placeholder="Escreva aqui sua descrição profissional (no mínimo 100 caracteres)..."
+                      maxLength={1000}
+                      onChange={(e) =>
+                        setStateTextareaProfessional(e.target.value)
+                      }
+                      value={stateTextareaProfessional}
+                      style={{
+                        width: "100%",
+                        height: "100px",
+                        resize: "none",
+                        border: "none",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        background: "#1618f1",
+                        color: "#fff",
+                      }}
+                    />
+                  </>
                 )}
               </div>
               {user?.typeUser === "patient" && (

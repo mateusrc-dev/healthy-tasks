@@ -23,7 +23,7 @@ export const withAuth = (handler: NextApiHandler) => async (req: AuthenticatedRe
         const { sub: user_id } = verify(token, authObjectConfigs.jwt.secret) as { sub: string };
         
         req.user_id = user_id;
-
+        
         return await handler(req, res);
     } catch {
         return res.status(401).json({ error: 'Token inválido' });

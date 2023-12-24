@@ -35,6 +35,13 @@ interface AuthContextType {
     avatarFile: string,
     userId: string
   ) => void;
+  updateProfileProfessional: (
+    username: string,
+    specialization: string,
+    description: string,
+    avatarFile: string,
+    userId: string
+  ) => void;
   user: User;
 }
 
@@ -56,7 +63,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       localStorage.setItem("@healthy-tasks:user", JSON.stringify(user));
       localStorage.setItem("@healthy-tasks:token", JSON.stringify(token));
 
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      api.defaults.headers.authorization = `Bearer ${token}`;
 
       setData({ user, token });
     } catch (error) {
@@ -111,12 +118,53 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     }
   }
 
+  async function updateProfileProfessional(
+    username: string,
+    specialization: string,
+    description: string,
+    avatarFile: string,
+    userId: string
+  ) {
+    try {
+      if (avatarFile) {
+        const fileUploadForm = new FormData();
+
+        fileUploadForm.append("avatar", avatarFile);
+
+        const config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        await api.patch("/avatar", fileUploadForm, config);
+      }
+
+      const response = await api.patch("/users/updateProfessional", {
+        username,
+        specialization,
+        description,
+        userId,
+      });
+
+      const user = response.data;
+
+      localStorage.setItem("@healthy-tasks:user", JSON.stringify(user));
+      localStorage.setItem("@healthy-tasks:token", data.token);
+
+      setData({ user, token: data.token });
+      alert("Perfil atualizado");
+    } catch (error) {
+      alert(`Não foi possível atualizar o perfil. ${error}`);
+    }
+  }
+
   useEffect(() => {
     const user = localStorage.getItem("@healthy-tasks:user");
     const token = localStorage.getItem("@healthy-tasks:token");
 
     if (token && user) {
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      api.defaults.headers.authorization = `Bearer ${token}`;
 
       setData({ user: JSON.parse(user), token: token });
     }
@@ -124,7 +172,13 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ signIn, signOut, updateProfilePatient, user: data?.user }}
+      value={{
+        signIn,
+        signOut,
+        updateProfilePatient,
+        updateProfileProfessional,
+        user: data?.user,
+      }}
     >
       {children}
     </AuthContext.Provider>
