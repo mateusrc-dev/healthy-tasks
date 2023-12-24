@@ -9,12 +9,18 @@ export default async function handler(
         return res.status(405).end()
     }
 
-    const { userEmail } = req.query
+    const { params }= req.query
 
-    const userEmailQuery = String(userEmail)
+    const email = params[0]
+    const page = params[1]
 
     const tasks = await prisma.task.findMany({
-        where: { patientEmail: userEmailQuery },
+        skip: Number(page),
+        take: 5,
+        where: { 
+            patientEmail: email, 
+            carriedOut: false 
+        },
         orderBy: { created_at: "desc" },
         include: { user: true }
     })

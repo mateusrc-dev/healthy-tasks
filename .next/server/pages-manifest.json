@@ -2,9 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
+  "/publicTasks": "pages/publicTasks.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
-  "/api/tasks/getTaskById/[userEmail]": "pages/api/tasks/getTaskById/[userEmail].js",
-  "/api/files/[url]": "pages/api/files/[url].js",
-  "/publicTasks": "pages/publicTasks.js"
+  "/profile": "pages/profile.js",
+  "/api/tasks/getTaskById/[...params]": "pages/api/tasks/getTaskById/[...params].js"
 }

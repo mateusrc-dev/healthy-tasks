@@ -27,17 +27,22 @@ import { BsCheck } from "react-icons/bs";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoCloseCircle } from "react-icons/io5";
 import Link from "next/link";
+import { api } from "../lib/axios";
+import dayjs from "dayjs";
 
 type Props = {
   titleOfTask: string;
   descriptionOfTask: string;
   professionalPhotoUrl: string;
   professionalName: string;
+  taskId: string;
   isRenderInProfile?: boolean;
   stateTimeTask?: boolean;
   checkTask?: boolean;
   marginInline?: boolean;
   taskIsForOtherUser?: boolean;
+  deadline: Date;
+  isTaskPublic: boolean;
 };
 
 export function Task({
@@ -50,8 +55,11 @@ export function Task({
   checkTask = false,
   marginInline = false,
   taskIsForOtherUser = false,
+  taskId,
+  deadline,
+  isTaskPublic,
 }: Props) {
-  const [stateView, setStateView] = useState<string>("public");
+  const [stateView, setStateView] = useState<boolean>(isTaskPublic);
   const [animate, setAnimate] = useState(false);
   const [stateMotivation, setStateMotivation] = useState<boolean>(true);
   const [stateSumMotivation, setStateSumMotivation] = useState<number>(20);
@@ -60,8 +68,23 @@ export function Task({
   const [favorite, setFavorite] = useState<boolean>(false);
   const [stateCheckTask, setStateCheckTask] = useState<boolean>(checkTask);
 
-  function handleCheckTask() {
+  const dateNow = new Date();
+  const date1 = dayjs(dateNow);
+  const date2 = dayjs(deadline);
+
+  async function handleCheckTask() {
     setStateCheckTask(!stateCheckTask);
+    try {
+      await api.patch("/tasks/updateCarriedOut", {
+        carriedOut: !stateCheckTask,
+        taskId,
+      });
+    } catch (error) {
+      alert(
+        `Não foi possível atualizar o status de atividade realizada. ${error}`
+      );
+      return;
+    }
   }
 
   const animationProps = useSpring({
@@ -124,11 +147,33 @@ export function Task({
     reset: animate, // Resetar a animação ao clicar novamente
   });
 
-  function handleStateView() {
-    if (stateView === "public") {
-      setStateView("private");
+  async function handleStateView() {
+    if (stateView === true) {
+      setStateView(false);
+      try {
+        await api.patch("/tasks/updateIsTaskPublic", {
+          isTaskPublic: false,
+          taskId,
+        });
+      } catch (error) {
+        alert(
+          `Não foi possível atualizar o status de visibilidade da atividade. ${error}`
+        );
+        return;
+      }
     } else {
-      setStateView("public");
+      setStateView(true);
+      try {
+        await api.patch("/tasks/updateIsTaskPublic", {
+          isTaskPublic: true,
+          taskId,
+        });
+      } catch (error) {
+        alert(
+          `Não foi possível atualizar o status de visibilidade da atividade. ${error}`
+        );
+        return;
+      }
     }
   }
 
@@ -192,7 +237,10 @@ export function Task({
                 Prazo para finalizar:
               </TimeForFinishTaskContainerLeft>
               <TimeForFinishTaskContainerRight>
-                3 horas
+                {date2.diff(date1, "hours") < 0
+                  ? 0
+                  : date2.diff(date1, "hours")}{" "}
+                horas
               </TimeForFinishTaskContainerRight>
             </div>
           ) : (
@@ -240,7 +288,7 @@ export function Task({
               </TaskRecipient>
             </Link>
           )}
-          {stateView === "public" ? (
+          {stateView === true ? (
             <Tag onClick={handleStateView}>
               Público <LiaEyeSolid />
             </Tag>

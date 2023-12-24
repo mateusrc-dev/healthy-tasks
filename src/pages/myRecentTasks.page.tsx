@@ -47,13 +47,21 @@ interface TaskType {
 export default function MyRecentTasks(props) {
   console.log(JSON.stringify(props.list));
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const [pageSelected, setPageSelected] = useState<number>(1);
+  const [count, setCount] = useState(0);
   const { user } = useAuth();
   console.log(dataTasksState);
+
+  function handleChangePage(page: number) {
+    setPageSelected(page);
+  }
 
   useEffect(() => {
     async function handleGetTasksByUserId() {
       try {
-        const response = await api.get(`/tasks/getTaskById/${user.email}`);
+        const response = await api.get(
+          `/tasks/getTaskById/${user.email}/${pageSelected - 1}`
+        );
 
         setDataTasksState(response.data);
       } catch (error) {
@@ -62,7 +70,20 @@ export default function MyRecentTasks(props) {
       }
     }
     handleGetTasksByUserId();
-  }, [user]);
+  }, [user, pageSelected]);
+
+  useEffect(() => {
+    function handlePages() {
+      let num = 1;
+      for (let i = 1; dataTasksState.length > i; i++) {
+        if (i % 5 === 0) {
+          num += 1;
+        }
+      }
+      return setCount(num);
+    }
+    handlePages();
+  }, [dataTasksState.length]);
 
   return (
     <Container>
@@ -81,16 +102,24 @@ export default function MyRecentTasks(props) {
               professionalName={item.user.username}
               professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
               titleOfTask={item.title}
+              checkTask={item.carriedOut}
+              taskId={item.id}
+              deadline={item.deadline}
+              isTaskPublic={item.isTaskPublic}
             />
           ))}
           <PaginationContainer>
-            <PageContainer color={"selectColor"}>1</PageContainer>
-            <PageContainer>2</PageContainer>
-            <PageContainer>3</PageContainer>
-            <PageContainer>4</PageContainer>
-            <PageContainer>5</PageContainer>
-            <PageContainer>6</PageContainer>
-            <PageContainer>7</PageContainer>
+            {Array.from(Array(count).keys()).map((day) => {
+              return (
+                <PageContainer
+                  onClick={() => handleChangePage(day + 1)}
+                  key={day}
+                  color={pageSelected === day + 1 ? "selectColor" : null}
+                >
+                  {day + 1}
+                </PageContainer>
+              );
+            })}
           </PaginationContainer>
         </ContentContainer>
       </BodyOfPublicTasks>
