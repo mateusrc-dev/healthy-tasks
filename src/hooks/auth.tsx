@@ -67,7 +67,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
 
       setData({ user, token });
     } catch (error) {
-      alert(`Não foi possível entrar. Erro: ${error}`);
+      alert(`Não foi possível entrar. Senha ou Email incorretos.`);
     }
   }
 

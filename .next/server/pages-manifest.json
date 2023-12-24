@@ -2,11 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/profile": "pages/profile.js",
-  "/publicTasks": "pages/publicTasks.js",
-  "/api/myProfessionals/getMyProfessionals/[userId]": "pages/api/myProfessionals/getMyProfessionals/[userId].js",
   "/": "pages/index.js",
-  "/api/sessions": "pages/api/sessions.js",
-  "/api/avatar": "pages/api/avatar.js",
-  "/api/users/updateProfessional": "pages/api/users/updateProfessional.js"
+  "/myRecentTasks": "pages/myRecentTasks.js",
+  "/api/tasks/getTaskById/[userEmail]": "pages/api/tasks/getTaskById/[userEmail].js",
+  "/api/files/[url]": "pages/api/files/[url].js",
+  "/publicTasks": "pages/publicTasks.js"
 }

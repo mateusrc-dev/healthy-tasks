@@ -111,7 +111,7 @@ export default function Home() {
     try {
       signIn(emailChange, passwordChange);
     } catch (err) {
-      alert(err);
+      alert("Não foi possível logar. Senha ou Email incorretos.");
     }
   }
 

@@ -2,7 +2,7 @@ import { FaHeartPulse } from "react-icons/fa6";
 import { Footer } from "../styles/pages/home";
 import { Menu } from "../components/menu";
 import { Header } from "../styles/pages/publicTasks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BodyCreateTask,
   Container,
@@ -11,6 +11,8 @@ import {
 } from "../styles/pages/createTask";
 import { Button } from "../components/button";
 import { Task } from "../components/task";
+import { api } from "../lib/axios";
+import { useAuth } from "../hooks/auth";
 
 export default function CreateTask() {
   const [newTask, setNewTask] = useState<boolean>(false);
@@ -19,6 +21,8 @@ export default function CreateTask() {
   const [stateDate, setStateDate] = useState<string>("");
   const [stateName, setStateName] = useState<string>("");
   const [stateEmail, setStateEmail] = useState<string>("");
+  const [stateDeadline, setStateDeadline] = useState<Date>();
+  const { user } = useAuth();
 
   function handleNewTask() {
     setNewTask(!newTask);
@@ -28,6 +32,34 @@ export default function CreateTask() {
     setStateEmail("");
     setStateTextarea("");
   }
+
+  async function handleCreateTask() {
+    try {
+      await api.post("/tasks/create", {
+        title: stateName,
+        description: stateTextarea,
+        userId: user.id,
+        patientEmail: stateEmail,
+        deadline: stateDeadline,
+      });
+
+      alert("Tarefa criada com sucesso!");
+      setNewTask(!newTask);
+      setStateTime("");
+      setStateDate("");
+      setStateName("");
+      setStateEmail("");
+      setStateTextarea("");
+    } catch (error) {
+      alert(`Não foi possível criar a tarefa. ${error}`);
+      return;
+    }
+  }
+
+  useEffect(() => {
+    const deadline = new Date(`${stateDate}T${stateTime}:00`);
+    setStateDeadline(deadline);
+  }, [stateTime, stateDate, setStateDeadline]);
 
   return (
     <Container>
@@ -48,7 +80,7 @@ export default function CreateTask() {
             stateTextarea.length >= 100 &&
             newTask &&
             stateEmail.length !== 0 ? (
-              <Button>Pronto</Button>
+              <Button clickEvent={handleCreateTask}>Criar atividade</Button>
             ) : null}
           </div>
           {newTask ? (

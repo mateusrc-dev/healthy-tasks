@@ -11,9 +11,58 @@ import {
 import { Task } from "../components/task";
 import { Menu } from "../components/menu";
 import { InputComponent } from "../components/input";
+import { useEffect, useState } from "react";
+import { api } from "../lib/axios";
+import { useAuth } from "../hooks/auth";
 
-export default function myRecentTasks(props) {
+interface TaskType {
+  carriedOut: boolean;
+  created_at: Date;
+  deadline: Date;
+  description: string;
+  forceTask: number | null;
+  id: string;
+  isTaskPublic: boolean;
+  patientEmail: string;
+  title: string;
+  updatedAt: Date;
+  user: {
+    complaint: string | null;
+    created_at: Date;
+    description: string | null;
+    email: string;
+    id: string;
+    password: string;
+    photoUrl: string;
+    profileForce: number | null;
+    profilePublic: boolean | null;
+    specialization: string | null;
+    statisticPublic: boolean | null;
+    typeUser: string;
+    updatedAt: Date;
+    username: string;
+  };
+}
+
+export default function MyRecentTasks(props) {
   console.log(JSON.stringify(props.list));
+  const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const { user } = useAuth();
+  console.log(dataTasksState);
+
+  useEffect(() => {
+    async function handleGetTasksByUserId() {
+      try {
+        const response = await api.get(`/tasks/getTaskById/${user.email}`);
+
+        setDataTasksState(response.data);
+      } catch (error) {
+        alert(`Não foi possível buscar as atividades. ${error}`);
+        return;
+      }
+    }
+    handleGetTasksByUserId();
+  }, [user]);
 
   return (
     <Container>
@@ -25,18 +74,15 @@ export default function myRecentTasks(props) {
         <Menu pageSelected="myRecentTasks" />
         <ContentContainer>
           <InputComponent placeholder="Clique para pesquisar por alguma atividade" />
-          <Task
-            descriptionOfTask="faça 10 minutos de meditação"
-            professionalName="Mateus Raimundo"
-            professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-            titleOfTask="Meditação top"
-          />
-          <Task
-            descriptionOfTask="faça 10 minutos de meditação"
-            professionalName="Mateus Raimundo"
-            professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-            titleOfTask="Meditação top"
-          />
+          {dataTasksState?.map((item) => (
+            <Task
+              key={item.id}
+              descriptionOfTask={item.description}
+              professionalName={item.user.username}
+              professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+              titleOfTask={item.title}
+            />
+          ))}
           <PaginationContainer>
             <PageContainer color={"selectColor"}>1</PageContainer>
             <PageContainer>2</PageContainer>

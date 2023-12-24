@@ -18,6 +18,7 @@ export const ButtonContainer = styled("button", {
   borderRadius: "10px",
   color: "$gray200",
   animation: `${zoom} 1s`,
+  fontWeight: 700,
 
   variants: {
     position: {
