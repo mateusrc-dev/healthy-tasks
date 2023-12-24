@@ -11,8 +11,6 @@ export default async function handler(
 
     const { name, userId } = req.body
 
-    console.log(name, userId)
-
     const user = await prisma.professionalTag.create({
         data: {
             name,

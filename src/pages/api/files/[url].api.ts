@@ -5,7 +5,7 @@ export default async function handler(
     req,
     res
 ) {
-  const { url } = req.body;
+  const { url } = req.query;
 
   // O caminho para o arquivo no diretório 'public/uploads'
   const filePath = path.join(process.cwd(), '.next/server/public/tmp/uploads', url);

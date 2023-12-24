@@ -32,6 +32,7 @@ interface AuthContextType {
     complaint: string,
     profilePublic: boolean,
     statisticPublic: boolean,
+    avatarFile: string,
     userId: string
   ) => void;
   user: User;
@@ -55,7 +56,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       localStorage.setItem("@healthy-tasks:user", JSON.stringify(user));
       localStorage.setItem("@healthy-tasks:token", JSON.stringify(token));
 
-      api.defaults.headers.authorization = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       setData({ user, token });
     } catch (error) {
@@ -74,9 +75,22 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     complaint: string,
     profilePublic: boolean,
     statisticPublic: boolean,
+    avatarFile: string,
     userId: string
   ) {
     try {
+      if (avatarFile) {
+        const fileUploadForm = new FormData();
+        fileUploadForm.append("avatar", avatarFile);
+        const config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        await api.patch("/avatar", fileUploadForm, config);
+      }
+
       const response = await api.patch("/users/updatePatient", {
         username,
         complaint,
@@ -101,10 +115,8 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     const user = localStorage.getItem("@healthy-tasks:user");
     const token = localStorage.getItem("@healthy-tasks:token");
 
-    console.log(user, token);
-
     if (token && user) {
-      api.defaults.headers.authorization = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       setData({ user: JSON.parse(user), token: token });
     }

@@ -107,8 +107,6 @@ export default function Home() {
     }
   }
 
-  console.log(user);
-
   async function handleLogin() {
     try {
       signIn(emailChange, passwordChange);

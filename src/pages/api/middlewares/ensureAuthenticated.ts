@@ -14,8 +14,6 @@ export const withAuth = (handler: NextApiHandler) => async (req: AuthenticatedRe
     const authorizationHeader = req.headers.authorization || '';
     const token = authorizationHeader.replace('Bearer ', '');
 
-    //console.log(token)
-
     // Verifica se o token está presente
     if (token.includes("Bearer")) {
       return res.status(401).json({ error: 'Token não fornecido' });
@@ -23,7 +21,7 @@ export const withAuth = (handler: NextApiHandler) => async (req: AuthenticatedRe
 
     try {
         const { sub: user_id } = verify(token, authObjectConfigs.jwt.secret) as { sub: string };
-
+        
         req.user_id = user_id;
 
         return await handler(req, res);

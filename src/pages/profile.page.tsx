@@ -5,7 +5,6 @@ import {
   BodyProfile,
   ButtonSave,
   ButtonWithHover,
-  ChangePhotoButton,
   CheckContainerProfile,
   Container,
   ContentContainerProfile,
@@ -32,6 +31,7 @@ import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useAuth } from "../hooks/auth";
 import { api } from "../lib/axios";
+import avatarPlaceholder from "../assets/avatar_placeholder.svg";
 
 interface MyProfessionals {
   name: string;
@@ -60,6 +60,11 @@ export default function Profile() {
     []
   );
   const [inputNewProfessional, setInputNewProfessional] = useState<string>("");
+  const avatarUrl = user?.photoUrl
+    ? `${api.defaults.baseURL}/files/${user.photoUrl}`
+    : avatarPlaceholder;
+  const [avatar, setAvatar] = useState(avatarUrl);
+  const [avatarFile, setAvatarFile] = useState(null);
 
   function handleStateView() {
     if (stateView === true) {
@@ -148,8 +153,17 @@ export default function Profile() {
       stateTextarea,
       stateView,
       stateStatisticView,
+      avatarFile,
       user?.id
     );
+  }
+
+  function handleChangeAvatar(event) {
+    const file = event.target.files[0];
+    setAvatarFile(file);
+
+    const imagePreview = URL?.createObjectURL(file);
+    setAvatar(imagePreview);
   }
 
   useEffect(() => {
@@ -390,15 +404,32 @@ export default function Profile() {
             style={{ display: "flex", alignItems: "flex-start", gap: "50px" }}
           >
             <div style={{ position: "relative" }}>
-              <ImageUser
-                src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
-                alt="sua foto"
-                width={200}
-                height={200}
-              />
-              <ChangePhotoButton>
+              <ImageUser src={avatar} alt="sua foto" width={200} height={200} />
+              <label
+                htmlFor="avatar"
+                style={{
+                  position: "absolute",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100px",
+                  height: "100px",
+                  bottom: "-20px",
+                  right: "-20px",
+                  background: "#0b0cca",
+                  border: "none",
+                  cursor: "pointer",
+                  borderRadius: "100%",
+                }}
+              >
+                <input
+                  id="avatar"
+                  type="file"
+                  onChange={handleChangeAvatar}
+                  style={{ display: "none" }}
+                />
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
-              </ChangePhotoButton>
+              </label>
               {user?.typeUser === "patient" &&
               stateInput?.length != 0 &&
               stateTextarea.length >= 100 &&

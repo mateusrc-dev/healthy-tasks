@@ -52,6 +52,12 @@ export const Container = styled("main", {
       alignItems: "center",
       gap: "50px",
     },
+  },
+
+  "label": {
+    "&:hover": {
+      filter: "brightness(0.8)",
+    }
   }
 })
 
@@ -158,25 +164,6 @@ export const ImageProfessional = styled (Image, {
   "-webkit-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
   "-moz-box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
   "box-shadow": "7px 6px 70px 10px rgba(0,0,0,0.58)",
-})
-
-export const ChangePhotoButton = styled("button", {
-    position: "absolute",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100px",
-    height: "100px",
-    bottom: "-20px",
-    right: "-20px",
-    background: "#0b0cca",
-    border: "none",
-    cursor: "pointer",
-    borderRadius: "100%",
-                 
-    '&:hover': {
-        filter: "brightness(0.6)"
-    }
 })
 
 export const ProfessionalTag = styled("div", {
