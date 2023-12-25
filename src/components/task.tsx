@@ -241,7 +241,7 @@ export function Task({
     try {
       await api.post("/comments/create", {
         description: stateTextarea,
-        userId: user.id,
+        userId: user?.id,
         taskId,
       });
 
@@ -266,7 +266,7 @@ export function Task({
       try {
         const response = await api.post(`/favoritesTasks/create`, {
           taskId,
-          userId: user.id,
+          userId: user?.id,
         });
 
         setFavorite(!favorite);
@@ -293,7 +293,7 @@ export function Task({
           `/comments/getCommentByTaskId/${taskId}`
         );
 
-        setDataComments(response.data);
+        setDataComments(response?.data);
       } catch (error) {
         alert(`Não foi possível buscar pelos comentários da tarefa. ${error}`);
       }
@@ -302,13 +302,12 @@ export function Task({
     async function handleFindFavoriteTask() {
       try {
         const response = await api.get(
-          `/favoritesTasks/getFavoriteTask/${user.id}/${taskId}`
+          `/favoritesTasks/getFavoriteTask/${user?.id}/${taskId}`
         );
 
-        if (response.data.length !== 0) {
+        if (response?.data?.length !== 0) {
           setFavorite(true);
-          console.log(response.data[0].id);
-          setFavoriteId(response.data[0].id);
+          setFavoriteId(response?.data[0].id);
         } else {
           setFavorite(false);
         }
@@ -378,7 +377,7 @@ export function Task({
           )
         ) : null}
         {isRenderInProfile ? (
-          stateTimeTask ? (
+          date2.diff(date1, "hours") > 0 ? (
             <div style={{ display: "flex" }}>
               <TimeForFinishTaskContainerLeft>
                 Prazo para finalizar:
@@ -396,7 +395,10 @@ export function Task({
                 Prazo para finalizar
               </TimeForFinishTaskContainerLeft>
               <TimeForFinishTaskContainerRight color={"colorNegative"}>
-                0 horas
+                {date2.diff(date1, "hours") < 0
+                  ? 0
+                  : date2.diff(date1, "hours")}{" "}
+                horas
               </TimeForFinishTaskContainerRight>
             </div>
           )
@@ -555,7 +557,7 @@ export function Task({
           />
         </CreateCommentContainer>
       )}
-      {dataComments.map((item) => (
+      {dataComments?.map((item) => (
         <Comment
           key={item.id}
           text={item.description}

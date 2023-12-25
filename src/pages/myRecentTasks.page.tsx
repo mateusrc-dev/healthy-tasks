@@ -60,10 +60,10 @@ export default function MyRecentTasks(props) {
     async function handleGetTasks() {
       try {
         const response = await api.get(
-          `/tasks/getTasks/${user.email}/${pageSelected - 1}/${searchTask}`
+          `/tasks/getTasks/${user?.email}/${pageSelected - 1}/${searchTask}`
         );
 
-        setDataTasksState(response.data);
+        setDataTasksState(response?.data);
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
         return;
@@ -76,7 +76,7 @@ export default function MyRecentTasks(props) {
   useEffect(() => {
     function handlePages() {
       let num = 1;
-      for (let i = 1; dataTasksState.length > i; i++) {
+      for (let i = 1; dataTasksState?.length > i; i++) {
         if (i % 5 === 0) {
           num += 1;
         }
@@ -84,7 +84,7 @@ export default function MyRecentTasks(props) {
       return setCount(num);
     }
     handlePages();
-  }, [dataTasksState.length]);
+  }, [dataTasksState?.length]);
 
   return (
     <Container>

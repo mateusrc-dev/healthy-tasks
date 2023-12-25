@@ -61,7 +61,7 @@ export default function PublicTasks() {
           `/tasks/getPublicTasks/${pageSelected - 1}/${changeSearch}`
         );
 
-        setDataTasksState(response.data);
+        setDataTasksState(response?.data);
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
         return;
@@ -74,7 +74,7 @@ export default function PublicTasks() {
   useEffect(() => {
     function handlePages() {
       let num = 1;
-      for (let i = 1; dataTasksState.length > i; i++) {
+      for (let i = 1; dataTasksState?.length > i; i++) {
         if (i % 5 === 0) {
           num += 1;
         }
@@ -82,7 +82,7 @@ export default function PublicTasks() {
       return setCount(num);
     }
     handlePages();
-  }, [dataTasksState.length]);
+  }, [dataTasksState?.length]);
   return (
     <Container>
       <Header>
@@ -96,7 +96,7 @@ export default function PublicTasks() {
             handleOnChange={setChangeSearch}
             placeholder="Clique para pesquisar por alguma atividade"
           />
-          {dataTasksState.map((item) => (
+          {dataTasksState?.map((item) => (
             <Task
               key={item.id}
               descriptionOfTask={item.description}

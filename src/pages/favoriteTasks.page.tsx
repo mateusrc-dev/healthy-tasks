@@ -36,10 +36,10 @@ export default function FavoriteTasks() {
     async function handleGetTasks() {
       try {
         const response = await api.get(
-          `/favoritesTasks/getManyFavoriteTasks/${user.id}`
+          `/favoritesTasks/getManyFavoriteTasks/${user?.id}`
         );
 
-        setDataFavoritesTasks(response.data);
+        setDataFavoritesTasks(response?.data);
       } catch (error) {
         alert(`Não foi possível buscar as atividades favoritas. ${error}`);
         return;
@@ -68,14 +68,14 @@ export default function FavoriteTasks() {
             Atividades favoritas
           </h3>
           <FavoriteTasksContainer>
-            {dataFavoritesTasks.map((item) => (
+            {dataFavoritesTasks?.map((item) => (
               <FavoriteTask
-                key={item.id}
-                description={item.task.description}
-                professionalName={item.task.user.username}
-                title={item.task.title}
-                professionalPhoto={`${api.defaults.baseURL}/files/${item.task.user.photoUrl}`}
-                professionalSpecialization={item.task.user.specialization}
+                key={item?.id}
+                description={item?.task.description}
+                professionalName={item?.task.user.username}
+                title={item?.task.title}
+                professionalPhoto={`${api.defaults.baseURL}/files/${item?.task.user.photoUrl}`}
+                professionalSpecialization={item?.task.user.specialization}
               />
             ))}
           </FavoriteTasksContainer>

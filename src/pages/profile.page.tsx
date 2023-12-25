@@ -61,7 +61,7 @@ export default function Profile() {
   );
   const [inputNewProfessional, setInputNewProfessional] = useState<string>("");
   const avatarUrl = user?.photoUrl
-    ? `${api.defaults.baseURL}/files/${user.photoUrl}`
+    ? `${api.defaults.baseURL}/files/${user?.photoUrl}`
     : avatarPlaceholder;
   const [avatar, setAvatar] = useState(avatarUrl);
   const [avatarFile, setAvatarFile] = useState(null);
@@ -109,7 +109,7 @@ export default function Profile() {
       alert("Digite o nome do profissional!");
       return;
     } else if (
-      addProfessionals.find((item) => item.name === inputNewProfessional)
+      addProfessionals?.find((item) => item.name === inputNewProfessional)
     ) {
       alert("Não é possível adicionar o mesmo profissional!");
       return;
@@ -137,7 +137,7 @@ export default function Profile() {
     try {
       await api.delete(`/myProfessionals/delete/${professionalDeleted}`);
 
-      const professionalsWithoutDeleted = addProfessionals.filter(
+      const professionalsWithoutDeleted = addProfessionals?.filter(
         (item) => item.name !== professionalDeleted
       );
       SetAddProfessionals(professionalsWithoutDeleted);
@@ -185,7 +185,7 @@ export default function Profile() {
           `/myProfessionals/getMyProfessionals/${user?.id}`
         );
 
-        SetAddProfessionals(response.data);
+        SetAddProfessionals(response?.data);
       } catch (error) {
         alert(`Não foi buscar os meus profissionais criar o usuário. ${error}`);
       }
@@ -400,7 +400,7 @@ export default function Profile() {
       <BodyProfile>
         <Menu pageSelected="profile" />
         <ContentContainerProfile
-          color={addProfessionals.length !== 0 ? "colorPositive" : null}
+          color={addProfessionals?.length !== 0 ? "colorPositive" : null}
         >
           <h1
             style={{
@@ -445,7 +445,7 @@ export default function Profile() {
               {user?.typeUser === "patient" &&
               stateInput?.length != 0 &&
               stateTextarea.length >= 100 &&
-              addProfessionals.length != 0 ? (
+              addProfessionals?.length != 0 ? (
                 <ButtonSave onClick={handleUpdatePatient}>
                   Salvar informações <TfiSave />
                 </ButtonSave>
@@ -617,7 +617,7 @@ export default function Profile() {
                   >
                     Profissionais que sou acompanhado:
                   </p>
-                  {addProfessionals.map((professional) => (
+                  {addProfessionals?.map((professional) => (
                     <div
                       key={professional.name}
                       style={{ position: "relative" }}

@@ -2,13 +2,15 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/myRecentTasks": "pages/myRecentTasks.js",
-  "/publicTasks": "pages/publicTasks.js",
   "/": "pages/index.js",
+  "/myRecentTasks": "pages/myRecentTasks.js",
   "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
+  "/profile": "pages/profile.js",
   "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
-  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
   "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
+  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
   "/api/files/[url]": "pages/api/files/[url].js",
-  "/api/tasks/getTasks/[...params]": "pages/api/tasks/getTasks/[...params].js"
+  "/api/sessions": "pages/api/sessions.js",
+  "/api/tasks/getTasks/[...params]": "pages/api/tasks/getTasks/[...params].js",
+  "/api/myProfessionals/getMyProfessionals/[userId]": "pages/api/myProfessionals/getMyProfessionals/[userId].js"
 }
