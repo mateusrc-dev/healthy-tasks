@@ -46,6 +46,7 @@ type Props = {
   deadline: Date;
   isTaskPublic: boolean;
   forceTask: number;
+  publicTasksPage?: boolean;
 };
 
 interface DataCommentProps {
@@ -75,6 +76,7 @@ export function Task({
   deadline,
   isTaskPublic,
   forceTask,
+  publicTasksPage = false,
 }: Props) {
   const [stateView, setStateView] = useState<boolean>(isTaskPublic);
   const [animate, setAnimate] = useState(false);
@@ -89,6 +91,10 @@ export function Task({
   const [dataComments, setDataComments] = useState<DataCommentProps[]>([]);
   const [state, setState] = useState<boolean>(false);
   const [favoriteId, setFavoriteId] = useState<string>();
+  const [recipient, setRecipient] = useState<{
+    photoUrl: string;
+    username: string;
+  }>();
   const { user } = useAuth();
 
   const dateNow = new Date();
@@ -171,6 +177,10 @@ export function Task({
   });
 
   async function handleStateView() {
+    if (publicTasksPage) {
+      return;
+    }
+
     if (stateView === true) {
       setStateView(false);
       try {
@@ -307,9 +317,22 @@ export function Task({
       }
     }
 
+    async function handleFetchUserByEmail() {
+      try {
+        const response = await api.get(
+          `/users/getUserByEmail/${userEmailOfTask}`
+        );
+
+        setRecipient(response.data);
+      } catch (error) {
+        alert(`Não foi possível buscar o destinatário. ${error}`);
+      }
+    }
+
+    handleFetchUserByEmail();
     handleFindFavoriteTask();
     handleFetchCommentsOfTask();
-  }, [taskId, stateComment, state, user]);
+  }, [taskId, stateComment, state, user, userEmailOfTask]);
 
   return (
     <TaskContainer margin={marginInline ? "elementWithMarginInline" : null}>
@@ -333,6 +356,7 @@ export function Task({
                 type="checkbox"
                 checked={stateCheckTask}
                 onChange={handleCheckTask}
+                disabled={publicTasksPage}
               />
               <p>Atividade realizada</p>
             </CheckContainer>
@@ -394,7 +418,7 @@ export function Task({
                   para
                 </h3>
                 <Photo
-                  src={professionalPhotoUrl}
+                  src={`${api.defaults.baseURL}/files/${recipient?.photoUrl}`}
                   alt="foto do paciente"
                   width={50}
                   height={50}
@@ -406,7 +430,7 @@ export function Task({
                     fontSize: "20px",
                   }}
                 >
-                  Roberto
+                  {recipient?.username}
                 </h3>
               </TaskRecipient>
             </Link>
@@ -541,6 +565,7 @@ export function Task({
           renderInMyRecentTasks={true}
           commentId={item.id}
           handleDeleteComment={handleDeleteComment}
+          professionalName={professionalName}
         />
       ))}
     </TaskContainer>

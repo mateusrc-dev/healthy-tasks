@@ -3,11 +3,12 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
-  "/favoriteTasks": "pages/favoriteTasks.js",
-  "/allTasks": "pages/allTasks.js",
-  "/api/tasks/getTasks/[...params]": "pages/api/tasks/getTasks/[...params].js",
-  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
+  "/publicTasks": "pages/publicTasks.js",
+  "/": "pages/index.js",
+  "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
   "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
-  "/api/favoritesTasks/getManyFavoriteTasks/[userId]": "pages/api/favoritesTasks/getManyFavoriteTasks/[userId].js",
-  "/publicTasks": "pages/publicTasks.js"
+  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
+  "/api/files/[url]": "pages/api/files/[url].js",
+  "/api/tasks/getTasks/[...params]": "pages/api/tasks/getTasks/[...params].js"
 }

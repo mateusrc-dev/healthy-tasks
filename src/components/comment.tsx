@@ -17,12 +17,14 @@ type Props = {
   patient?: boolean;
   renderInMyRecentTasks?: boolean;
   commentId: string;
+  professionalName: string;
   handleDeleteComment: (commentId: string) => void;
 };
 
 export function Comment({
   text,
   userName,
+  professionalName,
   userPhoto,
   commentId,
   handleDeleteComment,
@@ -58,27 +60,29 @@ export function Comment({
             <Tag>
               {renderInMyRecentTasks
                 ? "Seu comentário"
-                : "Paciente do dr. Mateus Carvalho"}{" "}
+                : `Paciente do dr. ${professionalName}`}{" "}
               <BsPerson />
             </Tag>
           )}
         </div>
         <CommentText>{text}</CommentText>
       </div>
-      <button
-        onClick={() => handleDeleteComment(commentId)}
-        title="deletar"
-        style={{
-          position: "absolute",
-          top: 5,
-          right: 5,
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        <BsTrash2Fill color={"#ff194b"} size={30} />
-      </button>
+      {patient && (
+        <button
+          onClick={() => handleDeleteComment(commentId)}
+          title="deletar"
+          style={{
+            position: "absolute",
+            top: 5,
+            right: 5,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <BsTrash2Fill color={"#ff194b"} size={30} />
+        </button>
+      )}
     </CommentContainer>
   );
 }
