@@ -2,10 +2,12 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/publicTasks": "pages/publicTasks.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
+  "/favoriteTasks": "pages/favoriteTasks.js",
+  "/allTasks": "pages/allTasks.js",
   "/api/tasks/getTasks/[...params]": "pages/api/tasks/getTasks/[...params].js",
-  "/": "pages/index.js",
   "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
-  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js"
+  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
+  "/api/favoritesTasks/getManyFavoriteTasks/[userId]": "pages/api/favoritesTasks/getManyFavoriteTasks/[userId].js",
+  "/publicTasks": "pages/publicTasks.js"
 }

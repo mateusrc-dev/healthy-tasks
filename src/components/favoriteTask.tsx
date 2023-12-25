@@ -12,7 +12,6 @@ type Props = {
   description: string;
   professionalPhoto: string;
   professionalName: string;
-  patientName: string;
   professionalSpecialization: string;
 };
 
@@ -22,7 +21,6 @@ export function FavoriteTask({
   professionalPhoto,
   professionalSpecialization,
   title,
-  patientName,
 }: Props) {
   return (
     <FavoriteTaskContainer title="Clique para excluir dos favoritos">
@@ -60,9 +58,7 @@ export function FavoriteTask({
             flexDirection: "column",
           }}
         >
-          <h3>
-            {title} para {patientName}
-          </h3>
+          <h3>{title}</h3>
           <p>{description}</p>
         </div>
       </div>

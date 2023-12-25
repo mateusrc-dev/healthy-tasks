@@ -9,8 +9,45 @@ import {
 } from "../styles/pages/favoriteTasks";
 import { Footer } from "../styles/pages/home";
 import { FavoriteTask } from "../components/favoriteTask";
+import { useAuth } from "../hooks/auth";
+import { api } from "../lib/axios";
+import { useEffect, useState } from "react";
+
+interface DataFavoritesTasks {
+  id: string;
+  task: {
+    title: string;
+    description: string;
+    user: {
+      username: string;
+      specialization: string;
+      photoUrl: string;
+    };
+  };
+}
 
 export default function FavoriteTasks() {
+  const [dataFavoritesTasks, setDataFavoritesTasks] = useState<
+    DataFavoritesTasks[]
+  >([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    async function handleGetTasks() {
+      try {
+        const response = await api.get(
+          `/favoritesTasks/getManyFavoriteTasks/${user.id}`
+        );
+
+        setDataFavoritesTasks(response.data);
+      } catch (error) {
+        alert(`Não foi possível buscar as atividades favoritas. ${error}`);
+        return;
+      }
+    }
+
+    handleGetTasks();
+  }, [user]);
   return (
     <Container>
       <Header>
@@ -31,62 +68,16 @@ export default function FavoriteTasks() {
             Atividades favoritas
           </h3>
           <FavoriteTasksContainer>
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
-            <FavoriteTask
-              description="atividade top"
-              patientName="Junior"
-              professionalName="Mateus Carvalho"
-              title="Meditação top"
-              professionalPhoto="https://avatars.githubusercontent.com/u/109779094?v=4"
-              professionalSpecialization="Psicólogo"
-            />
+            {dataFavoritesTasks.map((item) => (
+              <FavoriteTask
+                key={item.id}
+                description={item.task.description}
+                professionalName={item.task.user.username}
+                title={item.task.title}
+                professionalPhoto={`${api.defaults.baseURL}/files/${item.task.user.photoUrl}`}
+                professionalSpecialization={item.task.user.specialization}
+              />
+            ))}
           </FavoriteTasksContainer>
         </ContentContainer>
       </BodyFavoritesTasks>

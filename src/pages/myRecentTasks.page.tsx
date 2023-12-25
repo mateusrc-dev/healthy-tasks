@@ -51,14 +51,13 @@ export default function MyRecentTasks(props) {
   const [count, setCount] = useState(0);
   const [searchTask, setSearchTask] = useState<string>("");
   const { user } = useAuth();
-  console.log(searchTask);
 
   function handleChangePage(page: number) {
     setPageSelected(page);
   }
 
   useEffect(() => {
-    async function handleGetTasksByUserId() {
+    async function handleGetTasks() {
       try {
         const response = await api.get(
           `/tasks/getTasks/${user.email}/${pageSelected - 1}/${searchTask}`
@@ -70,7 +69,8 @@ export default function MyRecentTasks(props) {
         return;
       }
     }
-    handleGetTasksByUserId();
+
+    handleGetTasks();
   }, [user, pageSelected, searchTask]);
 
   useEffect(() => {
