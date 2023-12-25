@@ -5,7 +5,7 @@ const zoom = keyframes({
   '100%': { scale: 1, opacity: 1 },
 });
 
-export const FavoriteTaskContainer = styled("div", {
+export const FavoriteTaskContainer = styled("button", {
   position: "relative",
   width: "450px",
   height: "260px",

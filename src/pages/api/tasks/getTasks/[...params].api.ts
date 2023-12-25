@@ -15,13 +15,18 @@ export default async function handler(
     const page = params[1]
     const queryTitle = params[2]
 
+    const dateNow = new Date()
+
     const tasks = await prisma.task.findMany({
         skip: Number(page),
         take: 5,
         where: { 
             patientEmail: email, 
             carriedOut: false,
-            title: {contains: queryTitle}
+            title: {contains: queryTitle},
+            deadline: {
+                gt: new Date(),
+            }
         },
         orderBy: { created_at: "desc" },
         include: { user: true }

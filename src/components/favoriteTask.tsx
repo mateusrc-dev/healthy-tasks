@@ -13,6 +13,8 @@ type Props = {
   professionalPhoto: string;
   professionalName: string;
   professionalSpecialization: string;
+  onEvent: (id: string) => void;
+  favoriteId: string;
 };
 
 export function FavoriteTask({
@@ -21,9 +23,14 @@ export function FavoriteTask({
   professionalPhoto,
   professionalSpecialization,
   title,
+  onEvent,
+  favoriteId,
 }: Props) {
   return (
-    <FavoriteTaskContainer title="Clique para excluir dos favoritos">
+    <FavoriteTaskContainer
+      onClick={() => onEvent(favoriteId)}
+      title="Clique para excluir dos favoritos"
+    >
       <div
         style={{
           position: "absolute",

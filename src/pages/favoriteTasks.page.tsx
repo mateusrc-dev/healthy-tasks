@@ -30,7 +30,18 @@ export default function FavoriteTasks() {
   const [dataFavoritesTasks, setDataFavoritesTasks] = useState<
     DataFavoritesTasks[]
   >([]);
+  const [state, setState] = useState<boolean>(false);
   const { user } = useAuth();
+
+  async function handleDeleteFavoriteTask(id: string) {
+    try {
+      await api.delete(`/favoritesTasks/delete/${id}`);
+
+      setState(!state);
+    } catch (error) {
+      alert(`Não foi possível excluir o favorito. ${error}`);
+    }
+  }
 
   useEffect(() => {
     async function handleGetTasks() {
@@ -47,7 +58,7 @@ export default function FavoriteTasks() {
     }
 
     handleGetTasks();
-  }, [user]);
+  }, [user, state]);
   return (
     <Container>
       <Header>
@@ -70,6 +81,8 @@ export default function FavoriteTasks() {
           <FavoriteTasksContainer>
             {dataFavoritesTasks?.map((item) => (
               <FavoriteTask
+                favoriteId={item.id}
+                onEvent={handleDeleteFavoriteTask}
                 key={item?.id}
                 description={item?.task.description}
                 professionalName={item?.task.user.username}
