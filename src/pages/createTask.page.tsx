@@ -14,6 +14,35 @@ import { Task } from "../components/task";
 import { api } from "../lib/axios";
 import { useAuth } from "../hooks/auth";
 
+interface TaskType {
+  carriedOut: boolean;
+  created_at: Date;
+  deadline: Date;
+  description: string;
+  forceTask: number | null;
+  id: string;
+  isTaskPublic: boolean;
+  patientEmail: string;
+  title: string;
+  updatedAt: Date;
+  user: {
+    complaint: string | null;
+    created_at: Date;
+    description: string | null;
+    email: string;
+    id: string;
+    password: string;
+    photoUrl: string;
+    profileForce: number | null;
+    profilePublic: boolean | null;
+    specialization: string | null;
+    statisticPublic: boolean | null;
+    typeUser: string;
+    updatedAt: Date;
+    username: string;
+  };
+}
+
 export default function CreateTask() {
   const [newTask, setNewTask] = useState<boolean>(false);
   const [stateTextarea, setStateTextarea] = useState<string>("");
@@ -22,6 +51,7 @@ export default function CreateTask() {
   const [stateName, setStateName] = useState<string>("");
   const [stateEmail, setStateEmail] = useState<string>("");
   const [stateDeadline, setStateDeadline] = useState<Date>();
+  const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
   const { user } = useAuth();
 
   function handleNewTask() {
@@ -59,7 +89,24 @@ export default function CreateTask() {
   useEffect(() => {
     const deadline = new Date(`${stateDate}T${stateTime}:00`);
     setStateDeadline(deadline);
-  }, [stateTime, stateDate, setStateDeadline]);
+  }, [stateTime, stateDate]);
+
+  useEffect(() => {
+    async function handleGetTasks() {
+      try {
+        const response = await api.get(
+          `/tasks/getAllTasksByIdProfessional/${user?.id}`
+        );
+
+        setDataTasksState(response?.data);
+      } catch (error) {
+        alert(`Não foi possível buscar as atividades. ${error}`);
+        return;
+      }
+    }
+
+    handleGetTasks();
+  }, [user, newTask]);
 
   return (
     <Container>
@@ -268,24 +315,26 @@ export default function CreateTask() {
               >
                 Todas as atividades criadas:
               </h3>
-              <Task
-                descriptionOfTask="faça 10 minutos de meditação"
-                professionalName="Mateus Raimundo"
-                professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                titleOfTask="Meditação top"
-              />
-              <Task
-                descriptionOfTask="faça 10 minutos de meditação"
-                professionalName="Mateus Raimundo"
-                professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                titleOfTask="Meditação top"
-              />
-              <Task
-                descriptionOfTask="faça 10 minutos de meditação"
-                professionalName="Mateus Raimundo"
-                professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                titleOfTask="Meditação top"
-              />
+              {dataTasksState?.map((item) => (
+                <Task
+                  key={item.id}
+                  descriptionOfTask={item.description}
+                  professionalName={item.user.username}
+                  professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+                  titleOfTask={item.title}
+                  checkTask={item.carriedOut}
+                  taskId={item.id}
+                  deadline={item.deadline}
+                  isTaskPublic={item.isTaskPublic}
+                  forceTask={item.forceTask}
+                  userEmailOfTask={item.patientEmail}
+                  taskIsForOtherUser={true}
+                  publicTasksPage={true}
+                  marginInline={true}
+                  showComments={false}
+                  onDisplay={!item.carriedOut} // fazer aqui a lógica para aparecer as tarefas que somente estiverem dentro do critério
+                />
+              ))}
             </TasksCreatedContainer>
           )}
         </ContentContainerCreateTask>

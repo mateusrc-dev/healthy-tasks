@@ -2,16 +2,14 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/allTasks": "pages/allTasks.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
-  "/publicTasks": "pages/publicTasks.js",
-  "/favoriteTasks": "pages/favoriteTasks.js",
-  "/api/favoritesTasks/delete/[...params]": "pages/api/favoritesTasks/delete/[...params].js",
-  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
-  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
-  "/api/favoritesTasks/getManyFavoriteTasks/[userId]": "pages/api/favoritesTasks/getManyFavoriteTasks/[userId].js",
+  "/profile": "pages/profile.js",
   "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
+  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
   "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
+  "/api/tasks/getAllTasksByEmail/[userEmail]": "pages/api/tasks/getAllTasksByEmail/[userEmail].js",
+  "/": "pages/index.js",
   "/api/files/[url]": "pages/api/files/[url].js",
-  "/api/favoritesTasks/create": "pages/api/favoritesTasks/create.js",
-  "/allTasks": "pages/allTasks.js"
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js"
 }

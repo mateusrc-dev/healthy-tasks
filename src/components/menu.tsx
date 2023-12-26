@@ -42,15 +42,6 @@ export function Menu({ pageSelected }: Props) {
           </MenuItem>
         </Link>
       )}
-      {user?.typeUser === "patient" && (
-        <Link href={`/favoriteTasks`}>
-          <MenuItem
-            color={pageSelected === "favoriteTasks" ? "selectColor" : null}
-          >
-            <FaHeart size="25px" /> Minhas atividades favoritas
-          </MenuItem>
-        </Link>
-      )}
       {user?.typeUser === "professional" && (
         <Link href={`/createTask`}>
           <MenuItem
@@ -60,6 +51,13 @@ export function Menu({ pageSelected }: Props) {
           </MenuItem>
         </Link>
       )}
+      <Link href={`/favoriteTasks`}>
+        <MenuItem
+          color={pageSelected === "favoriteTasks" ? "selectColor" : null}
+        >
+          <FaHeart size="25px" /> Minhas atividades favoritas
+        </MenuItem>
+      </Link>
       <Link href={`/`} onClick={signOut}>
         <MenuItem>
           <FaSignOutAlt size="25px" /> Sair da minha conta

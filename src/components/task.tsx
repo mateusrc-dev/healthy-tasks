@@ -47,6 +47,10 @@ type Props = {
   isTaskPublic: boolean;
   forceTask: number;
   publicTasksPage?: boolean;
+  onDisplay?: boolean;
+  showComments?: boolean;
+  renderInMyRecentTasks?: boolean;
+  handleDeadlineState?: (deadlineState: boolean) => void;
 };
 
 interface DataCommentProps {
@@ -57,6 +61,7 @@ interface DataCommentProps {
     username: string;
     photoUrl: string;
     email: string;
+    id: string;
   };
   userId: string;
 }
@@ -77,6 +82,10 @@ export function Task({
   isTaskPublic,
   forceTask,
   publicTasksPage = false,
+  onDisplay = true,
+  showComments = true,
+  renderInMyRecentTasks = false,
+  handleDeadlineState = () => {},
 }: Props) {
   const [stateView, setStateView] = useState<boolean>(isTaskPublic);
   const [animate, setAnimate] = useState(false);
@@ -100,6 +109,16 @@ export function Task({
   const dateNow = new Date();
   const date1 = dayjs(dateNow);
   const date2 = dayjs(deadline);
+  //console.log(date2.diff(date1, "hours") > 0);
+  //const stateDeadline = date2.diff(date1, "hours") > 0;
+
+  useEffect(() => {
+    function handleDeadline() {
+      handleDeadlineState(date2.diff(date1, "hours") > 0);
+    } // <- enviar esse dado para o componente acima
+
+    handleDeadline();
+  }, [date1, date2, handleDeadlineState]);
 
   async function handleCheckTask() {
     setStateCheckTask(!stateCheckTask);
@@ -334,7 +353,10 @@ export function Task({
   }, [taskId, stateComment, state, user, userEmailOfTask]);
 
   return (
-    <TaskContainer margin={marginInline ? "elementWithMarginInline" : null}>
+    <TaskContainer
+      margin={marginInline ? "elementWithMarginInline" : null}
+      display={onDisplay ? null : "displayNone"}
+    >
       <Profile>
         <Link href={`/profileDetails/1`}>
           <Photo
@@ -482,9 +504,11 @@ export function Task({
               </animated.div>
             </ButtonOfMotivation>
           </div>
-          <Tag onClick={() => setStateComment(!stateComment)}>
-            Comentar <TfiWrite size={20} />
-          </Tag>
+          {showComments && (
+            <Tag onClick={() => setStateComment(!stateComment)}>
+              Comentar <TfiWrite size={20} />
+            </Tag>
+          )}
           <div>
             {favorite ? (
               <div>
@@ -557,19 +581,21 @@ export function Task({
           />
         </CreateCommentContainer>
       )}
-      {dataComments?.map((item) => (
-        <Comment
-          key={item.id}
-          text={item.description}
-          userName={item.user.username}
-          userPhoto={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
-          patient={item.user.email === userEmailOfTask}
-          renderInMyRecentTasks={true}
-          commentId={item.id}
-          handleDeleteComment={handleDeleteComment}
-          professionalName={professionalName}
-        />
-      ))}
+      {showComments &&
+        dataComments?.map((item) => (
+          <Comment
+            commentUserId={item.user.id}
+            key={item.id}
+            text={item.description}
+            userName={item.user.username}
+            userPhoto={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+            patient={item.user.email === userEmailOfTask}
+            renderInMyRecentTasks={renderInMyRecentTasks}
+            commentId={item.id}
+            handleDeleteComment={handleDeleteComment}
+            professionalName={professionalName}
+          />
+        ))}
     </TaskContainer>
   );
 }

@@ -17,10 +17,76 @@ import { BsCheckCircleFill, BsClockFill } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { StatisticContainer } from "../styles/pages/profile";
 import { FcStatistics } from "react-icons/fc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/auth";
+import { api } from "../lib/axios";
+
+interface TaskType {
+  carriedOut: boolean;
+  created_at: Date;
+  deadline: Date;
+  description: string;
+  forceTask: number | null;
+  id: string;
+  isTaskPublic: boolean;
+  patientEmail: string;
+  title: string;
+  updatedAt: Date;
+  user: {
+    complaint: string | null;
+    created_at: Date;
+    description: string | null;
+    email: string;
+    id: string;
+    password: string;
+    photoUrl: string;
+    profileForce: number | null;
+    profilePublic: boolean | null;
+    specialization: string | null;
+    statisticPublic: boolean | null;
+    typeUser: string;
+    updatedAt: Date;
+    username: string;
+  };
+}
 
 export default function AllTasks() {
-  const [stateStatistic, _setStateStatistic] = useState<boolean>(false);
+  const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const [deadlineState, setDeadlineState] = useState<boolean>(false);
+  const [carriedOutset, setCarriedOut] = useState<number>(0);
+  const { user } = useAuth();
+
+  function handleDeadlineState(deadlineState: boolean) {
+    setDeadlineState(deadlineState);
+  }
+
+  useEffect(() => {
+    async function handleGetTasks() {
+      try {
+        const response = await api.get(
+          `/tasks/getAllTasksByEmail/${user?.email}/`
+        );
+
+        setDataTasksState(response?.data);
+      } catch (error) {
+        alert(`Não foi possível buscar as atividades. ${error}`);
+        return;
+      }
+    }
+
+    handleGetTasks();
+  }, [user]);
+
+  useEffect(() => {
+    function handleResultTasksCarriedOut() {
+      for (let i = 0; i < dataTasksState.length; i += 1) {
+        if (dataTasksState[i].carriedOut === true) {
+          setCarriedOut((state) => state + 1);
+        }
+      }
+    }
+    handleResultTasksCarriedOut();
+  }, [dataTasksState]);
 
   return (
     <ContainerAllTasks>
@@ -56,7 +122,11 @@ export default function AllTasks() {
               </ButtonMenuPenultimate>
               <ButtonMenuLast
                 href="#page-4"
-                color={stateStatistic ? "colorPositive" : "colorNegative"}
+                color={
+                  (carriedOutset / dataTasksState.length) * 100 > 50
+                    ? "colorPositive"
+                    : "colorNegative"
+                }
               >
                 Ver estatística
               </ButtonMenuLast>
@@ -89,38 +159,27 @@ export default function AllTasks() {
                 <BsClockFill size={25} />
               </div>
               <ContainerForSpecificTasks>
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                />
+                {dataTasksState?.map((item) => (
+                  <Task
+                    key={item.id}
+                    descriptionOfTask={item.description}
+                    professionalName={item.user.username}
+                    professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+                    titleOfTask={item.title}
+                    checkTask={item.carriedOut}
+                    taskId={item.id}
+                    deadline={item.deadline}
+                    isTaskPublic={item.isTaskPublic}
+                    forceTask={item.forceTask}
+                    userEmailOfTask={item.patientEmail}
+                    taskIsForOtherUser={true}
+                    publicTasksPage={false}
+                    marginInline={true}
+                    showComments={false}
+                    handleDeadlineState={handleDeadlineState}
+                    onDisplay={!item.carriedOut && deadlineState} // fazer aqui a lógica para aparecer as tarefas que somente estiverem dentro do critério
+                  />
+                ))}
               </ContainerForSpecificTasks>
             </scroll-page>
             <scroll-page
@@ -151,40 +210,26 @@ export default function AllTasks() {
                 <BsCheckCircleFill size={25} />
               </div>
               <ContainerForSpecificTasks>
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={true}
-                  marginInline={true}
-                  stateTimeTask={false}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={true}
-                  marginInline={true}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={true}
-                  marginInline={true}
-                  stateTimeTask={false}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={true}
-                  marginInline={true}
-                />
+                {dataTasksState?.map((item) => (
+                  <Task
+                    key={item.id}
+                    descriptionOfTask={item.description}
+                    professionalName={item.user.username}
+                    professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+                    titleOfTask={item.title}
+                    checkTask={item.carriedOut}
+                    taskId={item.id}
+                    deadline={item.deadline}
+                    isTaskPublic={item.isTaskPublic}
+                    forceTask={item.forceTask}
+                    userEmailOfTask={item.patientEmail}
+                    taskIsForOtherUser={true}
+                    publicTasksPage={true}
+                    showComments={false}
+                    marginInline={true}
+                    onDisplay={item.carriedOut}
+                  />
+                ))}
               </ContainerForSpecificTasks>
             </scroll-page>
             <scroll-page
@@ -215,33 +260,26 @@ export default function AllTasks() {
                 <RiErrorWarningFill size={25} />
               </div>
               <ContainerForSpecificTasks>
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                  stateTimeTask={false}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                  stateTimeTask={false}
-                />
-                <Task
-                  descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                  professionalName="Fernando Noronha"
-                  professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                  titleOfTask="meditação top"
-                  checkTask={false}
-                  marginInline={true}
-                  stateTimeTask={false}
-                />
+                {dataTasksState?.map((item) => (
+                  <Task
+                    key={item.id}
+                    descriptionOfTask={item.description}
+                    professionalName={item.user.username}
+                    professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+                    titleOfTask={item.title}
+                    checkTask={item.carriedOut}
+                    taskId={item.id}
+                    deadline={item.deadline}
+                    isTaskPublic={item.isTaskPublic}
+                    showComments={false}
+                    forceTask={item.forceTask}
+                    userEmailOfTask={item.patientEmail}
+                    taskIsForOtherUser={true}
+                    publicTasksPage={true}
+                    marginInline={true}
+                    onDisplay={!item.carriedOut && !deadlineState}
+                  />
+                ))}
               </ContainerForSpecificTasks>
             </scroll-page>
             <scroll-page
@@ -280,7 +318,11 @@ export default function AllTasks() {
                 }}
               >
                 <StatisticContainer
-                  color={stateStatistic ? "positiveColor" : "negativeColor"}
+                  color={
+                    (carriedOutset / dataTasksState.length) * 100 > 50
+                      ? "positiveColor"
+                      : "negativeColor"
+                  }
                 >
                   <div>
                     <p
@@ -299,7 +341,7 @@ export default function AllTasks() {
                         fontSize: "22px",
                       }}
                     >
-                      Total de atividades: 10
+                      Total de atividades: {dataTasksState?.length}
                     </p>
                     <p
                       style={{
@@ -308,8 +350,7 @@ export default function AllTasks() {
                         fontSize: "22px",
                       }}
                     >
-                      Atividades realizadas dentro do prazo:{" "}
-                      {stateStatistic ? "7" : "3"}
+                      Atividades realizadas dentro do prazo: {carriedOutset}
                     </p>
                   </div>
                   <p
@@ -321,13 +362,17 @@ export default function AllTasks() {
                       paddingRight: "140px",
                     }}
                   >
-                    {stateStatistic ? "70%" : "30%"}
+                    {`${(carriedOutset / dataTasksState.length) * 100}%`}
                   </p>
                 </StatisticContainer>
                 <StatisticContainer
-                  color={stateStatistic ? "positiveColor" : "negativeColor"}
+                  color={
+                    (carriedOutset / dataTasksState.length) * 100 > 50
+                      ? "positiveColor"
+                      : "negativeColor"
+                  }
                 >
-                  {stateStatistic ? (
+                  {(carriedOutset / dataTasksState.length) * 100 > 50 ? (
                     <h1>Você está indo muito bem, parabéns... 😊</h1>
                   ) : (
                     <h1>Não desanime, você vai chegar lá... 🚀</h1>

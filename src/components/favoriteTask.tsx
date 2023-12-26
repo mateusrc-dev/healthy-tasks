@@ -65,8 +65,18 @@ export function FavoriteTask({
             flexDirection: "column",
           }}
         >
-          <h3>{title}</h3>
-          <p>{description}</p>
+          <h3
+            style={{
+              fontStyle: "italic",
+              fontSize: "20px",
+              marginBottom: "10px",
+            }}
+          >
+            {title}
+          </h3>
+          <p style={{ textAlign: "left", paddingRight: "20px" }}>
+            {description}
+          </p>
         </div>
       </div>
       <BsHeartFill

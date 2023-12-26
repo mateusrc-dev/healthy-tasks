@@ -9,13 +9,11 @@ export default async function handler(
         return res.status(405).end()
     }
 
-    const { params }= req.query
+    const { params } = req.query
 
     const email = params[0]
     const page = params[1]
     const queryTitle = params[2]
-
-    const dateNow = new Date()
 
     const tasks = await prisma.task.findMany({
         skip: Number(page),

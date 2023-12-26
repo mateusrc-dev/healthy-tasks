@@ -24,6 +24,11 @@ export const TaskContainer = styled("div", {
         marginInline: "20px"
       },
     },
+    display: {
+      displayNone: {
+        display: "none"
+      }
+    }
   },
 })
 

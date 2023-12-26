@@ -8,10 +8,11 @@ import {
   Tag,
 } from "../styles/components/comment";
 import { BsPerson, BsTrash2Fill } from "react-icons/bs";
-import { api } from "../lib/axios";
+import { useAuth } from "../hooks/auth";
 
 type Props = {
   text: string;
+  commentUserId: string;
   userPhoto: string;
   userName: string;
   patient?: boolean;
@@ -28,9 +29,12 @@ export function Comment({
   userPhoto,
   commentId,
   handleDeleteComment,
+  commentUserId,
   patient = false,
   renderInMyRecentTasks = false,
 }: Props) {
+  const { user } = useAuth();
+
   return (
     <CommentContainer>
       <Link href={`profileDetails/1`}>
@@ -67,7 +71,7 @@ export function Comment({
         </div>
         <CommentText>{text}</CommentText>
       </div>
-      {patient && (
+      {commentUserId === user?.id && (
         <button
           onClick={() => handleDeleteComment(commentId)}
           title="deletar"
