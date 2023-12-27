@@ -36,6 +36,7 @@ type Props = {
   descriptionOfTask: string;
   professionalPhotoUrl: string;
   professionalName: string;
+  professionalId: string;
   taskId: string;
   userEmailOfTask: string;
   isRenderInProfile?: boolean;
@@ -85,6 +86,7 @@ export function Task({
   onDisplay = true,
   showComments = true,
   renderInMyRecentTasks = false,
+  professionalId,
   handleDeadlineState = () => {},
 }: Props) {
   const [stateView, setStateView] = useState<boolean>(isTaskPublic);
@@ -103,6 +105,7 @@ export function Task({
   const [recipient, setRecipient] = useState<{
     photoUrl: string;
     username: string;
+    id: string;
   }>();
   const { user } = useAuth();
 
@@ -358,7 +361,7 @@ export function Task({
       display={onDisplay ? null : "displayNone"}
     >
       <Profile>
-        <Link href={`/profileDetails/1`}>
+        <Link href={`/profileDetails/${professionalId}`}>
           <Photo
             src={professionalPhotoUrl}
             alt="foto do profissional"
@@ -366,7 +369,7 @@ export function Task({
             height={100}
           />
         </Link>
-        <Link href={`/profileDetails/1`}>
+        <Link href={`/profileDetails/${professionalId}`}>
           <Name>Dr. {professionalName}</Name>
         </Link>
         <Tag>Psicólogo</Tag>
@@ -430,7 +433,7 @@ export function Task({
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Title>{titleOfTask}</Title>
           {taskIsForOtherUser && (
-            <Link href={`/profileDetails/1`}>
+            <Link href={`/profileDetails/${recipient?.id}`}>
               <TaskRecipient>
                 <h3
                   style={{

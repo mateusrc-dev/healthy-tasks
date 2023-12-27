@@ -27,15 +27,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/allTasks": [
+    "/profile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/allTasks.js"
+      "static/chunks/pages/profile.js"
     ],
-    "/myRecentTasks": [
+    "/profileDetails/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/myRecentTasks.js"
+      "static/chunks/pages/profileDetails/[id].js"
     ]
   },
   "ampFirstPages": []

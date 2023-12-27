@@ -2,7 +2,7 @@ import { FaHeartPulse } from "react-icons/fa6";
 import { Footer } from "../../styles/pages/home";
 import { Menu } from "../../components/menu";
 import { Header } from "../../styles/pages/publicTasks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgCheck, CgProfile } from "react-icons/cg";
 import {
   BestTask,
@@ -22,6 +22,58 @@ import { Tooltip } from "../../components/tooltip";
 import { useSpring, animated } from "react-spring";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { api } from "../../lib/axios";
+
+interface UserProps {
+  complaint: string | null;
+  created_at: Date;
+  description: string | null;
+  email: string;
+  id: string;
+  password: string;
+  photoUrl: string | null;
+  profileForce: string | null;
+  profilePublic: string | null;
+  specialization: string | null;
+  statisticPublic: string | null;
+  typeUser: string;
+  updatedAt: Date;
+  username: string;
+}
+
+interface MyProfessionals {
+  name: string;
+  userId: string;
+}
+
+interface TaskType {
+  carriedOut: boolean;
+  created_at: Date;
+  deadline: Date;
+  description: string;
+  forceTask: number | null;
+  id: string;
+  isTaskPublic: boolean;
+  patientEmail: string;
+  title: string;
+  updatedAt: Date;
+  user: {
+    complaint: string | null;
+    created_at: Date;
+    description: string | null;
+    email: string;
+    id: string;
+    password: string;
+    photoUrl: string;
+    profileForce: number | null;
+    profilePublic: boolean | null;
+    specialization: string | null;
+    statisticPublic: boolean | null;
+    typeUser: string;
+    updatedAt: Date;
+    username: string;
+  };
+}
 
 export default function ProfileDetails(props) {
   const [stateStatisticView, setStateStatisticView] =
@@ -29,9 +81,17 @@ export default function ProfileDetails(props) {
   const [countState, setCountState] = useState<number>(0);
   const [state, setState] = useState<boolean>(true);
   const [animate, setAnimate] = useState<boolean>(false);
+  const [userDetails, setUserDetails] = useState<UserProps>();
+  const [addProfessionals, setAddProfessionals] = useState<MyProfessionals[]>(
+    []
+  );
+  const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const [carriedOutset, setCarriedOut] = useState<number>(0);
   const { query } = useRouter();
-  console.log(JSON.stringify(query));
-  console.log(JSON.stringify(props.list));
+  const dataQuery = query;
+  const userId = dataQuery.id;
+  console.log(JSON.stringify(userId));
+  //console.log(JSON.stringify(props.list));
 
   const animationProps = useSpring({
     to: async (next, cancel) => {
@@ -79,6 +139,61 @@ export default function ProfileDetails(props) {
     }
   }
 
+  useEffect(() => {
+    async function handleFetchUserById() {
+      try {
+        const response = await api.get(`/users/getUserById/${userId}`);
+
+        setUserDetails(response.data);
+      } catch (error) {
+        alert(`Não foi possível buscar os detalhes do usuário. ${error}`);
+      }
+    }
+
+    async function handleFindMyProfessionals() {
+      try {
+        const response = await api.get(
+          `/myProfessionals/getMyProfessionals/${userId}`
+        );
+
+        setAddProfessionals(response?.data);
+      } catch (error) {
+        alert(`Não foi buscar os meus profissionais criar o usuário. ${error}`);
+      }
+    }
+
+    handleFindMyProfessionals();
+    handleFetchUserById();
+  }, [userId]);
+
+  useEffect(() => {
+    async function handleGetTasks() {
+      try {
+        const response = await api.get(
+          `/tasks/getAllTasksByEmail/${userDetails?.email}/`
+        );
+
+        setDataTasksState(response?.data);
+      } catch (error) {
+        alert(`Não foi possível buscar as atividades. ${error}`);
+        return;
+      }
+    }
+
+    handleGetTasks();
+  }, [userDetails]);
+
+  useEffect(() => {
+    function handleResultTasksCarriedOut() {
+      for (let i = 0; i < dataTasksState.length; i += 1) {
+        if (dataTasksState[i].carriedOut === true) {
+          setCarriedOut((state) => state + 1);
+        }
+      }
+    }
+    handleResultTasksCarriedOut();
+  }, [dataTasksState]);
+
   return (
     <Container>
       <Header>
@@ -92,7 +207,7 @@ export default function ProfileDetails(props) {
             <ImageUser
               width={300}
               height={300}
-              src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
+              src={`${api.defaults.baseURL}/files/${userDetails?.photoUrl}`}
               alt="imagem do usuário"
             />
             <div
@@ -109,9 +224,16 @@ export default function ProfileDetails(props) {
                     color: "#1618f1",
                   }}
                 >
-                  Mateus Carvalho <CgProfile />
+                  {userDetails?.username} <CgProfile />
                 </h1>
-                <TypeUserTag>Paciente</TypeUserTag>
+                <TypeUserTag>
+                  {userDetails?.typeUser === "patient"
+                    ? "paciente"
+                    : "profissional"}
+                </TypeUserTag>
+                {userDetails?.typeUser === "professional" && (
+                  <TypeUserTag>{userDetails?.specialization}</TypeUserTag>
+                )}
               </div>
               <div
                 style={{
@@ -133,133 +255,163 @@ export default function ProfileDetails(props) {
                     color: "#1618f1",
                   }}
                 >
-                  Queixa
+                  {userDetails?.typeUser === "patient" ? "Queixa" : "Descrição"}
                 </h2>
-                <p
+                {userDetails?.typeUser === "patient" ? (
+                  <p
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      color: "#1618f1",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {userDetails?.complaint}
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      color: "#1618f1",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {userDetails?.description}
+                  </p>
+                )}
+              </div>
+              {userDetails?.typeUser === "patient" && (
+                <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
-                    color: "#1618f1",
-                    fontStyle: "italic",
+                    gap: "20px",
+                    borderWidth: "3px",
+                    borderColor: "#1112de",
+                    borderStyle: "outset",
+                    padding: "20px",
+                    borderRadius: "20px",
                   }}
                 >
-                  Estou ficando cada vez mais doido e não sei o que fazer mais,
-                  estou ficando cada vez mais perdido dentro das minhas
-                  paranóias, peço ajuda, socorro, psicólogos, psiquiatras,
-                  fisioterapeutas, qualquer um, SOCORROOOOO!!!!!
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "20px",
-                  borderWidth: "3px",
-                  borderColor: "#1112de",
-                  borderStyle: "outset",
-                  padding: "20px",
-                  borderRadius: "20px",
-                }}
-              >
-                <h2
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    color: "#1618f1",
-                  }}
-                >
-                  Acompanhado por:
-                </h2>
-                <TypeUserTag>Psicólogo</TypeUserTag>
-                <TypeUserTag>Psiquiatra</TypeUserTag>
-                <TypeUserTag>Fisioterapeuta</TypeUserTag>
-                <TypeUserTag>Nutricionista</TypeUserTag>
-              </div>
+                  <h2
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      color: "#1618f1",
+                    }}
+                  >
+                    Acompanhado por:
+                  </h2>
+                  {addProfessionals.map((item) => (
+                    <TypeUserTag key={item?.name}>{item?.name}</TypeUserTag>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div
             style={{ display: "flex", alignItems: "flex-start", gap: "30px" }}
           >
-            <div style={{ position: "relative" }}>
-              <BestTask>
-                Atividade que mais gostei <CgCheck size={40} color="#96ffa0" />
-              </BestTask>
-              <Task
-                descriptionOfTask="medite durante 10 minutos parado sem se mexer sem pensar sem sentir nada, o objetivo é virar uma pedra estável inquebrável"
-                professionalName="Fernando Noronha"
-                professionalPhotoUrl="https://avatars.githubusercontent.com/u/109779094?v=4"
-                titleOfTask="meditação top"
-                isRenderInProfile={false}
-              />
-            </div>
-            <StatisticContainer color={"positiveColor"}>
-              <div>
+            {/*{userDetails?.typeUser === "patient" && (
+              <div style={{ position: "relative" }}>
+                <BestTask>
+                  Atividade que mais gostei{" "}
+                  <CgCheck size={40} color="#96ffa0" />
+                </BestTask>
+                <Task
+                  key={item.id}
+                  professionalId={item.user.id}
+                  descriptionOfTask={item.description}
+                  professionalName={item.user.username}
+                  professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+                  titleOfTask={item.title}
+                  checkTask={item.carriedOut}
+                  taskId={item.id}
+                  deadline={item.deadline}
+                  isTaskPublic={item.isTaskPublic}
+                  forceTask={item.forceTask}
+                  userEmailOfTask={item.patientEmail}
+                  taskIsForOtherUser={true}
+                  publicTasksPage={true}
+                />
+              </div>
+            )}*/}
+            {userDetails?.typeUser === "patient" &&
+            userDetails?.statisticPublic ? (
+              <StatisticContainer color={"positiveColor"}>
+                <div>
+                  <p
+                    style={{
+                      fontWeight: 700,
+                      fontSize: "22px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Estatística:
+                  </p>
+                  <p
+                    style={{
+                      fontWeight: 400,
+                      fontStyle: "italic",
+                      fontSize: "22px",
+                    }}
+                  >
+                    Total de atividades: {dataTasksState?.length}
+                  </p>
+                  <p
+                    style={{
+                      fontWeight: 400,
+                      fontStyle: "italic",
+                      fontSize: "22px",
+                    }}
+                  >
+                    Atividades realizadas dentro do prazo: {carriedOutset}
+                  </p>
+                </div>
                 <p
                   style={{
                     fontWeight: 700,
-                    fontSize: "22px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Estatística:
-                </p>
-                <p
-                  style={{
-                    fontWeight: 400,
                     fontStyle: "italic",
-                    fontSize: "22px",
+                    fontSize: "100px",
+                    color: "rgba(255, 255, 255, 0.5)",
+                    paddingRight: "140px",
                   }}
                 >
-                  Total de atividades: 10
+                  {`${(carriedOutset / dataTasksState?.length) * 100}%`}
                 </p>
-                <p
-                  style={{
-                    fontWeight: 400,
-                    fontStyle: "italic",
-                    fontSize: "22px",
-                  }}
-                >
-                  Atividades realizadas dentro do prazo: 7
-                </p>
-              </div>
-              <p
-                style={{
-                  fontWeight: 700,
-                  fontStyle: "italic",
-                  fontSize: "100px",
-                  color: "rgba(255, 255, 255, 0.5)",
-                  paddingRight: "140px",
-                }}
-              >
-                70%
-              </p>
-              {stateStatisticView === "public" ? (
-                <Tooltip
-                  content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
-                  clickEvent={handleStateStatisticView}
-                >
-                  Público <LiaEyeSolid />
-                </Tooltip>
-              ) : (
-                <Tooltip
-                  content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
-                  clickEvent={handleStateStatisticView}
-                >
-                  Privado <FaRegEyeSlash />
-                </Tooltip>
-              )}
+                {userDetails?.statisticPublic ? (
+                  <Tooltip
+                    content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
+                    clickEvent={handleStateStatisticView}
+                  >
+                    Público <LiaEyeSolid />
+                  </Tooltip>
+                ) : (
+                  <Tooltip
+                    content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
+                    clickEvent={handleStateStatisticView}
+                  >
+                    Privado <FaRegEyeSlash />
+                  </Tooltip>
+                )}
 
-              <StrengthContainer onClick={handleCountState}>
-                {countState} força{" "}
-                <animated.div
-                  style={animate ? animationProps : animationProps2}
-                >
-                  <PiRocketLaunchLight />{" "}
-                </animated.div>
-              </StrengthContainer>
-            </StatisticContainer>
+                <StrengthContainer onClick={handleCountState}>
+                  {userDetails?.profileForce === null
+                    ? 0
+                    : userDetails?.profileForce}{" "}
+                  força{" "}
+                  <animated.div
+                    style={animate ? animationProps : animationProps2}
+                  >
+                    <PiRocketLaunchLight />{" "}
+                  </animated.div>
+                </StrengthContainer>
+              </StatisticContainer>
+            ) : null}
           </div>
         </ContentContainerProfileDetails>
       </BodyProfileDetails>

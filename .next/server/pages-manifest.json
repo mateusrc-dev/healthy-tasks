@@ -2,14 +2,16 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/allTasks": "pages/allTasks.js",
-  "/myRecentTasks": "pages/myRecentTasks.js",
+  "/createTask": "pages/createTask.js",
+  "/api/myProfessionals/getMyProfessionals/[userId]": "pages/api/myProfessionals/getMyProfessionals/[userId].js",
+  "/api/users/getUserById/[id]": "pages/api/users/getUserById/[id].js",
+  "/profileDetails/[id]": "pages/profileDetails/[id].js",
+  "/api/files/[url]": "pages/api/files/[url].js",
+  "/api/tasks/getAllTasksByEmail/[userEmail]": "pages/api/tasks/getAllTasksByEmail/[userEmail].js",
   "/profile": "pages/profile.js",
+  "/": "pages/index.js",
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
   "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
   "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
-  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
-  "/api/tasks/getAllTasksByEmail/[userEmail]": "pages/api/tasks/getAllTasksByEmail/[userEmail].js",
-  "/": "pages/index.js",
-  "/api/files/[url]": "pages/api/files/[url].js",
-  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js"
+  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js"
 }

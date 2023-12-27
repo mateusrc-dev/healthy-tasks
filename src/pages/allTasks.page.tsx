@@ -162,6 +162,7 @@ export default function AllTasks() {
                 {dataTasksState?.map((item) => (
                   <Task
                     key={item.id}
+                    professionalId={item.user.id}
                     descriptionOfTask={item.description}
                     professionalName={item.user.username}
                     professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
@@ -214,6 +215,7 @@ export default function AllTasks() {
                   <Task
                     key={item.id}
                     descriptionOfTask={item.description}
+                    professionalId={item.user.id}
                     professionalName={item.user.username}
                     professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
                     titleOfTask={item.title}
@@ -264,6 +266,7 @@ export default function AllTasks() {
                   <Task
                     key={item.id}
                     descriptionOfTask={item.description}
+                    professionalId={item.user.id}
                     professionalName={item.user.username}
                     professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
                     titleOfTask={item.title}

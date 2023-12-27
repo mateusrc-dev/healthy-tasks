@@ -54,6 +54,8 @@ export default function CreateTask() {
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
   const { user } = useAuth();
 
+  console.log(dataTasksState);
+
   function handleNewTask() {
     setNewTask(!newTask);
     setStateTime("");
@@ -318,6 +320,7 @@ export default function CreateTask() {
               {dataTasksState?.map((item) => (
                 <Task
                   key={item.id}
+                  professionalId={item.user.id}
                   descriptionOfTask={item.description}
                   professionalName={item.user.username}
                   professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
@@ -332,7 +335,7 @@ export default function CreateTask() {
                   publicTasksPage={true}
                   marginInline={true}
                   showComments={false}
-                  onDisplay={!item.carriedOut} // fazer aqui a lógica para aparecer as tarefas que somente estiverem dentro do critério
+                  //onDisplay={!item.carriedOut} // fazer aqui a lógica para aparecer as tarefas que somente estiverem dentro do critério
                 />
               ))}
             </TasksCreatedContainer>

@@ -102,6 +102,7 @@ export default function MyRecentTasks(props) {
           {dataTasksState?.map((item) => (
             <Task
               key={item.id}
+              professionalId={item.user.id}
               descriptionOfTask={item.description}
               professionalName={item.user.username}
               professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}

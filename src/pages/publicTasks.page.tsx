@@ -99,6 +99,7 @@ export default function PublicTasks() {
           {dataTasksState?.map((item) => (
             <Task
               key={item.id}
+              professionalId={item.user.id}
               descriptionOfTask={item.description}
               professionalName={item.user.username}
               professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
