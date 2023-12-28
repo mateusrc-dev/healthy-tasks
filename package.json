@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel_build": "npx prisma migrate deploy"
+    "vercel_build": "npx prisma migrate deploy",
+    "prisma": "npx prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
