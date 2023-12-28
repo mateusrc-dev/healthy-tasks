@@ -11,14 +11,8 @@
       "ANOTHER_VAR": "another var"
     },
     "functions": {
-        "api/**/*.js": {
-          "includeFiles": ["prisma/schema.prisma"],
-          "build": {
-            "env": {
-              "NODE_ENV": "production"
-            },
-            "command": "npm run build && npx prisma generate"
-          }
-        }
+      "api/**/*.js": {
+        "includeFiles": ["prisma/schema.prisma"]
       }
+    }
   }
