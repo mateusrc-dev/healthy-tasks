@@ -19,7 +19,7 @@ export default async function handler(
         take: 5,
         where: { 
             isTaskPublic: true,
-            title: {contains: queryTitle}
+            title: {contains: queryTitle.toLowerCase()}
         },
         orderBy: { created_at: "desc" },
         include: { user: true }
