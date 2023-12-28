@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/profile": "pages/profile.js",
-  "/profileDetails/[id]": "pages/profileDetails/[id].js"
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
+  "/": "pages/index.js"
 }
