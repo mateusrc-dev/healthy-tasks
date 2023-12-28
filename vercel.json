@@ -1,18 +1,6 @@
 {
-    "builds": [
-      {
-        "src": "next.config.js",
-        "use": "@now/next"
-      }
-    ],
-    "version": 2,
-    "env": {
-      "NEXT_PUBLIC_VAR": "public var",
-      "ANOTHER_VAR": "another var"
-    },
-    "functions": {
-      "api/**/*.js": {
-        "includeFiles": ["prisma/schema.prisma"]
-      }
-    }
-  }
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/*", "dest": "/index.html" }
+  ]
+}
