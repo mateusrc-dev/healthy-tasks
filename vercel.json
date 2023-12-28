@@ -10,12 +10,15 @@
       "NEXT_PUBLIC_VAR": "public var",
       "ANOTHER_VAR": "another var"
     },
-    "build": {
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "commands": {
-        "build": "next build && prisma generate"
+    "functions": {
+        "api/**/*.js": {
+          "includeFiles": ["prisma/schema.prisma"],
+          "build": {
+            "env": {
+              "NODE_ENV": "production"
+            },
+            "command": "npm run build && npx prisma generate"
+          }
+        }
       }
-    }
   }
