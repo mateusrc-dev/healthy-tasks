@@ -139,9 +139,9 @@ export const LinkContainer = styled('a', {
 
 
 const scaleUp = keyframes({
-  '0%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 800px, 390px)', scale: 0.5, left: "30px" },
-  '50%': { transform: 'translateY(-210px)', clip: 'rect(220px, 1350px, 1000px, 350px)', scale: 0.5, left: "30px" },
-  '100%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 800px, 390px)', scale: 0.5, left: "30px" },
+  '0%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 800px, 390px)', scale: 0.55, left: "10px" },
+  '50%': { transform: 'translateY(-210px)', clip: 'rect(220px, 1350px, 1000px, 350px)', scale: 0.55, left: "10px" },
+  '100%': { transform: 'translateY(0px)', clip: 'rect(45px, 2000px, 800px, 390px)', scale: 0.55, left: "10px" },
 });
 
 export const TaskAnimate = styled('div', {

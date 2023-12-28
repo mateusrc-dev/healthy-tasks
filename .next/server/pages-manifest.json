@@ -4,11 +4,5 @@
   "/_document": "pages/_document.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
   "/allTasks": "pages/allTasks.js",
-  "/api/tasks/getAllTasksByEmail/[userEmail]": "pages/api/tasks/getAllTasksByEmail/[userEmail].js",
-  "/publicTasks": "pages/publicTasks.js",
-  "/profile": "pages/profile.js",
-  "/api/myProfessionals/getMyProfessionals/[userId]": "pages/api/myProfessionals/getMyProfessionals/[userId].js",
-  "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
-  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
-  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js"
+  "/": "pages/index.js"
 }
