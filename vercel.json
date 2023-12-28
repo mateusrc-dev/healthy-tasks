@@ -15,7 +15,7 @@
         "NODE_ENV": "production"
       },
       "commands": {
-        "build": "npm run build && prisma generate"
+        "build": "next build && prisma generate"
       }
     }
   }
