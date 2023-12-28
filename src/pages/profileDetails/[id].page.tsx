@@ -204,12 +204,12 @@ export default function ProfileDetails(props) {
         <Menu pageSelected="null" />
         <ContentContainerProfileDetails>
           <div style={{ display: "flex", alignItems: "center", gap: "30px" }}>
-            <ImageUser
+            {/*<ImageUser
               width={300}
               height={300}
               src={`${api.defaults.baseURL}/files/${userDetails?.photoUrl}`}
               alt="imagem do usuário"
-            />
+            />*/}
             <div
               style={{ display: "flex", flexDirection: "column", gap: "20px" }}
             >

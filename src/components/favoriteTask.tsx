@@ -43,7 +43,7 @@ export function FavoriteTask({
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Image
+          {/*<Image
             src={professionalPhoto}
             alt="foto do profissional"
             width={100}
@@ -54,7 +54,7 @@ export function FavoriteTask({
               borderStyle: "groove",
               borderColor: "#fff",
             }}
-          />
+          />*/}
           <Tag>{professionalName}</Tag>
           <Tag>{professionalSpecialization}</Tag>
         </div>

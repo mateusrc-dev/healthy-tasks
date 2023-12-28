@@ -361,14 +361,14 @@ export function Task({
       display={onDisplay ? null : "displayNone"}
     >
       <Profile>
-        <Link href={`/profileDetails/${professionalId}`}>
+        {/*<Link href={`/profileDetails/${professionalId}`}>
           <Photo
             src={professionalPhotoUrl}
             alt="foto do profissional"
             width={100}
             height={100}
           />
-        </Link>
+        </Link>*/}
         <Link href={`/profileDetails/${professionalId}`}>
           <Name>Dr. {professionalName}</Name>
         </Link>
@@ -444,12 +444,12 @@ export function Task({
                 >
                   para
                 </h3>
-                <Photo
+                {/*<Photo
                   src={`${api.defaults.baseURL}/files/${recipient?.photoUrl}`}
                   alt="foto do paciente"
                   width={50}
                   height={50}
-                />
+                />*/}
                 <h3
                   style={{
                     fontStyle: "italic",

@@ -37,11 +37,11 @@ export function Comment({
 
   return (
     <CommentContainer>
-      <Link href={`profileDetails/1`}>
+      {/*<Link href={`profileDetails/1`}>
         <Profile>
           <Photo src={userPhoto} alt="foto do usuário" width={70} height={70} />
         </Profile>
-      </Link>
+      </Link>*/}
       <div
         style={{
           display: "flex",

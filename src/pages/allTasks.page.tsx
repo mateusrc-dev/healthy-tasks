@@ -365,7 +365,10 @@ export default function AllTasks() {
                       paddingRight: "140px",
                     }}
                   >
-                    {`${(carriedOutset / dataTasksState.length) * 100}%`}
+                    {Number(
+                      (carriedOutset / dataTasksState.length) * 100
+                    ).toFixed(1)}{" "}
+                    %
                   </p>
                 </StatisticContainer>
                 <StatisticContainer

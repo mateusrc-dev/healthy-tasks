@@ -376,9 +376,6 @@ const showButton = keyframes({
 });
 
 export const ButtonSave = styled("button", {
-  position: "absolute",
-  top: "250px",
-  left: "-25px",
   width: "250px",
   display: "flex",
   alignItems: "center",

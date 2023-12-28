@@ -228,12 +228,12 @@ export default function Profile() {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
               >
-                <ImageProfessional
+                {/*<ImageProfessional
                   src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
                   alt="foto do profissional"
                   width={100}
                   height={100}
-                />
+                />*/}
                 <div
                   style={{
                     display: "flex",
@@ -283,12 +283,12 @@ export default function Profile() {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
               >
-                <ImageProfessional
+                {/* <ImageProfessional
                   src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
                   alt="foto do profissional"
                   width={100}
                   height={100}
-                />
+                /> */}
                 <div
                   style={{
                     display: "flex",
@@ -338,12 +338,12 @@ export default function Profile() {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
               >
-                <ImageProfessional
+                {/*<ImageProfessional
                   src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
                   alt="foto do profissional"
                   width={100}
                   height={100}
-                />
+                />*/}
                 <div
                   style={{
                     display: "flex",
@@ -412,11 +412,27 @@ export default function Profile() {
           >
             Meu perfil <CgProfile />
           </h1>
+          {user?.typeUser === "patient" &&
+          stateInput?.length != 0 &&
+          stateTextarea.length >= 100 &&
+          addProfessionals?.length != 0 ? (
+            <ButtonSave onClick={handleUpdatePatient}>
+              Salvar informações <TfiSave />
+            </ButtonSave>
+          ) : null}
+          {user?.typeUser === "professional" &&
+          stateInputSpecialization.length != 0 &&
+          stateInput.length != 0 &&
+          stateTextareaProfessional.length >= 100 ? (
+            <ButtonSave onClick={handleUpdateProfessional}>
+              Salvar informações <TfiSave />
+            </ButtonSave>
+          ) : null}
           <div
             style={{ display: "flex", alignItems: "flex-start", gap: "50px" }}
           >
-            <div style={{ position: "relative" }}>
-              <ImageUser src={avatar} alt="sua foto" width={200} height={200} />
+            {/*<div style={{ position: "relative" }}>
+             <ImageUser src={avatar} alt="sua foto" width={200} height={200} />
               <label
                 htmlFor="avatar"
                 style={{
@@ -442,23 +458,7 @@ export default function Profile() {
                 />
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
               </label>
-              {user?.typeUser === "patient" &&
-              stateInput?.length != 0 &&
-              stateTextarea.length >= 100 &&
-              addProfessionals?.length != 0 ? (
-                <ButtonSave onClick={handleUpdatePatient}>
-                  Salvar informações <TfiSave />
-                </ButtonSave>
-              ) : null}
-              {user?.typeUser === "professional" &&
-              stateInputSpecialization.length != 0 &&
-              stateInput.length != 0 &&
-              stateTextareaProfessional.length >= 100 ? (
-                <ButtonSave onClick={handleUpdateProfessional}>
-                  Salvar informações <TfiSave />
-                </ButtonSave>
-              ) : null}
-            </div>
+            </div>*/}
             <div
               style={{
                 display: "flex",
