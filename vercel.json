@@ -1,6 +1,21 @@
 {
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/*", "dest": "/index.html" }
-  ]
-}
+    "builds": [
+      {
+        "src": "next.config.js",
+        "use": "@now/next"
+      }
+    ],
+    "version": 2,
+    "env": {
+      "NEXT_PUBLIC_VAR": "public var",
+      "ANOTHER_VAR": "another var"
+    },
+    "build": {
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "commands": {
+        "build": "npm run build && prisma generate"
+      }
+    }
+  }
