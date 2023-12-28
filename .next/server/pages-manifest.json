@@ -3,7 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/profileDetails/[id]": "pages/profileDetails/[id].js",
+  "/": "pages/index.js",
   "/profile": "pages/profile.js",
-  "/api/users": "pages/api/users.js",
-  "/": "pages/index.js"
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js"
 }
