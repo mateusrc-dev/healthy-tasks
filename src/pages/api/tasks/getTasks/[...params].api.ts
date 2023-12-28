@@ -21,7 +21,7 @@ export default async function handler(
         where: { 
             patientEmail: email, 
             carriedOut: false,
-            title: {contains: queryTitle.toLowerCase()},
+            title: {contains: queryTitle},
             deadline: {
                 gt: new Date(),
             }

@@ -3,6 +3,10 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/myRecentTasks": "pages/myRecentTasks.js",
-  "/allTasks": "pages/allTasks.js",
-  "/": "pages/index.js"
+  "/": "pages/index.js",
+  "/publicTasks": "pages/publicTasks.js",
+  "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
+  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
+  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js"
 }
