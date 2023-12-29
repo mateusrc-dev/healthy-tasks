@@ -1,6 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-✔️✔️✔️ app name: healthy tasks ƪ(˘⌣˘)ʃ
+# ✔️✔️✔️ app name: healthy tasks ƪ(˘⌣˘)ʃ
 
 ➡️ The application will consist of a home screen in which the user can log in as a user or as a professional, it will be an application of health activities created by health professionals for their patients, these activities can be left public for other users. view and interact - the login page will display some public activities and interactions with it so that the user can get an idea of what the app is like before they even have access to everything it makes available when logging in - there may also be text introducing the app - “take care of yourself accompanied by a professional and indirectly by a third-party professional 😁” 🚀
 
@@ -8,7 +6,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ➡️ There will be a page where all the activities that are public will be located, and the user will be able to interact, like, favorite, find out more about how to take care of their physical and mental health, based on the activities made available by professionals to other users, and you can also access the profiles of other professionals and users who will have information about them as they make it available 🚀
 
-➡️ There will be a profile page where the user can change information in their profile such as complaints, add which professionals they support, they can choose an activity that helped them the most and leave it available on their profile, they can change their profile to public or private (if is private, and if you have public activities, information such as name, photo, will be anonymous - credits to Manu 😍), you can choose whether or not to display your statistics of completed activities (these statistics screen will have a "strength 💪" button which users can click to motivate) 💪
+➡️ There will be a profile page where the user can change information in their profile such as complaints, add which professionals they support, they can choose an activity that helped them the most and leave it available on their profile, they can change their profile to public or private (if is private, and if you have public activities, information such as name, will be anonymous), you can choose whether or not to display your completed activity statistics (these statistics screen will have a "strength 💪" button that users can click to motivate) 💪
 
 ➡️ There will be a page where the user can view all their activities, those that have been completed, those that have not yet been completed, those that have not been completed within the deadline established by the professional, feedback can be given to the user if it is going well, more or less, or if you need to improve by calculating the percentage of activities being completed within the deadline (and here you can have a message depending on whether the percentage is above 50% or below 50%) ✔️
 
@@ -41,19 +39,6 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Deploy on Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-✔️✔️ https://healthy-tasks.vercel.app/
+## ✔️✔️ https://healthy-tasks.vercel.app/
