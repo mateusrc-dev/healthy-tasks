@@ -34,8 +34,11 @@ import { api } from "../lib/axios";
 import avatarPlaceholder from "../assets/avatar_placeholder.svg";
 import { TaskType } from "./allTasks.page";
 import { Button } from "../components/button";
+import React from "react";
+import ContentLoader from "react-content-loader";
 
 interface MyProfessionals {
+  id: string;
   name: string;
   userId: string;
 }
@@ -71,7 +74,9 @@ export default function Profile() {
   const [isPublicTask, setIsPublicTask] = useState<boolean>(false);
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
   const [nameBestTask, setNameBestTask] = useState<string>("");
-  const [carriedOutset, setCarriedOut] = useState<number>(0);
+  const [carriedOutset, setCarriedOut] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingSave, setLoadingSave] = useState<boolean>(false);
 
   function handleStateView() {
     if (stateView === true) {
@@ -122,40 +127,47 @@ export default function Profile() {
       return;
     } else {
       try {
-        await api.post("/myProfessionals/create", {
+        setLoadingSave(true);
+        const newProfessional = await api.post("/myProfessionals/create", {
           name: inputNewProfessional,
           userId: user?.id,
         });
 
         SetAddProfessionals((prevState) => [
           ...prevState,
-          { name: inputNewProfessional, userId: user?.id },
+          newProfessional.data,
         ]);
 
         setInputNewProfessional("");
       } catch (error) {
         alert(`Não foi possível adicionar o profissional. ${error}`);
         return;
+      } finally {
+        setLoadingSave(false);
       }
     }
   }
 
   async function handleDeleteProfessional(professionalDeleted: string) {
     try {
+      setLoadingSave(true);
       await api.delete(`/myProfessionals/delete/${professionalDeleted}`);
 
       const professionalsWithoutDeleted = addProfessionals?.filter(
-        (item) => item.name !== professionalDeleted
+        (item) => item.id !== professionalDeleted
       );
       SetAddProfessionals(professionalsWithoutDeleted);
     } catch (error) {
       alert(`Não foi possível deletar o profissional. ${error}`);
       return;
+    } finally {
+      setLoadingSave(false);
     }
   }
 
   async function handleCreateBestTask(taskId: string) {
     try {
+      setLoadingSave(true);
       await api.post(
         `/tasks/selectBestTask/${taskId}/${user?.id}/${isPublicTask}`
       );
@@ -165,30 +177,44 @@ export default function Profile() {
     } catch (error) {
       alert(`Não foi possível salvar a atividade favorita. ${error}`);
       return;
+    } finally {
+      setLoadingSave(false);
     }
   }
 
   async function handleUpdatePatient() {
-    await updateProfilePatient(
-      stateInput,
-      stateTextarea,
-      stateView,
-      stateStatisticView,
-      avatarFile,
-      user?.id
-    );
+    try {
+      setLoadingSave(true);
+      await updateProfilePatient(
+        stateInput,
+        stateTextarea,
+        stateView,
+        stateStatisticView,
+        avatarFile,
+        user?.id
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSave(false);
+    }
   }
 
-  console.log(avatarFile);
-
   async function handleUpdateProfessional() {
-    await updateProfileProfessional(
-      stateInput,
-      stateInputSpecialization,
-      stateTextareaProfessional,
-      avatarFile,
-      user?.id
-    );
+    try {
+      setLoadingSave(true);
+      await updateProfileProfessional(
+        stateInput,
+        stateInputSpecialization,
+        stateTextareaProfessional,
+        avatarFile,
+        user?.id
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSave(false);
+    }
   }
 
   function handleChangeAvatar(event) {
@@ -202,6 +228,7 @@ export default function Profile() {
   useEffect(() => {
     async function handleFindMyProfessionals() {
       try {
+        setLoading(true);
         const response = await api.get(
           `/myProfessionals/getMyProfessionals/${user?.id}`
         );
@@ -209,24 +236,37 @@ export default function Profile() {
         SetAddProfessionals(response?.data);
       } catch (error) {
         alert(`Não foi buscar os profissionais do usuário. ${error}`);
+      } finally {
+        setLoading(false);
       }
     }
 
     async function handleGetTasks() {
       try {
+        setLoading(true);
         const response = await api.get(
           `/tasks/getAllTasksByEmail/${user?.email}/`
         );
 
         setDataTasksState(response?.data);
+        if (carriedOutset === null) {
+          for (let i = 0; i < response?.data?.length; i += 1) {
+            if (response?.data[i].carriedOut === true) {
+              setCarriedOut((state) => state + 1);
+            }
+          }
+        }
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
         return;
+      } finally {
+        setLoading(false);
       }
     }
 
     async function handleGetBestTask() {
       try {
+        setLoading(true);
         const response = await api.get(`/tasks/getBestTask/${user?.id}/`);
 
         setIdBestTask(response?.data?.taskId);
@@ -235,27 +275,37 @@ export default function Profile() {
       } catch (error) {
         alert(`Não foi possível buscar a melhor atividade. ${error}`);
         return;
+      } finally {
+        setLoading(false);
       }
     }
 
     handleGetBestTask();
     handleGetTasks();
     handleFindMyProfessionals();
-  }, [user]);
-
-  useEffect(() => {
-    function handleResultTasksCarriedOut() {
-      for (let i = 0; i < dataTasksState.length; i += 1) {
-        if (dataTasksState[i].carriedOut === true) {
-          setCarriedOut((state) => state + 1);
-        }
-      }
-    }
-    handleResultTasksCarriedOut();
-  }, [dataTasksState]);
+  }, [user, carriedOutset]);
 
   return (
     <Container>
+      {loadingSave && (
+        <ContentLoader
+          viewBox="0 0 400 160"
+          height={160}
+          width={400}
+          backgroundColor="transparent"
+          style={{
+            position: "absolute",
+            zIndex: 3,
+            left: "calc(50% - 100px)",
+            top: "calc(50% - 100px)",
+          }}
+          //{...props}
+        >
+          <circle cx="20" cy="86" r="20" />
+          <circle cx="100" cy="86" r="20" />
+          <circle cx="180" cy="86" r="20" />
+        </ContentLoader>
+      )}
       <div
         id="modal"
         className={click ? "modal" : "none"}
@@ -377,36 +427,56 @@ export default function Profile() {
         <ContentContainerProfile
           color={addProfessionals?.length !== 0 ? "colorPositive" : null}
         >
-          <h1
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              color: "#1618f1",
-            }}
-          >
-            Meu perfil <CgProfile />
-          </h1>
-          {user?.typeUser === "patient" &&
-          stateInput?.length != 0 &&
-          stateTextarea.length >= 100 &&
-          addProfessionals?.length != 0 ? (
-            <ButtonSave onClick={handleUpdatePatient}>
-              Salvar informações <TfiSave />
-            </ButtonSave>
-          ) : null}
-          {user?.typeUser === "professional" &&
-          stateInputSpecialization.length != 0 &&
-          stateInput.length != 0 &&
-          stateTextareaProfessional.length >= 100 ? (
-            <ButtonSave onClick={handleUpdateProfessional}>
-              Salvar informações <TfiSave />
-            </ButtonSave>
-          ) : null}
-          <div
-            style={{ display: "flex", alignItems: "flex-start", gap: "50px" }}
-          >
-            {/*<div style={{ position: "relative" }}>
+          {loading ? (
+            <ContentLoader
+              //viewBox="0 0 400 160"
+              height={"100vh"}
+              width={"100%"}
+              //{...props}
+            >
+              <rect x="0" y="0" rx="4" ry="4" width="100%" height="30" />
+              <rect x="0" y="40" rx="4" ry="4" width="400" height="30" />
+              <rect x="0" y="80" rx="4" ry="4" width="100%" height="20" />
+              <rect x="0" y="130" rx="4" ry="4" width="400" height="30" />
+              <rect x="0" y="170" rx="4" ry="4" width="100%" height="30" />
+              <rect x="0" y="220" rx="5" ry="5" width="100%" height="300" />
+            </ContentLoader>
+          ) : (
+            <>
+              <h1
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  color: "#1618f1",
+                }}
+              >
+                Meu perfil <CgProfile />
+              </h1>
+              {user?.typeUser === "patient" &&
+              stateInput?.length != 0 &&
+              stateTextarea.length >= 100 &&
+              addProfessionals?.length != 0 ? (
+                <ButtonSave onClick={handleUpdatePatient}>
+                  Salvar informações <TfiSave />
+                </ButtonSave>
+              ) : null}
+              {user?.typeUser === "professional" &&
+              stateInputSpecialization.length != 0 &&
+              stateInput.length != 0 &&
+              stateTextareaProfessional.length >= 100 ? (
+                <ButtonSave onClick={handleUpdateProfessional}>
+                  Salvar informações <TfiSave />
+                </ButtonSave>
+              ) : null}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "50px",
+                }}
+              >
+                {/*<div style={{ position: "relative" }}>
              <ImageUser src={avatar} alt="sua foto" width={200} height={200} />
               <label
                 htmlFor="avatar"
@@ -434,339 +504,366 @@ export default function Profile() {
                 <MdPhotoSizeSelectActual size={50} color="#fff" />
               </label>
             </div>*/}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "30px",
-                width: "100%",
-              }}
-            >
-              <div style={{ position: "relative" }}>
-                {stateInput && (
-                  <TextInformation color={"normal"}>Seu nome</TextInformation>
-                )}
-                <textarea
-                  placeholder="Escreva aqui seu nome"
-                  onChange={(e) => setStateInput(e.target.value)}
-                  value={stateInput}
-                  rows={1}
-                  style={{
-                    width: "100%",
-                    border: "none",
-                    borderRadius: "10px",
-                    padding: "10px",
-                    background: "#1618f1",
-                    color: "#fff",
-                    resize: "none",
-                  }}
-                />
-              </div>
-              {user?.typeUser === "professional" && (
-                <div style={{ position: "relative" }}>
-                  {stateInputSpecialization && (
-                    <TextInformation color={"normal"}>
-                      Sua especialização
-                    </TextInformation>
-                  )}
-                  <textarea
-                    placeholder="Escreva aqui sua especialização"
-                    onChange={(e) =>
-                      setStateInputSpecialization(e.target.value)
-                    }
-                    value={stateInputSpecialization}
-                    rows={1}
-                    style={{
-                      width: "100%",
-                      border: "none",
-                      borderRadius: "10px",
-                      padding: "10px",
-                      background: "#1618f1",
-                      color: "#fff",
-                      resize: "none",
-                    }}
-                  />
-                </div>
-              )}
-              <div style={{ position: "relative" }}>
-                {user?.typeUser === "patient" ? (
-                  <>
-                    {stateTextarea && (
-                      <TextInformation
-                        color={
-                          stateTextarea.length >= 100
-                            ? "alertPositive"
-                            : "alert"
-                        }
-                      >
-                        Sua queixa (no mínimo 100 caracteres)
-                      </TextInformation>
-                    )}
-                    <p
-                      style={{
-                        position: "absolute",
-                        bottom: "10px",
-                        right: "10px",
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        color: "#fff",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      {stateTextarea.length} | 1000
-                    </p>
-                    <textarea
-                      placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
-                      maxLength={1000}
-                      onChange={(e) => setStateTextarea(e.target.value)}
-                      value={stateTextarea}
-                      style={{
-                        width: "100%",
-                        height: "100px",
-                        resize: "none",
-                        border: "none",
-                        borderRadius: "10px",
-                        padding: "10px",
-                        background: "#1618f1",
-                        color: "#fff",
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    {stateTextareaProfessional && (
-                      <TextInformation
-                        color={
-                          stateTextareaProfessional.length >= 100
-                            ? "alertPositive"
-                            : "alert"
-                        }
-                      >
-                        Sua descrição (no mínimo 100 caracteres)
-                      </TextInformation>
-                    )}
-                    <p
-                      style={{
-                        position: "absolute",
-                        bottom: "10px",
-                        right: "10px",
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        color: "#fff",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      {stateTextareaProfessional.length} | 1000
-                    </p>
-                    <textarea
-                      placeholder="Escreva aqui sua descrição profissional (no mínimo 100 caracteres)..."
-                      maxLength={1000}
-                      onChange={(e) =>
-                        setStateTextareaProfessional(e.target.value)
-                      }
-                      value={stateTextareaProfessional}
-                      style={{
-                        width: "100%",
-                        height: "100px",
-                        resize: "none",
-                        border: "none",
-                        borderRadius: "10px",
-                        padding: "10px",
-                        background: "#1618f1",
-                        color: "#fff",
-                      }}
-                    />
-                  </>
-                )}
-              </div>
-              {user?.typeUser === "patient" && (
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "15px" }}
-                >
-                  <p
-                    style={{
-                      color: "#1618f1",
-                      fontWeight: 700,
-                      fontStyle: "italic",
-                    }}
-                  >
-                    Profissionais que sou acompanhado:
-                  </p>
-                  {addProfessionals?.map((professional) => (
-                    <div
-                      key={professional.name}
-                      style={{ position: "relative" }}
-                    >
-                      <ProfessionalTag>{professional.name}</ProfessionalTag>
-                      <ButtonWithHover
-                        onClick={() =>
-                          handleDeleteProfessional(professional.name)
-                        }
-                        style={{ position: "absolute", top: -10, right: -10 }}
-                      >
-                        <IoIosCloseCircle size={25} color="#3a89c9" />
-                      </ButtonWithHover>
-                    </div>
-                  ))}
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input
-                      placeholder="Adicione pelo menos um profissional."
-                      value={inputNewProfessional}
-                      onChange={(e) => setInputNewProfessional(e.target.value)}
-                      style={{
-                        width: "250px",
-                        borderWidth: "2px",
-                        borderRightWidth: "0px",
-                        borderColor: "#1618f1",
-                        padding: "9px",
-                        borderRadius: "50px 0px 0px 50px",
-                        background: "#138fe8",
-                        color: "#fff",
-                      }}
-                    />
-                    <ToAddProfessional onClick={handleNewProfessional}>
-                      +
-                    </ToAddProfessional>
-                  </div>
-                </div>
-              )}
-              {user?.typeUser === "patient" && (
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "20px" }}
-                >
-                  <BestActivityContainerProfile onClick={handleClick}>
-                    Atividade que mais me ajudou: {nameBestTask} (clique caso
-                    desejar mudar)
-                  </BestActivityContainerProfile>
-                </div>
-              )}
-              {user?.typeUser === "patient" && (
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "15px",
-                    background: "#0606b7",
-                    padding: "20px",
-                    borderRadius: "10px",
-                    borderWidth: "3px",
-                    borderStyle: "outset",
-                    borderColor: "#0b0cca",
+                    gap: "30px",
+                    width: "100%",
                   }}
                 >
-                  <p
-                    style={{ fontWeight: 700, fontSize: "16px", color: "#fff" }}
-                  >
-                    Você deseja deixar seu perfil público ou privado?
-                  </p>
-                  {stateView === true ? (
-                    <>
-                      <ProfileTag onClick={handleStateView}>
-                        Público <LiaEyeSolid />
-                      </ProfileTag>
+                  <div style={{ position: "relative" }}>
+                    {stateInput && (
+                      <TextInformation color={"normal"}>
+                        Seu nome
+                      </TextInformation>
+                    )}
+                    <textarea
+                      placeholder="Escreva aqui seu nome"
+                      onChange={(e) => setStateInput(e.target.value)}
+                      value={stateInput}
+                      rows={1}
+                      style={{
+                        width: "100%",
+                        border: "none",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        background: "#1618f1",
+                        color: "#fff",
+                        resize: "none",
+                      }}
+                    />
+                  </div>
+                  {user?.typeUser === "professional" && (
+                    <div style={{ position: "relative" }}>
+                      {stateInputSpecialization && (
+                        <TextInformation color={"normal"}>
+                          Sua especialização
+                        </TextInformation>
+                      )}
+                      <textarea
+                        placeholder="Escreva aqui sua especialização"
+                        onChange={(e) =>
+                          setStateInputSpecialization(e.target.value)
+                        }
+                        value={stateInputSpecialization}
+                        rows={1}
+                        style={{
+                          width: "100%",
+                          border: "none",
+                          borderRadius: "10px",
+                          padding: "10px",
+                          background: "#1618f1",
+                          color: "#fff",
+                          resize: "none",
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div style={{ position: "relative" }}>
+                    {user?.typeUser === "patient" ? (
+                      <>
+                        {stateTextarea && (
+                          <TextInformation
+                            color={
+                              stateTextarea.length >= 100
+                                ? "alertPositive"
+                                : "alert"
+                            }
+                          >
+                            Sua queixa (no mínimo 100 caracteres)
+                          </TextInformation>
+                        )}
+                        <p
+                          style={{
+                            position: "absolute",
+                            bottom: "10px",
+                            right: "10px",
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            color: "#fff",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          {stateTextarea.length} | 1000
+                        </p>
+                        <textarea
+                          placeholder="Escreva aqui sua queixa (no mínimo 100 caracteres)..."
+                          maxLength={1000}
+                          onChange={(e) => setStateTextarea(e.target.value)}
+                          value={stateTextarea}
+                          style={{
+                            width: "100%",
+                            height: "100px",
+                            resize: "none",
+                            border: "none",
+                            borderRadius: "10px",
+                            padding: "10px",
+                            background: "#1618f1",
+                            color: "#fff",
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        {stateTextareaProfessional && (
+                          <TextInformation
+                            color={
+                              stateTextareaProfessional.length >= 100
+                                ? "alertPositive"
+                                : "alert"
+                            }
+                          >
+                            Sua descrição (no mínimo 100 caracteres)
+                          </TextInformation>
+                        )}
+                        <p
+                          style={{
+                            position: "absolute",
+                            bottom: "10px",
+                            right: "10px",
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            color: "#fff",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          {stateTextareaProfessional.length} | 1000
+                        </p>
+                        <textarea
+                          placeholder="Escreva aqui sua descrição profissional (no mínimo 100 caracteres)..."
+                          maxLength={1000}
+                          onChange={(e) =>
+                            setStateTextareaProfessional(e.target.value)
+                          }
+                          value={stateTextareaProfessional}
+                          style={{
+                            width: "100%",
+                            height: "100px",
+                            resize: "none",
+                            border: "none",
+                            borderRadius: "10px",
+                            padding: "10px",
+                            background: "#1618f1",
+                            color: "#fff",
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                  {user?.typeUser === "patient" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "15px",
+                      }}
+                    >
                       <p
                         style={{
-                          fontWeight: 400,
-                          fontSize: "12px",
-                          color: "#fff",
+                          color: "#1618f1",
+                          fontWeight: 700,
                           fontStyle: "italic",
                         }}
                       >
-                        Caso você deixar seu perfil público, os outros usuários
-                        poderão ver suas informações como nome e foto nas suas
-                        atividades públicas e acessar seu perfil.
+                        Profissionais que sou acompanhado:
                       </p>
-                    </>
-                  ) : (
-                    <>
-                      <ProfileTag onClick={handleStateView}>
-                        Privado <FaRegEyeSlash />
-                      </ProfileTag>
+                      {addProfessionals?.map((professional) => (
+                        <div
+                          key={professional.name}
+                          style={{ position: "relative" }}
+                        >
+                          <ProfessionalTag>{professional.name}</ProfessionalTag>
+                          <ButtonWithHover
+                            onClick={() =>
+                              handleDeleteProfessional(professional.id)
+                            }
+                            style={{
+                              position: "absolute",
+                              top: -10,
+                              right: -10,
+                            }}
+                          >
+                            <IoIosCloseCircle size={25} color="#3a89c9" />
+                          </ButtonWithHover>
+                        </div>
+                      ))}
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <input
+                          placeholder="Adicione pelo menos um profissional."
+                          value={inputNewProfessional}
+                          onChange={(e) =>
+                            setInputNewProfessional(e.target.value)
+                          }
+                          style={{
+                            width: "250px",
+                            borderWidth: "2px",
+                            borderRightWidth: "0px",
+                            borderColor: "#1618f1",
+                            padding: "9px",
+                            borderRadius: "50px 0px 0px 50px",
+                            background: "#138fe8",
+                            color: "#fff",
+                          }}
+                        />
+                        <ToAddProfessional onClick={handleNewProfessional}>
+                          +
+                        </ToAddProfessional>
+                      </div>
+                    </div>
+                  )}
+                  {user?.typeUser === "patient" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "20px",
+                      }}
+                    >
+                      <BestActivityContainerProfile onClick={handleClick}>
+                        Atividade que mais me ajudou: {nameBestTask} (clique
+                        caso desejar mudar)
+                      </BestActivityContainerProfile>
+                    </div>
+                  )}
+                  {user?.typeUser === "patient" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "15px",
+                        background: "#0606b7",
+                        padding: "20px",
+                        borderRadius: "10px",
+                        borderWidth: "3px",
+                        borderStyle: "outset",
+                        borderColor: "#0b0cca",
+                      }}
+                    >
                       <p
                         style={{
-                          fontWeight: 400,
-                          fontSize: "12px",
+                          fontWeight: 700,
+                          fontSize: "16px",
                           color: "#fff",
-                          fontStyle: "italic",
                         }}
                       >
-                        Caso você deixar seu perfil privado, suas atividades
-                        públicas ficarão com seu nome e foto em anônimo e seu
-                        perfil não poderá ser acessado pelos outros usuários.
+                        Você deseja deixar seu perfil público ou privado?
                       </p>
-                    </>
+                      {stateView === true ? (
+                        <>
+                          <ProfileTag onClick={handleStateView}>
+                            Público <LiaEyeSolid />
+                          </ProfileTag>
+                          <p
+                            style={{
+                              fontWeight: 400,
+                              fontSize: "12px",
+                              color: "#fff",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            Caso você deixar seu perfil público, os outros
+                            usuários poderão ver suas informações como nome e
+                            foto nas suas atividades públicas e acessar seu
+                            perfil.
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <ProfileTag onClick={handleStateView}>
+                            Privado <FaRegEyeSlash />
+                          </ProfileTag>
+                          <p
+                            style={{
+                              fontWeight: 400,
+                              fontSize: "12px",
+                              color: "#fff",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            Caso você deixar seu perfil privado, suas atividades
+                            públicas ficarão com seu nome e foto em anônimo e
+                            seu perfil não poderá ser acessado pelos outros
+                            usuários.
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  {user?.typeUser === "patient" && (
+                    <StatisticContainer color={"positiveColor"}>
+                      <div>
+                        <p
+                          style={{
+                            fontWeight: 700,
+                            fontSize: "22px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Estatística:
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: 400,
+                            fontStyle: "italic",
+                            fontSize: "22px",
+                          }}
+                        >
+                          Total de atividades: {dataTasksState?.length}
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: 400,
+                            fontStyle: "italic",
+                            fontSize: "22px",
+                          }}
+                        >
+                          Atividades realizadas dentro do prazo:{" "}
+                          {carriedOutset === null ? 0 : carriedOutset}
+                        </p>
+                      </div>
+                      <p
+                        style={{
+                          fontWeight: 700,
+                          fontStyle: "italic",
+                          fontSize: "100px",
+                          color: "rgba(255, 255, 255, 0.5)",
+                          paddingRight: "140px",
+                        }}
+                      >
+                        {carriedOutset === null
+                          ? "0"
+                          : Number(
+                              (carriedOutset / dataTasksState.length) * 100
+                            ).toFixed(1)}{" "}
+                        %
+                      </p>
+                      {stateStatisticView === true ? (
+                        <Tooltip
+                          content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
+                          clickEvent={handleStateStatisticView}
+                        >
+                          Público <LiaEyeSolid />
+                        </Tooltip>
+                      ) : (
+                        <Tooltip
+                          content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
+                          clickEvent={handleStateStatisticView}
+                        >
+                          Privado <FaRegEyeSlash />
+                        </Tooltip>
+                      )}
+
+                      <StrengthContainer>
+                        {user?.profileForce === null ? 0 : user?.profileForce}{" "}
+                        força <PiRocketLaunchLight />
+                      </StrengthContainer>
+                    </StatisticContainer>
                   )}
                 </div>
-              )}
-              {user?.typeUser === "patient" && (
-                <StatisticContainer color={"positiveColor"}>
-                  <div>
-                    <p
-                      style={{
-                        fontWeight: 700,
-                        fontSize: "22px",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      Estatística:
-                    </p>
-                    <p
-                      style={{
-                        fontWeight: 400,
-                        fontStyle: "italic",
-                        fontSize: "22px",
-                      }}
-                    >
-                      Total de atividades: {dataTasksState?.length}
-                    </p>
-                    <p
-                      style={{
-                        fontWeight: 400,
-                        fontStyle: "italic",
-                        fontSize: "22px",
-                      }}
-                    >
-                      Atividades realizadas dentro do prazo: {carriedOutset}
-                    </p>
-                  </div>
-                  <p
-                    style={{
-                      fontWeight: 700,
-                      fontStyle: "italic",
-                      fontSize: "100px",
-                      color: "rgba(255, 255, 255, 0.5)",
-                      paddingRight: "140px",
-                    }}
-                  >
-                    {Number(
-                      (carriedOutset / dataTasksState.length) * 100
-                    ).toFixed(1)}{" "}
-                    %
-                  </p>
-                  {stateStatisticView === true ? (
-                    <Tooltip
-                      content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
-                      clickEvent={handleStateStatisticView}
-                    >
-                      Público <LiaEyeSolid />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip
-                      content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
-                      clickEvent={handleStateStatisticView}
-                    >
-                      Privado <FaRegEyeSlash />
-                    </Tooltip>
-                  )}
-
-                  <StrengthContainer>
-                    {user?.profileForce === null ? 0 : user?.profileForce} força{" "}
-                    <PiRocketLaunchLight />
-                  </StrengthContainer>
-                </StatisticContainer>
-              )}
-            </div>
-          </div>
+              </div>
+            </>
+          )}
         </ContentContainerProfile>
       </BodyProfile>
       <Footer>

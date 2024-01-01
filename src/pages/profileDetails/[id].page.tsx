@@ -365,7 +365,7 @@ export default function ProfileDetails(props) {
                   <p
                     style={{
                       fontWeight: 700,
-                      fontSize: "22px",
+                      fontSize: "16px",
                       marginBottom: "10px",
                     }}
                   >
@@ -375,7 +375,7 @@ export default function ProfileDetails(props) {
                     style={{
                       fontWeight: 400,
                       fontStyle: "italic",
-                      fontSize: "22px",
+                      fontSize: "16px",
                     }}
                   >
                     Total de atividades: {dataTasksState?.length}
@@ -384,7 +384,7 @@ export default function ProfileDetails(props) {
                     style={{
                       fontWeight: 400,
                       fontStyle: "italic",
-                      fontSize: "22px",
+                      fontSize: "16px",
                     }}
                   >
                     Atividades realizadas dentro do prazo: {carriedOutset}
@@ -394,15 +394,14 @@ export default function ProfileDetails(props) {
                   style={{
                     fontWeight: 700,
                     fontStyle: "italic",
-                    fontSize: "100px",
+                    fontSize: "50px",
                     color: "rgba(255, 255, 255, 0.5)",
                     paddingRight: "140px",
                   }}
                 >
-                  {Number(
+                  {`${Number(
                     (carriedOutset / dataTasksState.length) * 100
-                  ).toFixed(1)}{" "}
-                  %
+                  ).toFixed(1)}%`}
                 </p>
                 {userDetails?.statisticPublic ? (
                   <Tooltip

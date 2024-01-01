@@ -13,6 +13,9 @@ import { Menu } from "../components/menu";
 import { InputComponent } from "../components/input";
 import { useEffect, useState } from "react";
 import { api } from "../lib/axios";
+import { IoAlertCircle } from "react-icons/io5";
+import React from "react";
+import ContentLoader from "react-content-loader";
 
 interface TaskType {
   carriedOut: boolean;
@@ -48,6 +51,7 @@ export default function PublicTasks() {
   const [pageSelected, setPageSelected] = useState<number>(1);
   const [count, setCount] = useState(0);
   const [changeSearch, setChangeSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   console.log(changeSearch);
 
   function handleChangePage(page: number) {
@@ -57,6 +61,7 @@ export default function PublicTasks() {
   useEffect(() => {
     async function handleGetTasks() {
       try {
+        setLoading(true);
         const response = await api.get(
           `/tasks/getPublicTasks/${pageSelected - 1}/${changeSearch}`
         );
@@ -65,6 +70,8 @@ export default function PublicTasks() {
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
         return;
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -73,12 +80,14 @@ export default function PublicTasks() {
 
   useEffect(() => {
     function handlePages() {
+      //setLoading(true);
       let num = 1;
       for (let i = 1; dataTasksState?.length > i; i++) {
         if (i % 5 === 0) {
           num += 1;
         }
       }
+      //setLoading(false);
       return setCount(num);
     }
     handlePages();
@@ -92,41 +101,76 @@ export default function PublicTasks() {
       <BodyOfPublicTasks>
         <Menu pageSelected="publicTasks" />
         <ContentContainer>
-          <InputComponent
-            handleOnChange={setChangeSearch}
-            placeholder="Clique para pesquisar por alguma atividade"
-          />
-          {dataTasksState?.map((item) => (
-            <Task
-              key={item.id}
-              professionalId={item.user.id}
-              descriptionOfTask={item.description}
-              professionalName={item.user.username}
-              professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
-              titleOfTask={item.title}
-              checkTask={item.carriedOut}
-              taskId={item.id}
-              deadline={item.deadline}
-              isTaskPublic={item.isTaskPublic}
-              forceTask={item.forceTask}
-              userEmailOfTask={item.patientEmail}
-              taskIsForOtherUser={true}
-              publicTasksPage={true}
+          {loading ? null : (
+            <InputComponent
+              handleOnChange={setChangeSearch}
+              placeholder="Clique para pesquisar por alguma atividade"
             />
-          ))}
-          <PaginationContainer>
-            {Array.from(Array(count).keys()).map((day) => {
-              return (
-                <PageContainer
-                  onClick={() => handleChangePage(day + 1)}
-                  key={day}
-                  color={pageSelected === day + 1 ? "selectColor" : null}
-                >
-                  {day + 1}
-                </PageContainer>
-              );
-            })}
-          </PaginationContainer>
+          )}
+          {loading ? (
+            <ContentLoader
+              speed={2}
+              width={"100%"}
+              height={"calc(100vh - 90px)"}
+              //viewBox="0 0 400 160"
+              backgroundColor="#d9d9d9"
+              foregroundColor="#ededed"
+              //{...props}
+            >
+              <rect x="8" y="0" rx="20" ry="20" width="100%" height="50" />
+              <rect x="8" y="70" rx="20" ry="20" width="100%" height="150" />
+              <rect x="8" y="240" rx="20" ry="20" width="100%" height="150" />
+              <rect x="8" y="410" rx="20" ry="20" width="100%" height="150" />
+            </ContentLoader>
+          ) : dataTasksState?.length !== 0 ? (
+            dataTasksState?.map((item) => (
+              <Task
+                key={item.id}
+                professionalId={item.user.id}
+                descriptionOfTask={item.description}
+                professionalName={item.user.username}
+                professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
+                titleOfTask={item.title}
+                checkTask={item.carriedOut}
+                taskId={item.id}
+                deadline={item.deadline}
+                isTaskPublic={item.isTaskPublic}
+                forceTask={item.forceTask}
+                userEmailOfTask={item.patientEmail}
+                taskIsForOtherUser={true}
+                publicTasksPage={true}
+              />
+            ))
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <IoAlertCircle size={100} color={"#ff194b"} />
+              <h3
+                style={{
+                  color: "#ff194b",
+                  fontStyle: "italic",
+                  fontSize: "30px",
+                }}
+              >
+                Não há atividades públicas no momento!
+              </h3>
+            </div>
+          )}
+
+          {loading ? null : (
+            <PaginationContainer>
+              {Array.from(Array(count).keys()).map((day) => {
+                return (
+                  <PageContainer
+                    onClick={() => handleChangePage(day + 1)}
+                    key={day}
+                    color={pageSelected === day + 1 ? "selectColor" : null}
+                  >
+                    {day + 1}
+                  </PageContainer>
+                );
+              })}
+            </PaginationContainer>
+          )}
         </ContentContainer>
       </BodyOfPublicTasks>
       <Footer>
