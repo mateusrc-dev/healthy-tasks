@@ -235,7 +235,7 @@ export default function ProfileDetails(props) {
       <BodyProfileDetails>
         <Menu pageSelected="null" />
         <ContentContainerProfileDetails>
-          {!loading ? (
+          {loading ? (
             <ContentLoader
               //viewBox="0 0 400 160"
               height={"100vh"}
