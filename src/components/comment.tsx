@@ -57,7 +57,7 @@ export function Comment({
             gap: "10px",
           }}
         >
-          <Link href={`profileDetails/1`}>
+          <Link href={`profileDetails/${commentUserId}`}>
             <Name>{userName}</Name>
           </Link>
           {patient && (
