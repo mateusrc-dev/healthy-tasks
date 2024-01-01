@@ -32,6 +32,8 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { useAuth } from "../hooks/auth";
 import { api } from "../lib/axios";
 import avatarPlaceholder from "../assets/avatar_placeholder.svg";
+import { TaskType } from "./allTasks.page";
+import { Button } from "../components/button";
 
 interface MyProfessionals {
   name: string;
@@ -65,6 +67,11 @@ export default function Profile() {
     : avatarPlaceholder;
   const [avatar, setAvatar] = useState(avatarUrl);
   const [avatarFile, setAvatarFile] = useState(null);
+  const [idBestTask, setIdBestTask] = useState<string>("");
+  const [isPublicTask, setIsPublicTask] = useState<boolean>(false);
+  const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const [nameBestTask, setNameBestTask] = useState<string>("");
+  const [carriedOutset, setCarriedOut] = useState<number>(0);
 
   function handleStateView() {
     if (stateView === true) {
@@ -147,6 +154,20 @@ export default function Profile() {
     }
   }
 
+  async function handleCreateBestTask(taskId: string) {
+    try {
+      await api.post(
+        `/tasks/selectBestTask/${taskId}/${user?.id}/${isPublicTask}`
+      );
+
+      setIdBestTask(taskId);
+      alert("Atividade preferida salva com sucesso!");
+    } catch (error) {
+      alert(`Não foi possível salvar a atividade favorita. ${error}`);
+      return;
+    }
+  }
+
   async function handleUpdatePatient() {
     await updateProfilePatient(
       stateInput,
@@ -187,12 +208,51 @@ export default function Profile() {
 
         SetAddProfessionals(response?.data);
       } catch (error) {
-        alert(`Não foi buscar os meus profissionais criar o usuário. ${error}`);
+        alert(`Não foi buscar os profissionais do usuário. ${error}`);
       }
     }
 
+    async function handleGetTasks() {
+      try {
+        const response = await api.get(
+          `/tasks/getAllTasksByEmail/${user?.email}/`
+        );
+
+        setDataTasksState(response?.data);
+      } catch (error) {
+        alert(`Não foi possível buscar as atividades. ${error}`);
+        return;
+      }
+    }
+
+    async function handleGetBestTask() {
+      try {
+        const response = await api.get(`/tasks/getBestTask/${user?.id}/`);
+
+        setIdBestTask(response?.data?.taskId);
+        setIsPublicTask(response?.data?.isPublic);
+        setNameBestTask(response?.data?.bestTask?.title);
+      } catch (error) {
+        alert(`Não foi possível buscar a melhor atividade. ${error}`);
+        return;
+      }
+    }
+
+    handleGetBestTask();
+    handleGetTasks();
     handleFindMyProfessionals();
   }, [user]);
+
+  useEffect(() => {
+    function handleResultTasksCarriedOut() {
+      for (let i = 0; i < dataTasksState.length; i += 1) {
+        if (dataTasksState[i].carriedOut === true) {
+          setCarriedOut((state) => state + 1);
+        }
+      }
+    }
+    handleResultTasksCarriedOut();
+  }, [dataTasksState]);
 
   return (
     <Container>
@@ -202,19 +262,27 @@ export default function Profile() {
         onClick={handleOutsideClick}
       >
         <div className={"modalContent"}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <h1 style={{ fontSize: "20px", width: "420px" }}>
-              Pesquise por sua atividade preferida:
+              Procure por sua atividade preferida:
             </h1>
-            <input
-              style={{
-                border: "none",
-                padding: "10px",
-                borderRadius: "10px",
-                width: "100%",
-              }}
-              type="text"
-            />
+            <CheckContainerProfile>
+              <input
+                type="checkbox"
+                onChange={() => setIsPublicTask(!isPublicTask)}
+                checked={isPublicTask}
+              />
+              Atividade pública
+            </CheckContainerProfile>
+            <Button clickEvent={() => handleCreateBestTask(idBestTask)}>
+              Salvar
+            </Button>
             <ButtonWithHover onClick={handleClick} title="fechar">
               <IoIosCloseCircle
                 size={50}
@@ -224,171 +292,78 @@ export default function Profile() {
             </ButtonWithHover>
           </div>
           <div className="tasksContainer">
-            <div className="taskChooseContainer">
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
-              >
-                {/*<ImageProfessional
+            {dataTasksState.map((item) => (
+              <div className="taskChooseContainer" key={item.id}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "20px" }}
+                >
+                  {/*<ImageProfessional
                   src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
                   alt="foto do profissional"
                   width={100}
                   height={100}
                 />*/}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      gap: "10px",
+                    }}
+                  >
+                    <p style={{ fontSize: "12px", fontStyle: "italic" }}>
+                      {item.user.username}
+                    </p>
+                    <ProfileTag>{item.user.specialization}</ProfileTag>
+                  </div>
+                </div>
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "10px",
+                    gap: "20px",
                   }}
                 >
-                  <p style={{ fontSize: "12px", fontStyle: "italic" }}>
-                    Mateus Carvalho
-                  </p>
-                  <ProfileTag>Psicólogo</ProfileTag>
+                  <div>
+                    <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
+                      Título:
+                    </h3>
+                    <p style={{ fontSize: "12px" }}>{item.title}</p>
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
+                      Descrição:
+                    </h3>
+                    <p style={{ fontSize: "12px" }}>{item.description}</p>
+                  </div>
                 </div>
+                {item.id === idBestTask ? (
+                  <Tooltip
+                    icon={true}
+                    clickEvent={handleFavoriteTask}
+                    content="Este item está selecionado e vai ficar visível no seu perfil como sua atividade favorita, clique caso deseje retirar a seleção."
+                  >
+                    <FaCheckCircle
+                      color={"#96ffa0"}
+                      size={50}
+                      onClick={() => setIdBestTask(item.id)}
+                    />{" "}
+                  </Tooltip>
+                ) : (
+                  <Tooltip
+                    icon={true}
+                    clickEvent={handleFavoriteTask}
+                    content="Este item não está selecionado e não vai ser exibido no seu perfil como sua atividade favorita, clique caso deseje seleciona-lo."
+                  >
+                    <RiCheckboxBlankCircleFill
+                      color={"#96ffa0"}
+                      size={58}
+                      onClick={() => setIdBestTask(item.id)}
+                    />
+                  </Tooltip>
+                )}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "20px",
-                }}
-              >
-                <div>
-                  <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
-                    Título:
-                  </h3>
-                  <p style={{ fontSize: "12px" }}>Meditação top</p>
-                </div>
-                <div>
-                  <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
-                    Descrição:
-                  </h3>
-                  <p style={{ fontSize: "12px" }}>
-                    preste atenção na respiração durante 10 minutos trazendo a
-                    mente para o agora.
-                  </p>
-                </div>
-              </div>
-              <Tooltip
-                icon={true}
-                clickEvent={handleFavoriteTask}
-                content="Este item está selecionado e vai ficar visível no seu perfil como sua atividade favorita, clique caso deseje retirar a seleção."
-              >
-                <FaCheckCircle color={"#96ffa0"} size={50} />{" "}
-              </Tooltip>
-            </div>
-            <div className="taskChooseContainer">
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
-              >
-                {/* <ImageProfessional
-                  src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
-                  alt="foto do profissional"
-                  width={100}
-                  height={100}
-                /> */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "10px",
-                  }}
-                >
-                  <p style={{ fontSize: "12px", fontStyle: "italic" }}>
-                    Mateus Carvalho
-                  </p>
-                  <ProfileTag>Psicólogo</ProfileTag>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "20px",
-                }}
-              >
-                <div>
-                  <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
-                    Título:
-                  </h3>
-                  <p style={{ fontSize: "12px" }}>Meditação top</p>
-                </div>
-                <div>
-                  <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
-                    Descrição:
-                  </h3>
-                  <p style={{ fontSize: "12px" }}>
-                    preste atenção na respiração durante 10 minutos trazendo a
-                    mente para o agora.
-                  </p>
-                </div>
-              </div>
-              <Tooltip
-                icon={true}
-                clickEvent={handleFavoriteTask}
-                content="Este item não está selecionado e não vai ser exibido no seu perfil como sua atividade favorita, clique caso deseje seleciona-lo."
-              >
-                <RiCheckboxBlankCircleFill color={"#96ffa0"} size={58} />
-              </Tooltip>
-            </div>
-            <div className="taskChooseContainer">
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
-              >
-                {/*<ImageProfessional
-                  src={"https://avatars.githubusercontent.com/u/109779094?v=4"}
-                  alt="foto do profissional"
-                  width={100}
-                  height={100}
-                />*/}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "10px",
-                  }}
-                >
-                  <p style={{ fontSize: "12px", fontStyle: "italic" }}>
-                    Mateus Carvalho
-                  </p>
-                  <ProfileTag>Psicólogo</ProfileTag>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "20px",
-                }}
-              >
-                <div>
-                  <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
-                    Título:
-                  </h3>
-                  <p style={{ fontSize: "12px" }}>Meditação top</p>
-                </div>
-                <div>
-                  <h3 style={{ fontSize: "20px", fontStyle: "italic" }}>
-                    Descrição:
-                  </h3>
-                  <p style={{ fontSize: "12px" }}>
-                    preste atenção na respiração durante 10 minutos trazendo a
-                    mente para o agora.
-                  </p>
-                </div>
-              </div>
-              <Tooltip
-                icon={true}
-                clickEvent={handleFavoriteTask}
-                content="Este item não está selecionado e não vai ser exibido no seu perfil como sua atividade favorita, clique caso deseje seleciona-lo."
-              >
-                <RiCheckboxBlankCircleFill color={"#96ffa0"} size={58} />
-              </Tooltip>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -660,13 +635,9 @@ export default function Profile() {
                   style={{ display: "flex", alignItems: "center", gap: "20px" }}
                 >
                   <BestActivityContainerProfile onClick={handleClick}>
-                    Atividade que mais me ajudou: meditação top (clique caso
+                    Atividade que mais me ajudou: {nameBestTask} (clique caso
                     desejar mudar)
                   </BestActivityContainerProfile>
-                  <CheckContainerProfile>
-                    <input type="checkbox" />
-                    Atividade pública
-                  </CheckContainerProfile>
                 </div>
               )}
               {user?.typeUser === "patient" && (
@@ -746,7 +717,7 @@ export default function Profile() {
                         fontSize: "22px",
                       }}
                     >
-                      Total de atividades: 10
+                      Total de atividades: {dataTasksState?.length}
                     </p>
                     <p
                       style={{
@@ -755,7 +726,7 @@ export default function Profile() {
                         fontSize: "22px",
                       }}
                     >
-                      Atividades realizadas dentro do prazo: 7
+                      Atividades realizadas dentro do prazo: {carriedOutset}
                     </p>
                   </div>
                   <p
@@ -767,7 +738,10 @@ export default function Profile() {
                       paddingRight: "140px",
                     }}
                   >
-                    70%
+                    {Number(
+                      (carriedOutset / dataTasksState.length) * 100
+                    ).toFixed(1)}{" "}
+                    %
                   </p>
                   {stateStatisticView === true ? (
                     <Tooltip
@@ -786,7 +760,8 @@ export default function Profile() {
                   )}
 
                   <StrengthContainer>
-                    33 força <PiRocketLaunchLight />
+                    {user?.profileForce === null ? 0 : user?.profileForce} força{" "}
+                    <PiRocketLaunchLight />
                   </StrengthContainer>
                 </StatisticContainer>
               )}

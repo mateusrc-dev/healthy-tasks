@@ -22,10 +22,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/myRecentTasks": [
+    "/allTasks": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/myRecentTasks.js"
+      "static/chunks/pages/allTasks.js"
+    ],
+    "/profile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/profile.js"
+    ],
+    "/profileDetails/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/profileDetails/[id].js"
     ],
     "/publicTasks": [
       "static/chunks/webpack.js",

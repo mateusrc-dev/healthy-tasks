@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/auth";
 import { api } from "../lib/axios";
 
-interface TaskType {
+export interface TaskType {
   carriedOut: boolean;
   created_at: Date;
   deadline: Date;

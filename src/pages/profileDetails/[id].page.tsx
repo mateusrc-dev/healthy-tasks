@@ -91,6 +91,8 @@ export default function ProfileDetails(props) {
   const dataQuery = query;
   const userId = dataQuery.id;
   console.log(JSON.stringify(userId));
+  const [dataBestTaskState, setDataBestTaskState] = useState<TaskType>();
+  const [isPublicBestTask, setIsPublicBestTask] = useState<boolean>(false);
   //console.log(JSON.stringify(props.list));
 
   const animationProps = useSpring({
@@ -180,6 +182,21 @@ export default function ProfileDetails(props) {
       }
     }
 
+    async function handleGetBestTask() {
+      try {
+        const response = await api.get(
+          `/tasks/getBestTask/${userDetails?.id}/`
+        );
+
+        setIsPublicBestTask(response?.data?.isPublic);
+        setDataBestTaskState(response?.data?.bestTask);
+      } catch (error) {
+        alert(`Não foi possível buscar a melhor atividade. ${error}`);
+        return;
+      }
+    }
+
+    handleGetBestTask();
     handleGetTasks();
   }, [userDetails]);
 
@@ -316,30 +333,31 @@ export default function ProfileDetails(props) {
           <div
             style={{ display: "flex", alignItems: "flex-start", gap: "30px" }}
           >
-            {/*{userDetails?.typeUser === "patient" && (
+            {userDetails?.typeUser === "patient" &&
+            isPublicBestTask === true ? (
               <div style={{ position: "relative" }}>
                 <BestTask>
                   Atividade que mais gostei{" "}
                   <CgCheck size={40} color="#96ffa0" />
                 </BestTask>
                 <Task
-                  key={item.id}
-                  professionalId={item.user.id}
-                  descriptionOfTask={item.description}
-                  professionalName={item.user.username}
-                  professionalPhotoUrl={`${api.defaults.baseURL}/files/${item.user.photoUrl}`}
-                  titleOfTask={item.title}
-                  checkTask={item.carriedOut}
-                  taskId={item.id}
-                  deadline={item.deadline}
-                  isTaskPublic={item.isTaskPublic}
-                  forceTask={item.forceTask}
-                  userEmailOfTask={item.patientEmail}
+                  key={dataBestTaskState?.id}
+                  professionalId={dataBestTaskState?.user?.id}
+                  descriptionOfTask={dataBestTaskState?.description}
+                  professionalName={dataBestTaskState?.user?.username}
+                  professionalPhotoUrl={`${api.defaults.baseURL}/files/${dataBestTaskState?.user?.photoUrl}`}
+                  titleOfTask={dataBestTaskState?.title}
+                  checkTask={dataBestTaskState?.carriedOut}
+                  taskId={dataBestTaskState?.id}
+                  deadline={dataBestTaskState?.deadline}
+                  isTaskPublic={dataBestTaskState?.isTaskPublic}
+                  forceTask={dataBestTaskState?.forceTask}
+                  userEmailOfTask={dataBestTaskState?.patientEmail}
                   taskIsForOtherUser={true}
                   publicTasksPage={true}
                 />
               </div>
-            )}*/}
+            ) : null}
             {userDetails?.typeUser === "patient" &&
             userDetails?.statisticPublic ? (
               <StatisticContainer color={"positiveColor"}>
@@ -381,7 +399,10 @@ export default function ProfileDetails(props) {
                     paddingRight: "140px",
                   }}
                 >
-                  {`${(carriedOutset / dataTasksState?.length) * 100}%`}
+                  {Number(
+                    (carriedOutset / dataTasksState.length) * 100
+                  ).toFixed(1)}{" "}
+                  %
                 </p>
                 {userDetails?.statisticPublic ? (
                   <Tooltip
