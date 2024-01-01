@@ -2,20 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/myRecentTasks": "pages/myRecentTasks.js",
   "/publicTasks": "pages/publicTasks.js",
-  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
   "/profile": "pages/profile.js",
-  "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
-  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
-  "/api/myProfessionals/getMyProfessionals/[userId]": "pages/api/myProfessionals/getMyProfessionals/[userId].js",
-  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
-  "/api/tasks/getBestTask/[userId]": "pages/api/tasks/getBestTask/[userId].js",
-  "/api/tasks/getAllTasksByEmail/[userEmail]": "pages/api/tasks/getAllTasksByEmail/[userEmail].js",
-  "/api/tasks/getTasks/[...params]": "pages/api/tasks/getTasks/[...params].js",
-  "/allTasks": "pages/allTasks.js",
-  "/favoriteTasks": "pages/favoriteTasks.js",
-  "/api/favoritesTasks/getManyFavoriteTasks/[userId]": "pages/api/favoritesTasks/getManyFavoriteTasks/[userId].js",
-  "/api/myProfessionals/create": "pages/api/myProfessionals/create.js",
-  "/api/tasks/selectBestTask/[...params]": "pages/api/tasks/selectBestTask/[...params].js"
+  "/profileDetails/[id]": "pages/profileDetails/[id].js",
+  "/api/tasks/getPublicTasks/[...params]": "pages/api/tasks/getPublicTasks/[...params].js",
+  "/": "pages/index.js"
 }

@@ -23,6 +23,8 @@ import { useSpring, animated } from "react-spring";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { api } from "../../lib/axios";
+import React from "react";
+import ContentLoader from "react-content-loader";
 
 interface UserProps {
   complaint: string | null;
@@ -93,6 +95,7 @@ export default function ProfileDetails(props) {
   console.log(JSON.stringify(userId));
   const [dataBestTaskState, setDataBestTaskState] = useState<TaskType>();
   const [isPublicBestTask, setIsPublicBestTask] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   //console.log(JSON.stringify(props.list));
 
   const animationProps = useSpring({
@@ -144,16 +147,20 @@ export default function ProfileDetails(props) {
   useEffect(() => {
     async function handleFetchUserById() {
       try {
+        setLoading(true);
         const response = await api.get(`/users/getUserById/${userId}`);
 
         setUserDetails(response.data);
       } catch (error) {
         alert(`Não foi possível buscar os detalhes do usuário. ${error}`);
+      } finally {
+        setLoading(false);
       }
     }
 
     async function handleFindMyProfessionals() {
       try {
+        setLoading(true);
         const response = await api.get(
           `/myProfessionals/getMyProfessionals/${userId}`
         );
@@ -161,6 +168,8 @@ export default function ProfileDetails(props) {
         setAddProfessionals(response?.data);
       } catch (error) {
         alert(`Não foi buscar os meus profissionais criar o usuário. ${error}`);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -171,6 +180,7 @@ export default function ProfileDetails(props) {
   useEffect(() => {
     async function handleGetTasks() {
       try {
+        setLoading(true);
         const response = await api.get(
           `/tasks/getAllTasksByEmail/${userDetails?.email}/`
         );
@@ -179,11 +189,14 @@ export default function ProfileDetails(props) {
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
         return;
+      } finally {
+        setLoading(false);
       }
     }
 
     async function handleGetBestTask() {
       try {
+        setLoading(true);
         const response = await api.get(
           `/tasks/getBestTask/${userDetails?.id}/`
         );
@@ -193,6 +206,8 @@ export default function ProfileDetails(props) {
       } catch (error) {
         alert(`Não foi possível buscar a melhor atividade. ${error}`);
         return;
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -220,219 +235,253 @@ export default function ProfileDetails(props) {
       <BodyProfileDetails>
         <Menu pageSelected="null" />
         <ContentContainerProfileDetails>
-          <div style={{ display: "flex", alignItems: "center", gap: "30px" }}>
-            {/*<ImageUser
+          {!loading ? (
+            <ContentLoader
+              //viewBox="0 0 400 160"
+              height={"100vh"}
+              width={"100%"}
+              //{...props}
+            >
+              <rect x="0" y="0" rx="4" ry="4" width="100%" height="30" />
+              <rect x="0" y="40" rx="4" ry="4" width="400" height="30" />
+              <rect x="0" y="80" rx="4" ry="4" width="100%" height="20" />
+              <rect x="0" y="130" rx="4" ry="4" width="400" height="30" />
+              <rect x="0" y="170" rx="4" ry="4" width="100%" height="30" />
+              <rect x="0" y="220" rx="5" ry="5" width="100%" height="300" />
+            </ContentLoader>
+          ) : (
+            <>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "30px" }}
+              >
+                {/*<ImageUser
               width={300}
               height={300}
               src={`${api.defaults.baseURL}/files/${userDetails?.photoUrl}`}
               alt="imagem do usuário"
             />*/}
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
-              >
-                <h1
+                <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    color: "#1618f1",
+                    flexDirection: "column",
+                    gap: "20px",
                   }}
                 >
-                  {userDetails?.username} <CgProfile />
-                </h1>
-                <TypeUserTag>
-                  {userDetails?.typeUser === "patient"
-                    ? "paciente"
-                    : "profissional"}
-                </TypeUserTag>
-                {userDetails?.typeUser === "professional" && (
-                  <TypeUserTag>{userDetails?.specialization}</TypeUserTag>
-                )}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "20px",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        color: "#1618f1",
+                      }}
+                    >
+                      {userDetails?.username} <CgProfile />
+                    </h1>
+                    <TypeUserTag>
+                      {userDetails?.typeUser === "patient"
+                        ? "paciente"
+                        : "profissional"}
+                    </TypeUserTag>
+                    {userDetails?.typeUser === "professional" && (
+                      <TypeUserTag>{userDetails?.specialization}</TypeUserTag>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                      borderWidth: "3px",
+                      borderColor: "#1112de",
+                      borderStyle: "outset",
+                      padding: "20px",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <h2
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        color: "#1618f1",
+                      }}
+                    >
+                      {userDetails?.typeUser === "patient"
+                        ? "Queixa"
+                        : "Descrição"}
+                    </h2>
+                    {userDetails?.typeUser === "patient" ? (
+                      <p
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          color: "#1618f1",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        {userDetails?.complaint}
+                      </p>
+                    ) : (
+                      <p
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          color: "#1618f1",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        {userDetails?.description}
+                      </p>
+                    )}
+                  </div>
+                  {userDetails?.typeUser === "patient" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "20px",
+                        borderWidth: "3px",
+                        borderColor: "#1112de",
+                        borderStyle: "outset",
+                        padding: "20px",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      <h2
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          color: "#1618f1",
+                        }}
+                      >
+                        Acompanhado por:
+                      </h2>
+                      {addProfessionals.map((item) => (
+                        <TypeUserTag key={item?.name}>{item?.name}</TypeUserTag>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                  borderWidth: "3px",
-                  borderColor: "#1112de",
-                  borderStyle: "outset",
-                  padding: "20px",
-                  borderRadius: "20px",
+                  alignItems: "flex-start",
+                  gap: "30px",
                 }}
               >
-                <h2
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    color: "#1618f1",
-                  }}
-                >
-                  {userDetails?.typeUser === "patient" ? "Queixa" : "Descrição"}
-                </h2>
-                {userDetails?.typeUser === "patient" ? (
-                  <p
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      color: "#1618f1",
-                      fontStyle: "italic",
-                    }}
-                  >
-                    {userDetails?.complaint}
-                  </p>
-                ) : (
-                  <p
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      color: "#1618f1",
-                      fontStyle: "italic",
-                    }}
-                  >
-                    {userDetails?.description}
-                  </p>
-                )}
-              </div>
-              {userDetails?.typeUser === "patient" && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "20px",
-                    borderWidth: "3px",
-                    borderColor: "#1112de",
-                    borderStyle: "outset",
-                    padding: "20px",
-                    borderRadius: "20px",
-                  }}
-                >
-                  <h2
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      color: "#1618f1",
-                    }}
-                  >
-                    Acompanhado por:
-                  </h2>
-                  {addProfessionals.map((item) => (
-                    <TypeUserTag key={item?.name}>{item?.name}</TypeUserTag>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          <div
-            style={{ display: "flex", alignItems: "flex-start", gap: "30px" }}
-          >
-            {userDetails?.typeUser === "patient" &&
-            isPublicBestTask === true ? (
-              <div style={{ position: "relative" }}>
-                <BestTask>
-                  Atividade que mais gostei{" "}
-                  <CgCheck size={40} color="#96ffa0" />
-                </BestTask>
-                <Task
-                  key={dataBestTaskState?.id}
-                  professionalId={dataBestTaskState?.user?.id}
-                  descriptionOfTask={dataBestTaskState?.description}
-                  professionalName={dataBestTaskState?.user?.username}
-                  professionalPhotoUrl={`${api.defaults.baseURL}/files/${dataBestTaskState?.user?.photoUrl}`}
-                  titleOfTask={dataBestTaskState?.title}
-                  checkTask={dataBestTaskState?.carriedOut}
-                  taskId={dataBestTaskState?.id}
-                  deadline={dataBestTaskState?.deadline}
-                  isTaskPublic={dataBestTaskState?.isTaskPublic}
-                  forceTask={dataBestTaskState?.forceTask}
-                  userEmailOfTask={dataBestTaskState?.patientEmail}
-                  taskIsForOtherUser={true}
-                  publicTasksPage={true}
-                />
-              </div>
-            ) : null}
-            {userDetails?.typeUser === "patient" &&
-            userDetails?.statisticPublic ? (
-              <StatisticContainer color={"positiveColor"}>
-                <div>
-                  <p
-                    style={{
-                      fontWeight: 700,
-                      fontSize: "16px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Estatística:
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: 400,
-                      fontStyle: "italic",
-                      fontSize: "16px",
-                    }}
-                  >
-                    Total de atividades: {dataTasksState?.length}
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: 400,
-                      fontStyle: "italic",
-                      fontSize: "16px",
-                    }}
-                  >
-                    Atividades realizadas dentro do prazo: {carriedOutset}
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontWeight: 700,
-                    fontStyle: "italic",
-                    fontSize: "50px",
-                    color: "rgba(255, 255, 255, 0.5)",
-                    paddingRight: "140px",
-                  }}
-                >
-                  {`${Number(
-                    (carriedOutset / dataTasksState.length) * 100
-                  ).toFixed(1)}%`}
-                </p>
-                {userDetails?.statisticPublic ? (
-                  <Tooltip
-                    content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
-                    clickEvent={handleStateStatisticView}
-                  >
-                    Público <LiaEyeSolid />
-                  </Tooltip>
-                ) : (
-                  <Tooltip
-                    content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
-                    clickEvent={handleStateStatisticView}
-                  >
-                    Privado <FaRegEyeSlash />
-                  </Tooltip>
-                )}
+                {userDetails?.typeUser === "patient" &&
+                isPublicBestTask === true ? (
+                  <div style={{ position: "relative" }}>
+                    <BestTask>
+                      Atividade que mais gostei{" "}
+                      <CgCheck size={40} color="#96ffa0" />
+                    </BestTask>
+                    <Task
+                      key={dataBestTaskState?.id}
+                      professionalId={dataBestTaskState?.user?.id}
+                      descriptionOfTask={dataBestTaskState?.description}
+                      professionalName={dataBestTaskState?.user?.username}
+                      professionalPhotoUrl={`${api.defaults.baseURL}/files/${dataBestTaskState?.user?.photoUrl}`}
+                      titleOfTask={dataBestTaskState?.title}
+                      checkTask={dataBestTaskState?.carriedOut}
+                      taskId={dataBestTaskState?.id}
+                      deadline={dataBestTaskState?.deadline}
+                      isTaskPublic={dataBestTaskState?.isTaskPublic}
+                      forceTask={dataBestTaskState?.forceTask}
+                      userEmailOfTask={dataBestTaskState?.patientEmail}
+                      taskIsForOtherUser={true}
+                      publicTasksPage={true}
+                    />
+                  </div>
+                ) : null}
+                {userDetails?.typeUser === "patient" &&
+                userDetails?.statisticPublic ? (
+                  <StatisticContainer color={"positiveColor"}>
+                    <div>
+                      <p
+                        style={{
+                          fontWeight: 700,
+                          fontSize: "16px",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        Estatística:
+                      </p>
+                      <p
+                        style={{
+                          fontWeight: 400,
+                          fontStyle: "italic",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Total de atividades: {dataTasksState?.length}
+                      </p>
+                      <p
+                        style={{
+                          fontWeight: 400,
+                          fontStyle: "italic",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Atividades realizadas dentro do prazo: {carriedOutset}
+                      </p>
+                    </div>
+                    <p
+                      style={{
+                        fontWeight: 700,
+                        fontStyle: "italic",
+                        fontSize: "50px",
+                        color: "rgba(255, 255, 255, 0.5)",
+                        paddingRight: "140px",
+                      }}
+                    >
+                      {`${Number(
+                        (carriedOutset / dataTasksState.length) * 100
+                      ).toFixed(1)}%`}
+                    </p>
+                    {userDetails?.statisticPublic ? (
+                      <Tooltip
+                        content='Sua estatística vai ficar pública para os outros usuários no seu perfil e eles vão poder lhe motivar clicando em "força 🚀".'
+                        clickEvent={handleStateStatisticView}
+                      >
+                        Público <LiaEyeSolid />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip
+                        content="Sua estatística vai ficar privada e os usuários não vão poder visualizar sua estatística no seu perfil."
+                        clickEvent={handleStateStatisticView}
+                      >
+                        Privado <FaRegEyeSlash />
+                      </Tooltip>
+                    )}
 
-                <StrengthContainer onClick={handleCountState}>
-                  {userDetails?.profileForce === null
-                    ? 0
-                    : userDetails?.profileForce}{" "}
-                  força{" "}
-                  <animated.div
-                    style={animate ? animationProps : animationProps2}
-                  >
-                    <PiRocketLaunchLight />{" "}
-                  </animated.div>
-                </StrengthContainer>
-              </StatisticContainer>
-            ) : null}
-          </div>
+                    <StrengthContainer onClick={handleCountState}>
+                      {userDetails?.profileForce === null
+                        ? 0
+                        : userDetails?.profileForce}{" "}
+                      força{" "}
+                      <animated.div
+                        style={animate ? animationProps : animationProps2}
+                      >
+                        <PiRocketLaunchLight />{" "}
+                      </animated.div>
+                    </StrengthContainer>
+                  </StatisticContainer>
+                ) : null}
+              </div>
+            </>
+          )}
         </ContentContainerProfileDetails>
       </BodyProfileDetails>
       <Footer>
