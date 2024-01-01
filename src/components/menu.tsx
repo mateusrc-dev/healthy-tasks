@@ -5,6 +5,9 @@ import { IoCreate, IoPersonCircleSharp } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";
 import Link from "next/link";
 import { useAuth } from "../hooks/auth";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Loading } from "./loading";
 
 type Props = {
   pageSelected: string;
@@ -12,52 +15,96 @@ type Props = {
 };
 
 export function Menu({ pageSelected }: Props) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [pageSelectedInMenu, setPageSelectedInMenu] = useState<string>("");
   const { signOut, user } = useAuth();
+  const router = useRouter();
+
+  async function handleChangePage(pageSelectedInClick: string) {
+    if (pageSelectedInClick === pageSelected) {
+      return;
+    } else {
+      setLoading(true);
+      setPageSelectedInMenu(pageSelectedInClick);
+
+      await router.push(`/${pageSelectedInClick}`);
+    }
+  }
 
   return (
     <MenuContainer>
       {user?.typeUser === "patient" && (
-        <Link href={`/myRecentTasks`}>
-          <MenuItem
-            color={pageSelected === "myRecentTasks" ? "selectColor" : null}
-          >
-            <FaTasks size="25px" /> Minhas atividades recentes
-          </MenuItem>
-        </Link>
+        <MenuItem
+          onClick={() => handleChangePage("myRecentTasks")}
+          color={pageSelected === "myRecentTasks" ? "selectColor" : null}
+        >
+          {loading && pageSelectedInMenu === "myRecentTasks" ? (
+            <Loading />
+          ) : (
+            <FaTasks size="25px" />
+          )}{" "}
+          Minhas atividades recentes
+        </MenuItem>
       )}
-      <Link href={`/publicTasks`}>
-        <MenuItem color={pageSelected === "publicTasks" ? "selectColor" : null}>
-          <FaRegEye size="25px" /> Atividades públicas
-        </MenuItem>
-      </Link>
-      <Link href={`/profile`}>
-        <MenuItem color={pageSelected === "profile" ? "selectColor" : null}>
-          <IoPersonCircleSharp size="25px" /> Meu perfil
-        </MenuItem>
-      </Link>
+      <MenuItem
+        onClick={() => handleChangePage("publicTasks")}
+        color={pageSelected === "publicTasks" ? "selectColor" : null}
+      >
+        {loading && pageSelectedInMenu === "publicTasks" ? (
+          <Loading />
+        ) : (
+          <FaRegEye size="25px" />
+        )}{" "}
+        Atividades públicas
+      </MenuItem>
+      <MenuItem
+        onClick={() => handleChangePage("profile")}
+        color={pageSelected === "profile" ? "selectColor" : null}
+      >
+        {loading && pageSelectedInMenu === "profile" ? (
+          <Loading />
+        ) : (
+          <IoPersonCircleSharp size="25px" />
+        )}{" "}
+        Meu perfil
+      </MenuItem>
       {user?.typeUser === "patient" && (
-        <Link href={`/allTasks`}>
-          <MenuItem color={pageSelected === "allTasks" ? "selectColor" : null}>
-            <FaThList size="25px" /> Meu histórico de atividades
-          </MenuItem>
-        </Link>
+        <MenuItem
+          onClick={() => handleChangePage("allTasks")}
+          color={pageSelected === "allTasks" ? "selectColor" : null}
+        >
+          {loading && pageSelectedInMenu === "allTasks" ? (
+            <Loading />
+          ) : (
+            <FaThList size="25px" />
+          )}{" "}
+          Meu histórico de atividades
+        </MenuItem>
       )}
       {user?.typeUser === "professional" && (
-        <Link href={`/createTask`}>
-          <MenuItem
-            color={pageSelected === "createTask" ? "selectColor" : null}
-          >
-            <IoCreate size="25px" /> Criar nova atividade
-          </MenuItem>
-        </Link>
-      )}
-      <Link href={`/favoriteTasks`}>
         <MenuItem
-          color={pageSelected === "favoriteTasks" ? "selectColor" : null}
+          onClick={() => handleChangePage("createTask")}
+          color={pageSelected === "createTask" ? "selectColor" : null}
         >
-          <FaHeart size="25px" /> Minhas atividades favoritas
+          {loading && pageSelectedInMenu === "createTask" ? (
+            <Loading />
+          ) : (
+            <IoCreate size="25px" />
+          )}{" "}
+          Criar nova atividade
         </MenuItem>
-      </Link>
+      )}
+      <MenuItem
+        onClick={() => handleChangePage("favoriteTasks")}
+        color={pageSelected === "favoriteTasks" ? "selectColor" : null}
+      >
+        {loading && pageSelectedInMenu === "favoriteTasks" ? (
+          <Loading />
+        ) : (
+          <FaHeart size="25px" />
+        )}{" "}
+        Minhas atividades favoritas
+      </MenuItem>
       <Link href={`/`} onClick={signOut}>
         <MenuItem>
           <FaSignOutAlt size="25px" /> Sair da minha conta
