@@ -94,7 +94,7 @@ export default function ProfileDetails(props) {
   const userId = dataQuery.id;
   console.log(JSON.stringify(userId));
   const [dataBestTaskState, setDataBestTaskState] = useState<TaskType>();
-  const [isPublicBestTask, setIsPublicBestTask] = useState<boolean>(false);
+  const [isPublicBestTask, setIsPublicBestTask] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   //console.log(JSON.stringify(props.list));
 
