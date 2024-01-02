@@ -51,7 +51,6 @@ type Props = {
   onDisplay?: boolean;
   showComments?: boolean;
   renderInMyRecentTasks?: boolean;
-  handleDeadlineState?: (deadlineState: boolean) => void;
 };
 
 interface DataCommentProps {
@@ -87,7 +86,6 @@ export function Task({
   showComments = true,
   renderInMyRecentTasks = false,
   professionalId,
-  handleDeadlineState = () => {},
 }: Props) {
   const [stateView, setStateView] = useState<boolean>(isTaskPublic);
   const [animate, setAnimate] = useState(false);
@@ -108,20 +106,9 @@ export function Task({
     id: string;
   }>();
   const { user } = useAuth();
-
   const dateNow = new Date();
   const date1 = dayjs(dateNow);
   const date2 = dayjs(deadline);
-  //console.log(date2.diff(date1, "hours") > 0);
-  //const stateDeadline = date2.diff(date1, "hours") > 0;
-
-  useEffect(() => {
-    function handleDeadline() {
-      handleDeadlineState(date2.diff(date1, "hours") > 0);
-    } // <- enviar esse dado para o componente acima
-
-    handleDeadline();
-  }, [date1, date2, handleDeadlineState]);
 
   async function handleCheckTask() {
     setStateCheckTask(!stateCheckTask);

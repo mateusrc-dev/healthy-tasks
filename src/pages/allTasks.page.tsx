@@ -22,6 +22,7 @@ import { useAuth } from "../hooks/auth";
 import { api } from "../lib/axios";
 import React from "react";
 import ContentLoader from "react-content-loader";
+import dayjs from "dayjs";
 
 export interface TaskType {
   carriedOut: boolean;
@@ -54,14 +55,11 @@ export interface TaskType {
 
 export default function AllTasks() {
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
-  const [deadlineState, setDeadlineState] = useState<boolean>(false);
+  const [deadlineState, setDeadlineState] = useState<boolean | null>(null);
   const [carriedOutset, setCarriedOut] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const dateNow = new Date();
   const { user } = useAuth();
-
-  function handleDeadlineState(deadlineState: boolean) {
-    setDeadlineState(deadlineState);
-  }
 
   useEffect(() => {
     async function handleGetTasks() {
@@ -212,8 +210,11 @@ export default function AllTasks() {
                         publicTasksPage={false}
                         marginInline={true}
                         showComments={false}
-                        handleDeadlineState={handleDeadlineState}
-                        onDisplay={!item.carriedOut && deadlineState} // fazer aqui a lógica para aparecer as tarefas que somente estiverem dentro do critério
+                        //handleDeadlineState={handleDeadlineState}
+                        onDisplay={
+                          !item.carriedOut &&
+                          dayjs(item.deadline).diff(dayjs(dateNow), "hours") > 0
+                        } // fazer aqui a lógica para aparecer as tarefas que somente estiverem dentro do critério
                       />
                     ))}
                   </ContainerForSpecificTasks>
@@ -315,7 +316,13 @@ export default function AllTasks() {
                         taskIsForOtherUser={true}
                         publicTasksPage={true}
                         marginInline={true}
-                        onDisplay={!item.carriedOut && !deadlineState}
+                        onDisplay={
+                          !item.carriedOut &&
+                          !(
+                            dayjs(item.deadline).diff(dayjs(dateNow), "hours") >
+                            0
+                          )
+                        }
                       />
                     ))}
                   </ContainerForSpecificTasks>

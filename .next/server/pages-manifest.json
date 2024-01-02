@@ -2,7 +2,13 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/publicTasks": "pages/publicTasks.js",
-  "/": "pages/index.js",
-  "/profile": "pages/profile.js"
+  "/myRecentTasks": "pages/myRecentTasks.js",
+  "/allTasks": "pages/allTasks.js",
+  "/profile": "pages/profile.js",
+  "/api/favoritesTasks/getFavoriteTask/[...params]": "pages/api/favoritesTasks/getFavoriteTask/[...params].js",
+  "/api/users/getUserByEmail/[email]": "pages/api/users/getUserByEmail/[email].js",
+  "/api/comments/getCommentByTaskId/[taskId]": "pages/api/comments/getCommentByTaskId/[taskId].js",
+  "/api/tasks/getAllTasksByEmail/[userEmail]": "pages/api/tasks/getAllTasksByEmail/[userEmail].js",
+  "/api/myProfessionals/getMyProfessionals/[userId]": "pages/api/myProfessionals/getMyProfessionals/[userId].js",
+  "/api/tasks/getBestTask/[userId]": "pages/api/tasks/getBestTask/[userId].js"
 }
