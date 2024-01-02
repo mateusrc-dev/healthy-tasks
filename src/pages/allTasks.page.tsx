@@ -55,7 +55,7 @@ export interface TaskType {
 
 export default function AllTasks() {
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
-  const [deadlineState, setDeadlineState] = useState<boolean | null>(null);
+  //const [deadlineState, setDeadlineState] = useState<boolean | null>(null);
   const [carriedOutset, setCarriedOut] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const dateNow = new Date();
