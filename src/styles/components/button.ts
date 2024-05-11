@@ -5,6 +5,10 @@ const zoom = keyframes({
   '100%': { scale: 1, opacity: 1 },
 });
 
+type Props = {
+  selected: boolean
+}
+
 export const ButtonContainer = styled("button", {
   display: "flex",
   alignItems: "center",
@@ -28,6 +32,12 @@ export const ButtonContainer = styled("button", {
         top: "157px",
       },
     },
+    background: {
+      isSelected: {
+        background: "$red200",
+        borderColor: "$red100",
+      }
+    }
   },
 
   "&:disabled, &[disabled]": {

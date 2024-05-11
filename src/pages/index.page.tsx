@@ -8,7 +8,6 @@ import {
   LinkContainer,
   LoginContainer,
   MessageContainer,
-  TaskAnimate,
   TextContainer,
   WelcomeContainer,
 } from "../styles/pages/home";
@@ -18,17 +17,13 @@ import userNull from "../assets/user_null.gif";
 import professional from "../assets/professional.gif";
 import patient from "../assets/patient.gif";
 import arrow from "../assets/arrow.gif";
-import notebook from "../assets/notebook.gif";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button, Button as ButtonComponent } from "../components/button";
 import light from "../assets/light.gif";
 import { FaDoorOpen, FaPencilAlt } from "react-icons/fa";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import PublicTasks from "./publicTasks.page";
 import { MdNotStarted } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import { useRouter } from "next/router";
@@ -156,64 +151,6 @@ export default function Home() {
               <Button clickEvent={() => setMakeLogin(!makeLogin)}>
                 Começar <MdNotStarted size={30} />
               </Button>
-            </div>
-            <div
-              style={{ position: "relative", width: "800px", height: "700px" }}
-            >
-              <Image
-                src={notebook}
-                style={{ position: "absolute", zIndex: 1, top: "0px" }}
-                alt="isso é um gif bem doido"
-                width={830}
-                height={630}
-              />
-              <TaskAnimate>
-                <div
-                  style={{
-                    transform: "perspective(900px) rotateX(15deg)",
-                    position: "absolute",
-                  }}
-                >
-                  <PublicTasks />
-                </div>
-              </TaskAnimate>
-              <Swiper
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "20px",
-                  justifyContent: "center",
-                  background: "rgb(0,0,0,0.4)",
-                  width: "490px",
-                  color: "#ffff",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  transform: "perspective(400px) rotateX(15deg)",
-                  position: "absolute",
-                  zIndex: 0,
-                  top: "315px",
-                  left: "215px",
-                }}
-                modules={[Autoplay]}
-                slidesPerView={1}
-                autoplay={{ delay: 6000 }}
-              >
-                <SwiperSlide>
-                  Visualize as atividades que seu profissional da saúde criou
-                  para você!
-                </SwiperSlide>
-                <SwiperSlide>
-                  Torne público suas atividades para os outros usuários lhe
-                  motivarem!
-                </SwiperSlide>
-                <SwiperSlide>
-                  Acompanhe as atividades públicas de outros usuários!
-                </SwiperSlide>
-                <SwiperSlide>
-                  Seja acompanhado(a) pelos profissionais de saúde de outros
-                  usuários através das atividades deles!
-                </SwiperSlide>
-              </Swiper>
             </div>
           </WelcomeContainer>
         ) : (
@@ -416,90 +353,6 @@ export default function Home() {
             ) : (
               <>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <ImageContainer>
-                    {stateUser === null && (
-                      <Image
-                        priority={true}
-                        loading="eager"
-                        src={userNull}
-                        alt="isso é um gif bem doido"
-                        width={360}
-                        height={280}
-                      />
-                    )}
-                    {stateUser === "professional" && (
-                      <Image
-                        priority={true}
-                        loading="eager"
-                        src={professional}
-                        alt="isso é um gif bem doido"
-                        width={360}
-                        height={280}
-                      />
-                    )}
-                    {stateUser === "patient" && (
-                      <Image
-                        priority={true}
-                        loading="eager"
-                        src={patient}
-                        alt="isso é um gif bem doido"
-                        width={360}
-                        height={280}
-                      />
-                    )}
-                    {passwordChange.length >= 6 && validEmail(emailChange) ? (
-                      <Image
-                        priority={true}
-                        style={{ position: "absolute", left: 0, top: "-55px" }}
-                        loading="eager"
-                        src={light}
-                        alt="isso é um gif bem doido"
-                        width={360}
-                        height={360}
-                      />
-                    ) : null}
-                    {stateUser === null && (
-                      <TextContainer>
-                        Escolha se você é paciente ou profissional!
-                      </TextContainer>
-                    )}
-                    {stateUser !== null && !stateEmail && !statePassword ? (
-                      <TextContainer>Agora preencha seus dados!</TextContainer>
-                    ) : null}
-                    {stateEmail &&
-                    !statePassword &&
-                    !validEmail(emailChange) ? (
-                      <TextContainer>
-                        Seu email não está válido ainda...
-                      </TextContainer>
-                    ) : null}
-                    {stateEmail &&
-                    !statePassword &&
-                    passwordChange.length < 6 &&
-                    validEmail(emailChange) ? (
-                      <TextContainer>
-                        Pronto, seu email está válido...
-                      </TextContainer>
-                    ) : null}
-                    {statePassword &&
-                    !stateEmail &&
-                    passwordChange.length < 6 ? (
-                      <TextContainer>
-                        Insira sua senha, no mínimo 6 caracteres! ;)
-                      </TextContainer>
-                    ) : null}
-                    {statePassword &&
-                    !stateEmail &&
-                    !validEmail(emailChange) &&
-                    passwordChange.length >= 6 ? (
-                      <TextContainer>
-                        Pronto, sua senha tem no mínimo 6 caracteres! ;)
-                      </TextContainer>
-                    ) : null}
-                    {validEmail(emailChange) && passwordChange.length >= 6 ? (
-                      <TextContainer>Tudo pronto! :)</TextContainer>
-                    ) : null}
-                  </ImageContainer>
                   <div
                     style={{
                       display: "flex",
@@ -509,42 +362,34 @@ export default function Home() {
                   >
                     <div style={{ display: "flex", gap: "10px" }}>
                       <div style={{ position: "relative" }}>
-                        {stateUser === "professional" && (
-                          <Image
-                            style={{
-                              position: "absolute",
-                              right: "-7px",
-                              top: "-7px",
-                            }}
-                            src={selectGif}
-                            alt="isso é um gif bem doido"
-                            width={35}
-                            height={30}
-                          />
+                        {stateUser === "professional" ? (
+                          <Button
+                            selected={true}
+                            clickEvent={() => handleStateUser("professional")}
+                          >
+                            Profissional
+                          </Button>
+                        ) : (
+                          <Button
+                            clickEvent={() => handleStateUser("professional")}
+                          >
+                            Profissional
+                          </Button>
                         )}
-                        <Button
-                          clickEvent={() => handleStateUser("professional")}
-                        >
-                          Profissional
-                        </Button>
                       </div>
                       <div style={{ position: "relative" }}>
-                        {stateUser === "patient" && (
-                          <Image
-                            style={{
-                              position: "absolute",
-                              right: "-7px",
-                              top: "-7px",
-                            }}
-                            src={selectGif}
-                            alt="isso é um gif bem doido"
-                            width={35}
-                            height={30}
-                          />
+                        {stateUser === "patient" ? (
+                          <Button
+                            selected={true}
+                            clickEvent={() => handleStateUser("patient")}
+                          >
+                            Paciente
+                          </Button>
+                        ) : (
+                          <Button clickEvent={() => handleStateUser("patient")}>
+                            Paciente
+                          </Button>
                         )}
-                        <Button clickEvent={() => handleStateUser("patient")}>
-                          Paciente
-                        </Button>
                       </div>
                     </div>
                     <div style={{ display: "flex", position: "relative" }}>

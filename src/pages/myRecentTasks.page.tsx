@@ -51,6 +51,7 @@ interface TaskType {
 export default function MyRecentTasks(props) {
   console.log(JSON.stringify(props.list));
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const [dataAllTasksState, setDataAllTasksState] = useState<TaskType[]>([]);
   const [pageSelected, setPageSelected] = useState<number>(1);
   const [count, setCount] = useState(0);
   const [searchTask, setSearchTask] = useState<string>("");
@@ -69,6 +70,11 @@ export default function MyRecentTasks(props) {
           `/tasks/getTasks/${user?.email}/${pageSelected - 1}/${searchTask}`
         );
 
+        const response2 = await api.get(
+          `/tasks/getAllTasks/${user?.email}/${searchTask}`
+        );
+
+        setDataAllTasksState(response2?.data);
         setDataTasksState(response?.data);
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
@@ -84,7 +90,7 @@ export default function MyRecentTasks(props) {
   useEffect(() => {
     function handlePages() {
       let num = 1;
-      for (let i = 1; dataTasksState?.length > i; i++) {
+      for (let i = 1; dataAllTasksState?.length > i; i++) {
         if (i % 5 === 0) {
           num += 1;
         }
@@ -92,7 +98,7 @@ export default function MyRecentTasks(props) {
       return setCount(num);
     }
     handlePages();
-  }, [dataTasksState?.length]);
+  }, [dataAllTasksState?.length]);
 
   return (
     <Container>

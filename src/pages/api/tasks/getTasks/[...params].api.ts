@@ -16,7 +16,7 @@ export default async function handler(
     const queryTitle = params[2]
 
     const tasks = await prisma.task.findMany({
-        skip: Number(page),
+        skip: (2 * Number(page)),
         take: 5,
         where: { 
             patientEmail: email, 

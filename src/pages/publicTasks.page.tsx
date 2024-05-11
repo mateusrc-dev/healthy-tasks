@@ -48,11 +48,12 @@ interface TaskType {
 
 export default function PublicTasks() {
   const [dataTasksState, setDataTasksState] = useState<TaskType[]>([]);
+  const [dataAllTasksState, setDataAllTasksState] = useState<TaskType[]>([]);
   const [pageSelected, setPageSelected] = useState<number>(1);
   const [count, setCount] = useState(0);
   const [changeSearch, setChangeSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  console.log(changeSearch);
+  console.log(dataAllTasksState);
 
   function handleChangePage(page: number) {
     setPageSelected(page);
@@ -66,6 +67,9 @@ export default function PublicTasks() {
           `/tasks/getPublicTasks/${pageSelected - 1}/${changeSearch}`
         );
 
+        const response2 = await api.get(`/tasks/getAllPublicTasks`);
+
+        setDataAllTasksState(response2?.data);
         setDataTasksState(response?.data);
       } catch (error) {
         alert(`Não foi possível buscar as atividades. ${error}`);
@@ -82,7 +86,7 @@ export default function PublicTasks() {
     function handlePages() {
       //setLoading(true);
       let num = 1;
-      for (let i = 1; dataTasksState?.length > i; i++) {
+      for (let i = 1; dataAllTasksState?.length > i; i++) {
         if (i % 5 === 0) {
           num += 1;
         }
@@ -91,7 +95,7 @@ export default function PublicTasks() {
       return setCount(num);
     }
     handlePages();
-  }, [dataTasksState?.length]);
+  }, [dataAllTasksState?.length]);
   return (
     <Container>
       <Header>

@@ -22,15 +22,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/allTasks": [
+    "/createTask": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/allTasks.js"
+      "static/chunks/pages/createTask.js"
+    ],
+    "/favoriteTasks": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/favoriteTasks.js"
     ],
     "/profile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/profile.js"
+    ],
+    "/publicTasks": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/publicTasks.js"
     ]
   },
   "ampFirstPages": []
